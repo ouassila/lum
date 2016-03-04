@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Mois', 'Humidite'],
+          ['jan',  50],
+          ['fev',  60],
+          ['mar',  46],
+          ['avr',  43],
+          ['mai',  63],
+          ['jun',  55],
+          ['jui',  52],
+          ['aou',  48],
+          ['sep',  47],
+          ['oct',  47],
+          ['nov',  52],
+          ['dec',  50]
+        ]);
+
+        var options = {
+          vAxis: {minValue: 0, maxValue: 100}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 600px; height: 200px;"></div>
+  </body>
+</html>

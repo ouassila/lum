@@ -1,0 +1,115 @@
+/* Polices  */
+@font-face {
+	font-family: 'PoliceNormal';
+	src: url('Roboto-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+
+body{
+font-family: 'PoliceNormal';
+background: #eee;
+margin: 0;
+padding: 0;
+text-align: center;
+}
+
+h1{
+font-size: 40pt;
+background: #417fb3;
+margin: 0;
+padding: 20px 0px;
+color: #fff;
+text-align: center;
+}
+
+h2{
+border-bottom: 1px solid #000;
+margin: 0px;
+text-align: left;
+font-size: 15pt;
+}
+
+#bouton{
+padding: 0px;
+}
+
+.largeurCorp{
+max-width: 1000px;
+margin: 0px auto;
+}
+
+.mpdiv{
+margin: 5px auto;
+padding: 5px;
+}
+
+.bgBlanc{
+background: #fff;
+}
+
+.bd{
+border: 1px solid #000;
+}
+
+.block{
+display: inline-block;
+width: 300px;
+height: 130px;
+padding: 10px;
+box-sizing: border-box;
+background-color: #FFF;
+margin: 10px;
+vertical-align: top;
+box-shadow: 3px 3px 0px #aaa;
+}
+
+.block3{
+display: inline-block;
+width: 628px;
+height: 200px;
+padding: 10px;
+box-sizing: border-box;
+background-color: #FFF;
+margin: 10px;
+vertical-align: top;
+box-shadow: 3px 3px 0px #aaa;
+}
+
+.block1{
+display: inline-block;
+width: 300px;
+height: 200px;
+padding: 10px;
+box-sizing: border-box;
+background-color: #FFF;
+margin: 10px;
+vertical-align: top;
+box-shadow: 3px 3px 0px #aaa;
+}
+
+.indicateur{
+margin-top: 25px;
+}
+
+.mobile{
+display: none;
+}
+@media screen and (max-width: 1000px){
+	.mobile{
+		display: inline-block;
+	}
+	.pc{
+		display: none;
+	}
+}
+
+#logo{
+width: 200px;
+}
+
+header{
+background: #417fb3;
+}
