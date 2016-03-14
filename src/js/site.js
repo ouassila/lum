@@ -4,7 +4,7 @@ $( document ).ready(function() {
 	$(".GaugeMeter").gaugeMeter();
 	
 	function cb(start, end) {
-		$('#reportrange span').html('Du ' + start.format('DD MMMM YYYY') + ' au ' + end.format('DD MMMM YYYY'));
+		$('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
 	}
 	cb(moment().subtract(29, 'days'), moment());
 
@@ -26,7 +26,12 @@ $( document ).ready(function() {
 		},
 		autoUpdateInput: true,
 	}, cb);
-
+	
+	$('#periode').val($('#reportrange span').text());
+	
+	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+		$('#periode').val( picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+	});
 	
 	//charts
 	var chartData = generatechartData();

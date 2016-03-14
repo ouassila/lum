@@ -44,13 +44,17 @@ public class C_ShowCharts extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		String temperature = request.getParameter("temperature");
-		String humidite = request.getParameter("humidite");
-		System.out.println(temperature +" ok "+ humidite);
-	String operation = request.getParameter("operation");
-	if (operation.equals("recuptemperature")){
+		String operation = request.getParameter("operation");			
 		
-	}
+		if (operation.equals("show")){
+			String datas = request.getParameter("datas");
+			String periode = request.getParameter("periode");
+			
+			request.setAttribute("retour", "Envoi OK  : "+ datas + " "+ periode);
+			
+			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
+			dispatch.forward (request, response);	
+		}
 
 }
 }

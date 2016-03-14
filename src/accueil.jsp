@@ -1,8 +1,12 @@
+
+<%
+	String reponse = (String) request.getAttribute("retour");
+%>
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,8 +25,8 @@
 <link href="./Vue/css/daterangepicker.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="./Vue/font-awesome/css/font-awesome.min.css" rel="stylesheet"
-	type="text/css">
+<link href="./Vue/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css">
 <link
@@ -112,16 +116,16 @@
 
 				<div class="row">
 					<div class="col-sm-4 portfolio-item text-center col-lg-offset-2">
-						<label>Prise 1</label>
-						<i id="etat_1" class="fa fa-power-off fa-3x"></i>
+						<label>Prise 1</label> <i id="etat_1"
+							class="fa fa-power-off fa-3x"></i>
 					</div>
 					<div class="col-sm-4 portfolio-item text-center">
-						<label>Prise 2</label>   
-						<i id="etat_2" class="fa fa-power-off fa-3x"></i>
+						<label>Prise 2</label> <i id="etat_2"
+							class="fa fa-power-off fa-3x"></i>
 					</div>
 					<div class="col-sm-4 portfolio-item text-center">
-						<label>Prise 3</label>   
-						<i id="etat_3" class="fa fa-power-off fa-3x"></i>
+						<label>Prise 3</label> <i id="etat_3"
+							class="fa fa-power-off fa-3x"></i>
 					</div>
 				</div>
 				<div class="row">
@@ -133,8 +137,9 @@
 
 					<div class="col-sm-6 portfolio-item text-center">
 						<p>Température actuelle</p>
-						<div class="GaugeMeter" data-total="50" data-used="10" data-text="10" data-label="&deg;C"
-							data-width="8" data-theme="Green-Gold-Red" data-size="200"></div>
+						<div class="GaugeMeter" data-total="50" data-used="10"
+							data-text="10" data-label="&deg;C" data-width="8"
+							data-theme="Green-Gold-Red" data-size="200"></div>
 					</div>
 					<div class="col-sm-6 portfolio-item text-center">
 						<p>Taux d'humidité</p>
@@ -156,19 +161,26 @@
 				</div>
 			</div>
 			<div class="row">
-				<form name="sentConfig" id="configForm" action="SaveDatas" method="post" novalidate>
+				<form method="post" role="form" action="SaveDatas">
+					<%=reponse%>
+
+					<input type="hidden" name="operation" value="save" />
+
 					<div class="col-lg-16 text-center">
 						<div class="col-lg-4 ">
-							<label>Prise 1 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_1"
-							data-offstyle="danger">
+							<label>Prise 1 : </label> <input data-toggle="toggle"
+								type="checkbox" data-onstyle="info" name="etat_1"
+								data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 2 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_2"
-							data-offstyle="danger">
+							<label>Prise 2 : </label> <input data-toggle="toggle"
+								type="checkbox" data-onstyle="info" name="etat_2"
+								data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 3 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_3"
-							data-offstyle="danger">
+							<label>Prise 3 : </label> <input data-toggle="toggle"
+								type="checkbox" data-onstyle="info" name="etat_3"
+								data-offstyle="danger">
 						</div>
 					</div>
 					<div class="row">
@@ -204,9 +216,8 @@
 						</div>
 					</div>
 					<div class="col-lg-8 col-lg-offset-2 text-center">
-						<a href="#" class="btn btn-lg btn-outline"> <i
-							class="fa fa-download"></i> Enregistrer
-						</a>
+						<input type="submit" class="btn btn-lg btn-outline"
+							value="Enregistrer" />
 					</div>
 				</form>
 			</div>
@@ -251,7 +262,11 @@
 					<hr class="star-primary">
 				</div>
 			</div>
-			<form name="sentCharts" id="chartsForm" novalidate>
+			<form method="post" role="form" action="ShowCharts">
+				<%=reponse%>
+
+				<input type="hidden" name="operation" value="show" />
+
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
 						<div id="reportrange" class="pull-right"
@@ -260,6 +275,7 @@
 								class="caret"></b>
 						</div>
 					</div>
+					<input type="text" id="periode" name="periode" value="" />
 				</div>
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
@@ -277,10 +293,9 @@
 					</div>
 				</div>
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<a href="#" class="btn btn-lg btn-outline"> <i
-						class="fa fa-paper-plane-o"></i> Valider
-					</a>
-				</div>
+						<input type="submit" class="btn btn-lg btn-outline"
+							value="Valider" />
+					</div>
 			</form>
 		</div>
 	</section>
@@ -321,7 +336,7 @@
 	<!-- <script type="text/javascript" src="Vue/js/bootstrap-datetimepicker.min.js"></script> -->
 	<script type="text/javascript" src="Vue/js/daterangepicker.js"></script>
 	<script type="text/javascript" src="Vue/js/fr.js"></script>
-	
+
 	<script
 		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 	<script src="Vue/js/site.js"></script>
