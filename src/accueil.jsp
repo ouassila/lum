@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-
+<%@ page contentType="text/html; charset=UTF-8" %>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,16 +12,16 @@
 <title>LUM</title>
 
 <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-<link href="/Vue/css/bootstrap.css" rel="stylesheet">
+<link href="./Vue/css/bootstrap.css" rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="css/freelancer.css" rel="stylesheet">
-<link href="css/site.css" rel="stylesheet">
+<link href="./Vue/css/freelancer.css" rel="stylesheet">
+<link href="./Vue/css/site.css" rel="stylesheet">
 <!-- <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"> -->
-<link href="css/daterangepicker.css" rel="stylesheet">
+<link href="./Vue/css/daterangepicker.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
+<link href="./Vue/font-awesome/css/font-awesome.min.css" rel="stylesheet"
 	type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="col-lg-8 col-lg-offset-2">
-						<img class="img-responsive" src="img/logo.png" alt="LUM">
+						<img class="img-responsive" src="./Vue/img/logo.png" alt="LUM">
 					</div>
 				</div>
 				<div class="row">
@@ -323,32 +323,32 @@
 	<script type="text/javascript" src="Vue/js/fr.js"></script>
 	
 	<script
-		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/Vue/js/bootstrap-toggle.min.js"></script>
+		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-	<script src="Vue/js/classie.js"></script>
-	<script src="Vue/js/cbpAnimatedHeader.js"></script>
+	<script src="./Vue/js/classie.js"></script>
+	<script src="./Vue/js/cbpAnimatedHeader.js"></script>
 
 	<!-- Contact Form JavaScript -->
-	<script src="Vue/js/jqBootstrapValidation.js"></script>
-	<script src="Vue/js/contact_me.js"></script>
+	<script src="./Vue/js/jqBootstrapValidation.js"></script>
+	<script src="./Vue/js/contact_me.js"></script>
 
 	<!-- Custom Theme JavaScript -->
-	<script src="Vue/js/freelancer.js"></script>
+	<script src="./Vue/js/freelancer.js"></script>
 
 	<!-- Temperature -->
-	<script src="Vue/js/jquery.tempgauge.js"></script>
+	<script src="./Vue/js/jquery.tempgauge.js"></script>
 
 	<!-- humidite -->
-	<script src="Vue/js/gaugeMeter-2.0.0.min.js"></script>
+	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
 
 	<!-- Charts -->
-	<script src="Vue/js/amcharts.js"></script>
-	<script src="Vue/js/serial.js"></script>
-	<script src="Vue/js/light.js"></script>
+	<script src="./Vue/js/amcharts.js"></script>
+	<script src="./Vue/js/serial.js"></script>
+	<script src="./Vue/js/light.js"></script>
 
 </body>
 
