@@ -12,13 +12,14 @@
 <title>LUM</title>
 
 <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-switch.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/freelancer.css" rel="stylesheet">
 <link href="css/site.css" rel="stylesheet">
-<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!-- <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"> -->
+<link href="css/daterangepicker.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
@@ -61,6 +62,7 @@
 					<li class="hidden"><a href="#page-top"></a></li>
 					<li class="page-scroll"><a href="#portfolio">Etat Actuel</a></li>
 					<li class="page-scroll"><a href="#about">Configuration</a></li>
+					<li class="page-scroll"><a href="#bilan">Bilan</a></li>
 					<li class="page-scroll"><a href="#contact">Historique</a></li>
 				</ul>
 			</div>
@@ -82,7 +84,7 @@
 					<div class="intro-text">
 						<span class="name">LUM</span>
 						<hr class="star-light">
-						<span class="skills">La multi-prises connéctée</span>
+						<span class="skills">La multiprise connéctée</span>
 					</div>
 				</div>
 			</div>
@@ -99,50 +101,77 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					<div class="col-sm-2">
-						<h4>Prise 1</h4>
+				<div class="row">
+					<div class="col-lg-12 text-center" style="margin-top: 50px;">
+						<h4>Détails de l'état des prises</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4 portfolio-item">
+						<img src="img/portfolio/cabin.png" class="img-responsive" alt="">
+						
+					</div>
+					<div class="col-sm-4 portfolio-item">
+						<img src="img/portfolio/cake.png" class="img-responsive" alt="">
+						
+					</div>
+					<div class="col-sm-4 portfolio-item">
+						<img src="img/portfolio/circus.png" class="img-responsive"
+							alt="">
+						
+					</div>
+				</div>
+				<!-- <div class="col-lg-4 col-lg-offset-4 text-center">
+					<div class="col-xs-6">
+						<label>Prise 1 : </label>
 					</div>
 
-					<div class="col-xs-2">
+					<div class="col-lg-2 col-xs-2">
 						<img src="img/portfolio/ampoule.png" class="img-responsive"
 							alt="prise 1">
 					</div>
-					<div class="col-sm-2">
-						<h4>Prise 2</h4>
+					<div class="col-xs-6">
+						<label>Prise 2 : </label>
 					</div>
 
-					<div class="col-xs-2">
+					<div class="col-lg-2 col-xs-2">
 						<img src="img/portfolio/ampoule.png" class="img-responsive"
-							alt="prise 2">
+							alt="prise 1">
 					</div>
 
-					<div class="col-sm-2">
-						<h4>Prise 3</h4>
+					<div class="col-xs-6">
+						<label>Prise 3 : </label>
 					</div>
 
-					<div class="col-xs-2">
+					<div class="col-lg-2 col-xs-2">
 						<img src="img/portfolio/ampoule.png" class="img-responsive"
-							alt="prise 3">
+							alt="prise 1">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12 text-center">
+					<div class="col-lg-12 text-center" style="margin-top: 50px;">
 						<h4>Environnement</h4>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-8 col-lg-offset-4">
-						<div class="tempGauge-demo">25&deg;C</div>
+					<div class="col-sm-12 portfolio-item">
+						<div class="col-lg-3 col-lg-offset-2">
+							<label>Température actuelle : 5&deg;C</label>
+						</div>
+						<div class="col-lg-4">
+							<div class="tempGauge-demo">5&deg;C</div>
+						</div>
 					</div>
 
-					<div class="col-lg-2">
-						<label>Taux d'humidit�</label>
+					<div class="col-sm-12 portfolio-item">
+						<div class="col-lg-3 col-lg-offset-2">
+							<label>Taux d'humidité :</label>
+						</div>
 						<div class="GaugeMeter" data-percent="40" data-label="%"
 							data-width="8"></div>
 					</div>
-
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</section>
@@ -157,29 +186,95 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4 col-lg-offset-2">
-					<p>Freelancer is a free bootstrap theme created by Start
-						Bootstrap. The download includes the complete source files
-						including HTML, CSS, and JavaScript as well as optional LESS
-						stylesheets for easy customization.</p>
+				<form name="sentConfig" id="configForm" novalidate>
+
+					<div class="col-lg-16 text-center">
+						<div class="col-lg-4 ">
+							<label>Prise 1 : </label> <input type="checkbox" class="switch"
+								name="my-checkbox" checked>
+						</div>
+						<div class="col-lg-4">
+							<label>Prise 2 : </label> <input type="checkbox" class="switch"
+								name="my-checkbox" checked>
+						</div>
+						<div class="col-lg-4">
+							<label>Prise 3 : </label> <input type="checkbox" class="switch"
+								name="my-checkbox" checked>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 text-center"
+							style="margin-top: 50px; margin-bottom: 20px;">
+							<p>Définir les seuils de températures et d'humidités</p>
+						</div>
+					</div>
+					<div class="col-lg-8 col-lg-offset-2 text-center">
+						<div class="row control-group">
+							<label class="col-sm-4 control-label">Température :</label>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" name="number"
+									placeholder="Min" />
+							</div>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" name="number"
+									placeholder="Max" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8 col-lg-offset-2 text-center">
+						<div class="row control-group">
+							<label class="col-md-4 control-label">Humidité :</label>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" name="number"
+									placeholder="Min" />
+							</div>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" name="number"
+									placeholder="Max" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8 col-lg-offset-2 text-center">
+						<a href="#" class="btn btn-lg btn-outline"> <i
+							class="fa fa-download"></i> Enregistrer
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<!-- Bilan Section -->
+	<section id="bilan">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2>Bilan du mois*</h2>
+					<hr class="star-primary">
 				</div>
-				<div class="col-lg-4">
-					<p>Whether you're a student looking to showcase your work, a
-						professional looking to attract clients, or a graphic artist
-						looking to share your projects, this template is the perfect
-						starting point!</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<span>Pour la période du 01/12/2015 au 01/01/2016, votre
+						bénéfice est de : </span>
+					<h3>10 €</h3>
 				</div>
+			</div>
+			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<a href="#" class="btn btn-lg btn-outline"> <i
-						class="fa fa-download"></i> Download Theme
-					</a>
+					<a href="#" class="btn btn-lg btn-primary"> Calculer le bilan </a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<span><i>*Le dernier bilan a été effectué le 01/01/2016</i></span>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Contact Section -->
-	<section id="contact">
+	<!-- Historique Section -->
+	<section id="contact" class="success">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -187,28 +282,50 @@
 					<hr class="star-primary">
 				</div>
 			</div>
-			<div class="col-sm-6" style="height: 75px;">
-				<div class='col-md-5'>
-					<div class="form-group">
-						<div>Start</div>
-
-						<div class='input-group date' id='startDate'>
-							<input type='text' class="form-control" name="startDate" /> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-calendar"></span> </span>
+			<form name="sentCharts" id="chartsForm" novalidate>
+				<div class="row">
+					<div class="col-lg-6 text-center col-lg-offset-3">
+						<div id="reportrange" class="pull-right"
+							style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+							<i class="fa fa-calendar"></i>&nbsp; <span></span> <b
+								class="caret"></b>
 						</div>
 					</div>
 				</div>
-				<div class='col-md-5'>
-					<div class="form-group">
-						<div>End</div>
-
-						<div class='input-group date' id='endDate'>
-							<input type='text' class="form-control" name="org_endDate" /> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-calendar"></span> </span>
+				<div class="row">
+					<div class="col-lg-6 text-center col-lg-offset-3">
+						<div class="form-group">
+							<select class="form-control" name="datas">
+								<option value="" selected disabled>Veuillez
+									séléctionner les données à afficher</option>
+								<option>Température</option>
+								<option>Humidité</option>
+								<option>Etat Prise 1</option>
+								<option>Etat Prise 2</option>
+								<option>Etat Prise 3</option>
+							</select>
 						</div>
 					</div>
+				</div>
+				<div class="col-lg-8 col-lg-offset-2 text-center">
+					<a href="#" class="btn btn-lg btn-outline"> <i
+						class="fa fa-paper-plane-o"></i> Valider
+					</a>
+				</div>
+			</form>
+		</div>
+	</section>
+	<section id="graphique" style="">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2>Graphiques</h2>
+					<hr class="star-primary">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div id="chartdiv"></div>
 				</div>
 			</div>
 		</div>
@@ -216,64 +333,29 @@
 
 	<!-- Footer -->
 	<footer class="text-center">
-		<div class="footer-above">
-			<div class="container">
-				<div class="row">
-					<div class="footer-col col-md-4">
-						<h3>Location</h3>
-						<p>
-							3481 Melrose Place<br>Beverly Hills, CA 90210
-						</p>
-					</div>
-					<div class="footer-col col-md-4">
-						<h3>Around the Web</h3>
-						<ul class="list-inline">
-							<li><a href="#" class="btn-social btn-outline"><i
-									class="fa fa-fw fa-facebook"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><i
-									class="fa fa-fw fa-google-plus"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><i
-									class="fa fa-fw fa-twitter"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><i
-									class="fa fa-fw fa-linkedin"></i></a></li>
-							<li><a href="#" class="btn-social btn-outline"><i
-									class="fa fa-fw fa-dribbble"></i></a></li>
-						</ul>
-					</div>
-					<div class="footer-col col-md-4">
-						<h3>About Freelancer</h3>
-						<p>
-							Freelance is a free to use, open source Bootstrap theme created
-							by <a href="http://startbootstrap.com">Start Bootstrap</a>.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="footer-below">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">Copyright &copy; Your Website 2014</div>
+					<div class="col-lg-12">Copyright &copy; LUM 2016</div>
 				</div>
 			</div>
 		</div>
 	</footer>
 
 	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
-	<script src="js/site.js"></script>
-	<script src="js/moment.js"></script>
-	<script src="js/transition.js"></script>
-	<script src="js/collapse.js"></script>
-
-
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/moment.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 
-	<script src="js/bootstrap-datetimepicker.min.js"></script>
+	<!-- <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script> -->
+	<script type="text/javascript" src="js/daterangepicker.js"></script>
 
+	<script type="text/javascript" src="js/fr.js"></script>
 
+	<script type="text/javascript" src="js/bootstrap-switch.min.js"></script>
+	<script src="js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
 	<script
@@ -293,6 +375,11 @@
 
 	<!-- humidite -->
 	<script src="js/gaugeMeter-2.0.0.min.js"></script>
+
+	<!-- Charts -->
+	<script src="js/amcharts.js"></script>
+	<script src="js/serial.js"></script>
+	<script src="js/light.js"></script>
 
 </body>
 
