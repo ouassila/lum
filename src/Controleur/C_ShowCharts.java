@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import Modele.M_Data;
 
-public class C_Prise extends HttpServlet {
+public class C_ShowCharts extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request,
