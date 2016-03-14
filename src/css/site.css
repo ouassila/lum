@@ -37,3 +37,9 @@
   font-weight: 200;
   opacity: .8;
 }
+
+#chartdiv {
+	width		: 100%;
+	height		: 500px;
+	font-size	: 11px;
+}	
