@@ -30,4 +30,24 @@
 		<url-pattern>/SaveDatas</url-pattern>
 	</servlet-mapping>		
 	
+	
+		<servlet> 
+		<servlet-name>S4</servlet-name>
+		<servlet-class>Controleur.C_DatasPrise</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S4</servlet-name>
+		<url-pattern>/DatasPrise</url-pattern>
+	</servlet-mapping>
+	
+		<servlet> 
+		<servlet-name>S5</servlet-name>
+		<servlet-class>Controleur.C_Contact</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S5</servlet-name>
+		<url-pattern>/Contact</url-pattern>
+	</servlet-mapping>		
 </web-app>
