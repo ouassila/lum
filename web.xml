@@ -1,0 +1,33 @@
+<web-app>
+	<servlet> 
+		<servlet-name>S1</servlet-name>
+		<servlet-class>Controleur.C_InitLoad</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S1</servlet-name>
+		<url-pattern>/Home</url-pattern>
+	</servlet-mapping>
+
+	<servlet> 
+		<servlet-name>S2</servlet-name>
+		<servlet-class>Controleur.C_ShowCharts</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S2</servlet-name>
+		<url-pattern>/ShowCharts</url-pattern>
+	</servlet-mapping>	
+
+	
+	<servlet> 
+		<servlet-name>S3</servlet-name>
+		<servlet-class>Controleur.C_SaveDatas</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S3</servlet-name>
+		<url-pattern>/SaveDatas</url-pattern>
+	</servlet-mapping>		
+	
+</web-app>
