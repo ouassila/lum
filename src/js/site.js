@@ -1,31 +1,8 @@
 
 $( document ).ready(function() {
-	$(".tempGauge-demo").tempGauge({
-
-		// border color
-		borderColor: "black",
-		// border width
-		borderWidth: 4,
-		// default temperature
-		defaultTemp: 26,
-		// fill color
-		fillColor: "red",
-		// show label
-		showLabel:false,
-		// label size in pixels
-		labelSize: 15,
-		// maximum temperature
-		maxTemp: 40,
-		// minimum temperature
-		minTemp: -10,
-		// Temperature width
-		width: 100
-	});
-
+	
 	$(".GaugeMeter").gaugeMeter();
-	$(".switch").bootstrapSwitch();
-
-
+	
 	function cb(start, end) {
 		$('#reportrange span').html('Du ' + start.format('DD MMMM YYYY') + ' au ' + end.format('DD MMMM YYYY'));
 	}
