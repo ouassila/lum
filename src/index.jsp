@@ -12,7 +12,7 @@
 <title>LUM</title>
 
 <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-<link href="css/bootstrap.css" rel="stylesheet">
+<link href="/Vue/css/bootstrap.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/freelancer.css" rel="stylesheet">
@@ -156,19 +156,18 @@
 				</div>
 			</div>
 			<div class="row">
-				<form name="sentConfig" id="configForm" novalidate>
-
+				<form name="sentConfig" id="configForm" action="SaveDatas" method="post" novalidate>
 					<div class="col-lg-16 text-center">
 						<div class="col-lg-4 ">
-							<label>Prise 1 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							<label>Prise 1 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_1"
 							data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 2 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							<label>Prise 2 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_2"
 							data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 3 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							<label>Prise 3 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info" name="etat_3"
 							data-offstyle="danger">
 						</div>
 					</div>
@@ -182,11 +181,11 @@
 						<div class="row control-group">
 							<label class="col-sm-4 control-label">Température :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="number"
+								<input type="number" class="form-control" name="min_temp"
 									placeholder="Min" />
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="number"
+								<input type="number" class="form-control" name="max_temp"
 									placeholder="Max" />
 							</div>
 						</div>
@@ -195,11 +194,11 @@
 						<div class="row control-group">
 							<label class="col-md-4 control-label">Humidité :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="number"
+								<input type="number" class="form-control" name="min_humd"
 									placeholder="Min" />
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="number"
+								<input type="number" class="form-control" name="max_humd"
 									placeholder="Max" />
 							</div>
 						</div>
@@ -313,43 +312,43 @@
 	</footer>
 
 	<!-- jQuery -->
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/moment.js"></script>
+	<script type="text/javascript" src="Vue/js/jquery.js"></script>
+	<script type="text/javascript" src="Vue/js/moment.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Vue/js/bootstrap.min.js"></script>
 
-	<!-- <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script> -->
-	<script type="text/javascript" src="js/daterangepicker.js"></script>
-	<script type="text/javascript" src="js/fr.js"></script>
+	<!-- <script type="text/javascript" src="Vue/js/bootstrap-datetimepicker.min.js"></script> -->
+	<script type="text/javascript" src="Vue/js/daterangepicker.js"></script>
+	<script type="text/javascript" src="Vue/js/fr.js"></script>
 	
 	<script
-		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-	<script src="js/site.js"></script>
+		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/Vue/js/bootstrap-toggle.min.js"></script>
+	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-	<script src="js/classie.js"></script>
-	<script src="js/cbpAnimatedHeader.js"></script>
+	<script src="Vue/js/classie.js"></script>
+	<script src="Vue/js/cbpAnimatedHeader.js"></script>
 
 	<!-- Contact Form JavaScript -->
-	<script src="js/jqBootstrapValidation.js"></script>
-	<script src="js/contact_me.js"></script>
+	<script src="Vue/js/jqBootstrapValidation.js"></script>
+	<script src="Vue/js/contact_me.js"></script>
 
 	<!-- Custom Theme JavaScript -->
-	<script src="js/freelancer.js"></script>
+	<script src="Vue/js/freelancer.js"></script>
 
 	<!-- Temperature -->
-	<script src="js/jquery.tempgauge.js"></script>
+	<script src="Vue/js/jquery.tempgauge.js"></script>
 
 	<!-- humidite -->
-	<script src="js/gaugeMeter-2.0.0.min.js"></script>
+	<script src="Vue/js/gaugeMeter-2.0.0.min.js"></script>
 
 	<!-- Charts -->
-	<script src="js/amcharts.js"></script>
-	<script src="js/serial.js"></script>
-	<script src="js/light.js"></script>
+	<script src="Vue/js/amcharts.js"></script>
+	<script src="Vue/js/serial.js"></script>
+	<script src="Vue/js/light.js"></script>
 
 </body>
 
