@@ -13,7 +13,6 @@
 
 <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
 <link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/bootstrap-switch.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/freelancer.css" rel="stylesheet">
@@ -36,6 +35,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css"
+	rel="stylesheet">
 
 </head>
 
@@ -84,7 +87,7 @@
 					<div class="intro-text">
 						<span class="name">LUM</span>
 						<hr class="star-light">
-						<span class="skills">La multiprise connéctée</span>
+						<span class="skills">La multiprise connectée</span>
 					</div>
 				</div>
 			</div>
@@ -103,75 +106,42 @@
 			<div class="row">
 				<div class="row">
 					<div class="col-lg-12 text-center" style="margin-top: 50px;">
-						<h4>Détails de l'état des prises</h4>
+						<h4>Etats des prises</h4>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-sm-4 portfolio-item">
-						<img src="img/portfolio/cabin.png" class="img-responsive" alt="">
-						
+					<div class="col-sm-4 portfolio-item text-center col-lg-offset-2">
+						<label>Prise 1</label>
+						<i id="etat_1" class="fa fa-power-off fa-3x"></i>
 					</div>
-					<div class="col-sm-4 portfolio-item">
-						<img src="img/portfolio/cake.png" class="img-responsive" alt="">
-						
+					<div class="col-sm-4 portfolio-item text-center">
+						<label>Prise 2</label>   
+						<i id="etat_2" class="fa fa-power-off fa-3x"></i>
 					</div>
-					<div class="col-sm-4 portfolio-item">
-						<img src="img/portfolio/circus.png" class="img-responsive"
-							alt="">
-						
-					</div>
-				</div>
-				<!-- <div class="col-lg-4 col-lg-offset-4 text-center">
-					<div class="col-xs-6">
-						<label>Prise 1 : </label>
-					</div>
-
-					<div class="col-lg-2 col-xs-2">
-						<img src="img/portfolio/ampoule.png" class="img-responsive"
-							alt="prise 1">
-					</div>
-					<div class="col-xs-6">
-						<label>Prise 2 : </label>
-					</div>
-
-					<div class="col-lg-2 col-xs-2">
-						<img src="img/portfolio/ampoule.png" class="img-responsive"
-							alt="prise 1">
-					</div>
-
-					<div class="col-xs-6">
-						<label>Prise 3 : </label>
-					</div>
-
-					<div class="col-lg-2 col-xs-2">
-						<img src="img/portfolio/ampoule.png" class="img-responsive"
-							alt="prise 1">
+					<div class="col-sm-4 portfolio-item text-center">
+						<label>Prise 3</label>   
+						<i id="etat_3" class="fa fa-power-off fa-3x"></i>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12 text-center" style="margin-top: 50px;">
+					<div class="col-lg-12 text-center" style="margin-top: 30px;">
 						<h4>Environnement</h4>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-12 portfolio-item">
-						<div class="col-lg-3 col-lg-offset-2">
-							<label>Température actuelle : 5&deg;C</label>
-						</div>
-						<div class="col-lg-4">
-							<div class="tempGauge-demo">5&deg;C</div>
-						</div>
-					</div>
 
-					<div class="col-sm-12 portfolio-item">
-						<div class="col-lg-3 col-lg-offset-2">
-							<label>Taux d'humidité :</label>
-						</div>
-						<div class="GaugeMeter" data-percent="40" data-label="%"
-							data-width="8"></div>
+					<div class="col-sm-6 portfolio-item text-center">
+						<p>Température actuelle</p>
+						<div class="GaugeMeter" data-total="50" data-used="10" data-text="10" data-label="&deg;C"
+							data-width="8" data-theme="Green-Gold-Red" data-size="200"></div>
 					</div>
-				</div> -->
+					<div class="col-sm-6 portfolio-item text-center">
+						<p>Taux d'humidité</p>
+						<div class="GaugeMeter" data-percent="40" data-label="%"
+							data-width="8" data-size="200"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -190,16 +160,16 @@
 
 					<div class="col-lg-16 text-center">
 						<div class="col-lg-4 ">
-							<label>Prise 1 : </label> <input type="checkbox" class="switch"
-								name="my-checkbox" checked>
+							<label>Prise 1 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 2 : </label> <input type="checkbox" class="switch"
-								name="my-checkbox" checked>
+							<label>Prise 2 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							data-offstyle="danger">
 						</div>
 						<div class="col-lg-4">
-							<label>Prise 3 : </label> <input type="checkbox" class="switch"
-								name="my-checkbox" checked>
+							<label>Prise 3 : </label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
+							data-offstyle="danger">
 						</div>
 					</div>
 					<div class="row">
@@ -267,7 +237,7 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<span><i>*Le dernier bilan a été effectué le 01/01/2016</i></span>
+					<span><i>*Dernier bilan effectué le 01/01/2016</i></span>
 				</div>
 			</div>
 		</div>
@@ -351,10 +321,10 @@
 
 	<!-- <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script> -->
 	<script type="text/javascript" src="js/daterangepicker.js"></script>
-
 	<script type="text/javascript" src="js/fr.js"></script>
-
-	<script type="text/javascript" src="js/bootstrap-switch.min.js"></script>
+	
+	<script
+		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 	<script src="js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
