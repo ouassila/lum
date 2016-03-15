@@ -135,7 +135,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				contact.add(new Contact (resultat.getString("mac"),resultat.getString("prenom"),resultat.getString("nom"),resultat.getString("mail")));
+				contact.add(new Contact (resultat.getString("mac"),resultat.getString("prenom"),resultat.getString("nom"),resultat.getString("mail"),resultat.getString("telephone")));
 			}			
 		}		
 		catch (SQLException e) {
@@ -143,9 +143,30 @@ public class M_Data {
 		}		
 		return contact;		
 	}
+	
+	public Environnement getLastEnvironnement(String mac){
+		
+		Environnement environnement = null;
+		String requeteEnvironnement = "Select * from Environnement where mac = ? and date = (SELECT Max(date) from Environnement)";
+		
+		try  {
+			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
+			requete.setString(1,mac);
+
+			ResultSet resultat = requete.executeQuery();
+
+			while (resultat.next()) {
+				environnement = new Environnement (resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac"));
+			}			
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return environnement;		
+	}
 
 	public Multiprise getMultipriseDetail(String mac){
-		Multiprise multiprise=null;
+		Multiprise multiprise = null;
 
 		String requeteConnexion = "select * from Multiprise where mac=?";
 
@@ -155,7 +176,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			if (resultat.next()) {
-				multiprise =new Multiprise (resultat.getString("mac"),resultat.getFloat("min_temperature"),resultat.getFloat("max_temperature"),resultat.getFloat("min_humidite"),resultat.getFloat("max_humidite"));
+				multiprise = new Multiprise (resultat.getString("mac"),resultat.getFloat("min_temperature"),resultat.getFloat("max_temperature"),resultat.getFloat("min_humidite"),resultat.getFloat("max_humidite"));
 				multiprise.setPrises(this.getPrisesOfMultiprise(mac));
 				multiprise.setContact(this.getContact(mac));
 			}			
@@ -164,12 +185,7 @@ public class M_Data {
 			e.printStackTrace();
 		}		
 		return multiprise;		
-
-
 	}
-	/*public boolean insertEtat(Map <Integer,String> etats,){
-
-	}*/
 
 	private List<Prise> getPrisesOfMultiprise(String mac) {
 		// TODO Auto-generated method stub
@@ -182,7 +198,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				Prise prise=new Prise (resultat.getInt("id"),resultat.getString("mac"));
+				Prise prise=new Prise (resultat.getInt("id"),resultat.getString("mac"), resultat.getBoolean("etat"));
 				prise.setEtat(this.getEtat(prise.getId()));
 				prises.add(prise);
 			}			
@@ -193,9 +209,9 @@ public class M_Data {
 		return prises;	
 	}
 
-	private Etat getEtat(int id) {
+	private List<Etat> getEtat(int id) {
 		// TODO Auto-generated method stub
-		Etat etat= new Etat();
+		List <Etat> etat= new ArrayList<Etat>();
 		String requeteEtat = "select * from Etat where id_prise=?";
 
 		try {
@@ -203,15 +219,13 @@ public class M_Data {
 			requete.setInt(1,id);
 			ResultSet resultat = requete.executeQuery();
 
-			if (resultat.next()) {
-				etat = new Etat(resultat.getInt("id"),resultat.getBoolean("allume"),resultat.getInt("id_prise"));
+			while (resultat.next()) {
+				etat.add(new Etat(resultat.getInt("id"),resultat.getBoolean("allume"),resultat.getInt("id_prise")));
 			}			
 		}		
 		catch (SQLException e) {
 			e.printStackTrace();
-		}		
-
-
+		}
 		return etat;
 	}
 

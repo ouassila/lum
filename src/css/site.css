@@ -50,15 +50,10 @@
 	vertical-align: middle;
 }
 
-.fa-power-off#etat_1{
+.fa-power-off[data-allume="true"]{
 	color: #67be45;
 }
-
-.fa-power-off#etat_2{
-	color: #67be45;
-}
-
-.fa-power-off#etat_3{
+.fa-power-off[data-allume="false"]{
 	color: red;
 }
 
