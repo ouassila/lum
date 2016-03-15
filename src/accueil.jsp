@@ -341,7 +341,7 @@
 								class="caret"></b>
 						</div>
 					</div>
-					<input type="text" id="periode" name="periode" value="" />
+					<input type="hidden" id="periode" name="periode" value="" />
 				</div>
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
