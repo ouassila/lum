@@ -20,6 +20,14 @@ function generatechartData() {
 	return chartData;
 }
 
+$.validator.addMethod(
+		"regex",
+		function(value, element, regexp) {
+			var re = new RegExp(regexp);
+			return this.optional(element) || re.test(value);
+		},
+		"Format de téléphone incorrect"
+);
 
 $( document ).ready(function() {
 
@@ -96,6 +104,7 @@ $( document ).ready(function() {
 			},
 		},
 		errorClass : "invalid",
+		validClass: "success",
 		errorPlacement: function (error, element) {
 			$("#" + $(element).attr("id")).addClass('invalid');
 		},
@@ -126,8 +135,17 @@ $( document ).ready(function() {
 				required: true,
 				number: true
 			},
+			email: {
+				required: true,
+				email: true,
+			},
+			telephone: {
+				required: true,
+				regex: "^0[1-68][0-9]{8}$",
+			}
 		},
 		errorClass : "invalid",
+		validClass: "success",
 		errorPlacement: function (error, element) {
 			$("#" + $(element).attr("id")).addClass('invalid');
 		},

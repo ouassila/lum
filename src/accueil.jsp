@@ -186,19 +186,19 @@
 					<div class="row">
 						<div class="col-lg-12 text-center"
 							style="margin-top: 50px; margin-bottom: 20px;">
-							<p>Définir les seuils de températures et d'humidités</p>
+							<p>Les seuils de températures et d'humidités :</p>
 						</div>
 					</div>
 					<div class="col-lg-8 col-lg-offset-2 text-center">
 						<div class="row control-group">
 							<label class="col-sm-4 control-label">Température :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="min_temp" id="min_temp"
-									placeholder="Min" step="0.1" />
+								<input type="number" class="form-control" name="min_temp"
+									id="min_temp" placeholder="Min" />
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="max_temp" id="max_temp"
-									placeholder="Max" step="0.1" />
+								<input type="number" class="form-control" name="max_temp"
+									id="max_temp" placeholder="Max" />
 							</div>
 						</div>
 					</div>
@@ -206,19 +206,41 @@
 						<div class="row control-group">
 							<label class="col-md-4 control-label">Humidité :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="min_humd" id="min_humd"
-									placeholder="Min" />
+								<input type="number" class="form-control" name="min_humd"
+									id="min_humd" placeholder="Min"/>
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="max_humd" id="max_humd"
-									placeholder="Max" />
+								<input type="number" class="form-control" name="max_humd"
+									id="max_humd" placeholder="Max"/>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-8 col-lg-offset-2 text-center">
-						<input type="submit" class="btn btn-lg btn-outline"
-							value="Enregistrer" />
+					<div class="row">
+						<div class="col-lg-12 text-center"
+							style="margin-top: 50px; margin-bottom: 20px;">
+							<p>Les données personnelles :</p>
+						</div>
 					</div>
+					
+					<div class="col-lg-12">
+						<div class="row control-group">
+							<label class="col-md-2 control-label text-center">Email :</label>
+							<div class="col-lg-4">
+								<input type="email" class="form-control" name="email" id="email"
+									placeholder="Email" />
+							</div>
+							<label class="col-md-2 control-label text-center">Téléphone :</label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control" name="telephone"
+									id="telephone" placeholder="Téléphone" />
+							</div>
+						</div>
+					</div>
+						<div class="col-lg-8 col-lg-offset-2 text-center">
+							<input type="submit" class="btn btn-lg btn-outline"
+								value="Enregistrer" />
+						</div>
+					
 				</form>
 			</div>
 		</div>
@@ -280,7 +302,7 @@
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
 						<div class="form-group">
-							<select class="form-control" name="datas" id="datas" >
+							<select class="form-control" name="datas" id="datas">
 								<option value="" selected disabled>Veuillez
 									séléctionner les données à afficher</option>
 								<option>Température</option>
@@ -293,9 +315,8 @@
 					</div>
 				</div>
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-						<input type="submit" class="btn btn-lg btn-outline"
-							value="Valider" />
-					</div>
+					<input type="submit" class="btn btn-lg btn-outline" value="Valider" />
+				</div>
 			</form>
 		</div>
 	</section>
@@ -339,19 +360,15 @@
 
 	<script
 		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-	<script src="Vue/js/site.js"></script>
 	<script src="Vue/js/jquery.validate.min.js"></script>
+	<script src="Vue/js/site.js"></script>	
 
 	<!-- Plugin JavaScript -->
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 	<script src="./Vue/js/classie.js"></script>
 	<script src="./Vue/js/cbpAnimatedHeader.js"></script>
-
-	<!-- Contact Form JavaScript -->
-	<script src="./Vue/js/jqBootstrapValidation.js"></script>
-	<script src="./Vue/js/contact_me.js"></script>
-
+	
 	<!-- Custom Theme JavaScript -->
 	<script src="./Vue/js/freelancer.js"></script>
 
