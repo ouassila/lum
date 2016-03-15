@@ -1,34 +1,49 @@
 package Modele;
 
+import java.util.List;
+
 public class Prise {
-int id;
-String mac;
-Etat etat;
-public Prise (int id, String mac){
-	this.id=id;
-	this.mac=mac;
-	etat=null;
-}
+	private int id;
+	private String mac;
+	private List<Etat> etat;
+	private boolean allume ;
 
-public void setEtat(Etat etat){
-	this.etat=etat;
-}
+	public Prise (int id, String mac, boolean b){
+		this.id=id;
+		this.mac=mac;
+		this.etat=null;
+		this.allume=b;
+	}
 
-public Etat getEtat(){return this.etat;}
+	public void setEtat(List<Etat> etat){
+		this.etat=etat;
+	}
 
-public int getId(){
-	return this.id;
-}
+	public List<Etat> getEtat(){
+		return this.etat;
+	}
 
-public void setId(int id){
-	this.id=id;
-}
+	public int getId(){
+		return this.id;
+	}
 
-public String getMac(){
-	return this.mac;
-}
+	public void setId(int id){
+		this.id=id;
+	}
 
-public void setMac(String mac){
-	this.mac=mac;
-}
+	public String getMac(){
+		return this.mac;
+	}
+
+	public void setMac(String mac){
+		this.mac=mac;
+	}
+
+	public boolean isAllume() {
+		return allume;
+	}
+
+	public void setAllume(boolean allume) {
+		this.allume = allume;
+	}
 }

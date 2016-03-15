@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Modele.Environnement;
 import Modele.M_Data;
 import Modele.Multiprise;
 
@@ -29,7 +30,12 @@ public class C_InitLoad extends HttpServlet {
 		System.out.println(multiprise.getPrises().size());
 		System.out.println(multiprise.getPrises().get(1).getId());
 		System.out.println(multiprise.getPrises().get(1).getEtat());
+		
+		Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
+		
 		request.setAttribute("multiprise", multiprise);
+		request.setAttribute("environnement", environnement);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
 	}
