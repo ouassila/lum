@@ -161,7 +161,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<form method="post" role="form" action="SaveDatas">
+				<form method="post" role="form" action="SaveDatas" id="formConfig">
 					<%=reponse%>
 
 					<input type="hidden" name="operation" value="save" />
@@ -193,12 +193,12 @@
 						<div class="row control-group">
 							<label class="col-sm-4 control-label">Température :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="min_temp"
-									placeholder="Min" />
+								<input type="number" class="form-control" name="min_temp" id="min_temp"
+									placeholder="Min" step="0.1" />
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="max_temp"
-									placeholder="Max" />
+								<input type="number" class="form-control" name="max_temp" id="max_temp"
+									placeholder="Max" step="0.1" />
 							</div>
 						</div>
 					</div>
@@ -206,11 +206,11 @@
 						<div class="row control-group">
 							<label class="col-md-4 control-label">Humidité :</label>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="min_humd"
+								<input type="number" class="form-control" name="min_humd" id="min_humd"
 									placeholder="Min" />
 							</div>
 							<div class="col-sm-2">
-								<input type="number" class="form-control" name="max_humd"
+								<input type="number" class="form-control" name="max_humd" id="max_humd"
 									placeholder="Max" />
 							</div>
 						</div>
@@ -262,7 +262,7 @@
 					<hr class="star-primary">
 				</div>
 			</div>
-			<form method="post" role="form" action="ShowCharts">
+			<form method="post" role="form" action="ShowCharts" id="formShow">
 				<%=reponse%>
 
 				<input type="hidden" name="operation" value="show" />
@@ -280,7 +280,7 @@
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
 						<div class="form-group">
-							<select class="form-control" name="datas">
+							<select class="form-control" name="datas" id="datas" >
 								<option value="" selected disabled>Veuillez
 									séléctionner les données à afficher</option>
 								<option>Température</option>
@@ -340,6 +340,7 @@
 	<script
 		src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 	<script src="Vue/js/site.js"></script>
+	<script src="Vue/js/jquery.validate.min.js"></script>
 
 	<!-- Plugin JavaScript -->
 	<script

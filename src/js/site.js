@@ -1,8 +1,30 @@
+function generatechartData() {
+	var chartData = [];
+	var firstDate = new Date();
+	firstDate.setDate(firstDate.getDate() - 150);
+
+	for (var i = 0; i < 30; i++) {
+		// we create date objects here. In your data, you can have date strings
+		// and then set format of your dates using chart.dataDateFormat property,
+		// however when possible, use date objects, as this will speed up chart rendering.
+		var newDate = new Date(firstDate);
+		newDate.setDate(newDate.getDate() + i);
+
+		var visits = Math.round(Math.random() * 100 - 50);
+
+		chartData.push({
+			date: newDate,
+			visits: visits
+		});
+	}
+	return chartData;
+}
+
 
 $( document ).ready(function() {
-	
+
 	$(".GaugeMeter").gaugeMeter();
-	
+
 	function cb(start, end) {
 		$('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
 	}
@@ -26,67 +48,95 @@ $( document ).ready(function() {
 		},
 		autoUpdateInput: true,
 	}, cb);
-	
+
 	$('#periode').val($('#reportrange span').text());
-	
+
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 		$('#periode').val( picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
 	});
-	
+
 	//charts
 	var chartData = generatechartData();
 
-	function generatechartData() {
-	    var chartData = [];
-	    var firstDate = new Date();
-	    firstDate.setDate(firstDate.getDate() - 150);
-
-	    for (var i = 0; i < 30; i++) {
-	        // we create date objects here. In your data, you can have date strings
-	        // and then set format of your dates using chart.dataDateFormat property,
-	        // however when possible, use date objects, as this will speed up chart rendering.
-	        var newDate = new Date(firstDate);
-	        newDate.setDate(newDate.getDate() + i);
-
-	        var visits = Math.round(Math.random() * 100 - 50);
-
-	        chartData.push({
-	            date: newDate,
-	            visits: visits
-	        });
-	    }
-	    return chartData;
-	}
-
-
 	var chart = AmCharts.makeChart("chartdiv", {
-	    "theme": "light",
-	    "type": "serial",
-	    "marginRight": 80,
-	    "autoMarginOffset": 20,    
-	    "marginTop":20,
-	    "dataProvider": chartData,
-	    "valueAxes": [{
-	        "id": "v1",
-	        "axisAlpha": 0.1
-	    }],
-	    "graphs": [{
-	        "useNegativeColorIfDown": true,
-	        "balloonText": "[[category]]<br><b>value: [[value]]</b>",
-	        "bullet": "round",
-	        "bulletBorderAlpha": 1,
-	        "bulletBorderColor": "#FFFFFF",
-	        "hideBulletsCount": 50,
-	        "lineThickness": 2,
-	        "lineColor": "#fdd400",
-	        "negativeLineColor": "#67b7dc",
-	        "valueField": "visits"
-	    }],
-	    "categoryField": "date",
-	    "categoryAxis": {
-	        "parseDates": true,
-	        "axisAlpha": 0,
-	        "minHorizontalGap": 60
-	    },
+		"theme": "light",
+		"type": "serial",
+		"marginRight": 80,
+		"autoMarginOffset": 20,    
+		"marginTop":20,
+		"dataProvider": chartData,
+		"valueAxes": [{
+			"id": "v1",
+			"axisAlpha": 0.1
+		}],
+		"graphs": [{
+			"useNegativeColorIfDown": true,
+			"balloonText": "[[category]]<br><b>value: [[value]]</b>",
+			"bullet": "round",
+			"bulletBorderAlpha": 1,
+			"bulletBorderColor": "#FFFFFF",
+			"hideBulletsCount": 50,
+			"lineThickness": 2,
+			"lineColor": "#fdd400",
+			"negativeLineColor": "#67b7dc",
+			"valueField": "visits"
+		}],
+		"categoryField": "date",
+		"categoryAxis": {
+			"parseDates": true,
+			"axisAlpha": 0,
+			"minHorizontalGap": 60
+		},
+	});
+
+	$("#formShow").validate({
+		rules: {
+			datas: {
+				required: true,
+			},
+		},
+		errorClass : "invalid",
+		errorPlacement: function (error, element) {
+			$("#" + $(element).attr("id")).addClass('invalid');
+		},
+		highlight: function(element, errorClass) {
+			$(element).addClass(errorClass);                            
+		},
+		unhighlight: function(element, errorClass) {                  
+			$(element).removeClass(errorClass);   
+		},
+		focusInvalid: false
+	});
+
+	$("#formConfig").validate({
+		rules: {
+			min_temp: {
+				required: true,
+				number: true
+			},
+			max_temp: {
+				required: true,
+				number: true
+			},
+			min_humd: {
+				required: true,
+				number: true
+			},
+			max_humd: {
+				required: true,
+				number: true
+			},
+		},
+		errorClass : "invalid",
+		errorPlacement: function (error, element) {
+			$("#" + $(element).attr("id")).addClass('invalid');
+		},
+		highlight: function(element, errorClass) {
+			$(element).addClass(errorClass);                            
+		},
+		unhighlight: function(element, errorClass) {                  
+			$(element).removeClass(errorClass);   
+		},
+		focusInvalid: false
 	});
 });
