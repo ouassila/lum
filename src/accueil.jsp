@@ -267,14 +267,14 @@
 						<div class="row control-group">
 							<label class="col-md-2 control-label text-center">Email :</label>
 							<div class="col-lg-4">
-								<input type="email" class="form-control" name="email" id="email"
+								<input type="email" class="form-control" name="email[]" id="email"
 									placeholder="Email"
 									value="<%= multiprise.getContact().get(i).getMail() %>" />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
 							<div class="col-lg-2">
-								<input type="text" class="form-control" name="telephone"
+								<input type="text" class="form-control" name="telephone[]"
 									id="telephone" placeholder="Téléphone" value="<%= multiprise.getContact().get(i).getTelephone() %>"/>
 							</div>
 							<div class="col-xs-3 col-lg-2">
@@ -286,7 +286,7 @@
 						</div>
 					</div>
 					<% } %>
-
+					
 					<div class="col-lg-8 col-lg-offset-2 text-center">
 						<input type="submit" class="btn btn-lg btn-outline"
 							value="Enregistrer" />

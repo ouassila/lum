@@ -163,18 +163,20 @@ $( document ).ready(function() {
 	});
 	
 	//ajouter contact
-	$('.addContact').click(function(e){
-		e.preventDefault();
-		$('.details_contact:last').clone().insertAfter('.details_contact:last').find('input').val('');
-		$('.details_contact:last').find('.addContact').remove();
+	$('.addContact').click(function(){
+		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
+		$('.details_contact:visible').last().find('.addContact').remove();
 		return false;
 	});
 	
 	//suppr contact	
-	$('.rmContact').click(function(e){
-		e.preventDefault();
-		console.log('in');
-		$(this).parent().parent().parent().hide();
+	$('.rmContact').click(function(){
+		if($('.details_contact:visible').length > 1 ){
+			$(this).parent().parent().parent().hide();
+		}
+		else{
+			$('.details_contact:first').find('input').val('');
+		}
 		return false;
-	});
+	});	
 });
