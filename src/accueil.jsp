@@ -76,8 +76,8 @@
 					<li class="hidden"><a href="#page-top"></a></li>
 					<li class="page-scroll"><a href="#portfolio">Etat Actuel</a></li>
 					<li class="page-scroll"><a href="#about">Configuration</a></li>
-					<li class="page-scroll"><a href="#bilan">Bilan</a></li>
-					<li class="page-scroll"><a href="#contact">Historique</a></li>
+					<!--<li class="page-scroll"><a href="#bilan">Bilan</a></li>  -->
+					<li class="page-scroll"><a href="#historique">Historique</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -263,7 +263,7 @@
 					</div>
 
 					<% for(int i = 0; i < multiprise.getContact().size(); i++) { %>
-					<div class="col-lg-12">
+					<div class="col-lg-12 details_contact">
 						<div class="row control-group">
 							<label class="col-md-2 control-label text-center">Email :</label>
 							<div class="col-lg-4">
@@ -273,9 +273,15 @@
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
-							<div class="col-lg-4">
+							<div class="col-lg-2">
 								<input type="text" class="form-control" name="telephone"
 									id="telephone" placeholder="Téléphone" value="<%= multiprise.getContact().get(i).getTelephone() %>"/>
+							</div>
+							<div class="col-xs-3 col-lg-2">
+								<a class="btn btn-danger btn-sm rmContact" href="#"><i class="fa fa-trash-o" style="color:white"></i></a>
+								<% if( i == 0 ) { %>
+									<a class="btn btn-info btn-sm addContact" href="#"><i class="fa fa-plus-circle" style="color:white"></i></a>									
+								<% } %>
 							</div>
 						</div>
 					</div>
@@ -292,7 +298,7 @@
 	</section>
 
 	<!-- Bilan Section -->
-	<section id="bilan">
+	<section id="bilan" style="display:none">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -321,7 +327,7 @@
 	</section>
 
 	<!-- Historique Section -->
-	<section id="contact" class="success">
+	<section id="historique" class="success">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -364,7 +370,7 @@
 			</form>
 		</div>
 	</section>
-	<section id="graphique" style="">
+	<section id="graphique" style="display:none">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
