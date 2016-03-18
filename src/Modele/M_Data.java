@@ -137,7 +137,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				contact.add(new Contact (resultat.getString("mac"),resultat.getString("prenom"),resultat.getString("nom"),resultat.getString("mail"),resultat.getString("telephone")));
+				contact.add(new Contact (resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone")));
 			}			
 		}		
 		catch (SQLException e) {
@@ -250,9 +250,62 @@ public class M_Data {
 		
 	}
 	
-	public boolean UpdateMultiprise(Multiprise multiprise){
-		return false;
+	public boolean updatePrise(int id, boolean etat){
+		boolean test=false;
+		String requeteUpdate = "Update Prise set etat=? where id=?";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
+			requete.setBoolean(1,etat);
+			requete.setInt(2,id);		
+			requete.executeUpdate();
+			test=true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return test;
 		
+	}
+	
+	public boolean updateMultiprise(Multiprise multiprise){
+		boolean test=false;
+		String requeteUpdate = "Update Multiprise set min_temperature=? and max_temperature=? and min_humidite=? and max_humidite=? where mac=?";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
+			requete.setFloat(1,multiprise.getMin_temperature());
+			requete.setFloat(2,multiprise.getMax_temperature());
+			requete.setFloat(3,multiprise.getMin_humidite());
+			requete.setFloat(4,multiprise.getMax_humidite());
+			requete.setString(5, multiprise.getMac());
+			requete.executeUpdate();
+			test=true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return test;
+		
+	}
+	
+	public List<Environnement> getHistoriqueEnvironnement(String mac, String dateDeb, String dateFin){
+		List <Environnement> environnements= new ArrayList<Environnement>();
+		String requeteEnvironnement = "select * from Envrionnement where mac=? and date between ? and ? ";
+
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
+			requete.setString(1,mac);
+			requete.setString(2,dateDeb);
+			requete.setString(3,dateFin);
+			ResultSet resultat = requete.executeQuery();
+
+			while (resultat.next()) {
+				environnements.add(new Environnement(resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac")));
+			}			
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return environnements;
 	}
 
 }

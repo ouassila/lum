@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Modele.M_Data;
+import Modele.Multiprise;
 
 public class C_SaveDatas extends HttpServlet {
 
@@ -47,15 +48,21 @@ public class C_SaveDatas extends HttpServlet {
 		String operation = request.getParameter("operation");			
 		
 		if (operation.equals("save")){
-			String etat_1 = request.getParameter("etat_1");
-			String etat_2 = request.getParameter("etat_2");
-			String etat_3 = request.getParameter("etat_3");
-			String min_temp = request.getParameter("min_temp");
-			String max_temp = request.getParameter("max_temp");
-			String min_humd = request.getParameter("min_humd");
-			String max_humd = request.getParameter("max_humd");
-			
-			request.setAttribute("retour", "Envoi OK : " +etat_1+" "+etat_2+" "+etat_3+" "+min_temp+" "+max_temp+" "+min_humd+" "+max_humd);
+			String mac = request.getParameter("mac");
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
+			for (int i=0; i<multiprise.getPrises().size();i++){
+				boolean etat= Boolean.parseBoolean(request.getParameter("etat_"+i+1));
+				int id= Integer.parseInt(request.getParameter("id_"+i+1));
+				M_Data.getInstance().updatePrise(id, etat);
+			}
+			float min_temp = Float.parseFloat(request.getParameter("min_temp"));
+			float max_temp = Float.parseFloat(request.getParameter("max_temp"));
+			float max_humd = Float.parseFloat(request.getParameter("max_humd"));
+			float min_humd = Float.parseFloat(request.getParameter("min_humd"));
+			String[] telephone = request.getParameterValues("telephone");
+			String[] email = request.getParameterValues("email");
+			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
+			//request.setAttribute("retour", "Envoi OK : " +etat_1+" "+etat_2+" "+etat_3+" "+min_temp+" "+max_temp+" "+min_humd+" "+max_humd);
 			
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	

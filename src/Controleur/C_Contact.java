@@ -56,7 +56,7 @@ protected void doGet(HttpServletRequest request,
 		for (int i=0; i<contacts.size(); i++){
 			if(i!=0)
 				out.println();
-		out.print(contacts.get(i).getMac() + ";"+contacts.get(i).getNom() + ";"+contacts.get(i).getPreNom() + ";"+contacts.get(i).getMail());
+		out.print(contacts.get(i).getMac() + ";"+contacts.get(i).getMail());
 		}
 
 }
