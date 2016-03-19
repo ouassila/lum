@@ -15,46 +15,57 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Modele.Environnement;
 import Modele.M_Data;
+import Modele.Multiprise;
 
 public class C_ShowCharts extends HttpServlet {
 
-	
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		//System.out.println("oki");
+
 		String source ="";
 		URL oracle = new URL("http://172.16.15.94/req.php?lum1=off");
 		URLConnection yc = oracle.openConnection();
-		BufferedReader in = new BufferedReader(
-		new InputStreamReader(
-		yc.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 		String inputLine;
-		 
-		while ((inputLine = in.readLine()) != null)
-		source +=inputLine;
+
+		while ((inputLine = in.readLine()) != null){
+			source +=inputLine;
+		}
+
 		in.close();
 		System.out.println(source);
 		System.out.println("connexion");
-		System.out.println(M_Data.getInstance().test());
-		
+
 		//RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/Accueil.jsp");
 		//dispatcher.forward(request,response); 
 	}
-	
+
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		String operation = request.getParameter("operation");			
-		
+
 		if (operation.equals("show")){
+			
 			String datas = request.getParameter("datas");
 			String periode = request.getParameter("periode");
+			String mac = request.getParameter("mac");			
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(mac);
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
 			
-			request.setAttribute("retour", "Envoi OK  : "+ datas + " "+ periode);
+			if(datas == "temp" || datas == "humd"){
+			}
+			if( datas.contains("etat_")){
+				
+			}
 			
-			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
+			request.setAttribute("multiprise", multiprise);
+			request.setAttribute("environnement", environnement);
+			
+			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");			
 			dispatch.forward (request, response);	
 		}
-
-}
+	}
 }

@@ -38,7 +38,6 @@ protected void doGet(HttpServletRequest request,
 		in.close();
 		System.out.println(source);
 		System.out.println("connexion");
-		System.out.println(M_Data.getInstance().test());
 		
 		//RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/Accueil.jsp");
 		//dispatcher.forward(request,response); 

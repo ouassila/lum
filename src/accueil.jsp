@@ -335,10 +335,11 @@
 					<hr class="star-primary">
 				</div>
 			</div>
-			<form method="post" role="form" action="ShowCharts" id="formShow">
-
+			<!--<form method="post" role="form" action="ShowCharts" id="formShow">  -->
+			<form method="post" role="form" action="ShowCharts" id="formShow"> 
 				<input type="hidden" name="operation" value="show" />
-
+				<input type="hidden" name="mac" value="<%= multiprise.getMac() %>" />
+				
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
 						<div id="reportrange" class="pull-right"
@@ -355,11 +356,11 @@
 							<select class="form-control" name="datas" id="datas">
 								<option value="" selected disabled>Veuillez
 									séléctionner les données à afficher</option>
-								<option>Température</option>
-								<option>Humidité</option>
-								<option>Etat Prise 1</option>
-								<option>Etat Prise 2</option>
-								<option>Etat Prise 3</option>
+								<option value="temp">Température</option>
+								<option value="humd">Humidité</option>
+								<option value="etat_1">Etat Prise 1</option>
+								<option value="etat_2">Etat Prise 2</option>
+								<option value="etat_3">Etat Prise 3</option>
 							</select>
 						</div>
 					</div>

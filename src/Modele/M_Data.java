@@ -17,7 +17,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.79:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -33,26 +33,6 @@ public class M_Data {
 			Instance = new M_Data();
 		}
 		return Instance;
-	}
-
-	public float test() {
-		// TODO Auto-generated method stub
-		float test=0;
-		String requeteConnexion = "select * from Environnement where id=1";
-
-		try {
-			PreparedStatement requete = connection.prepareStatement(requeteConnexion);
-			//requete.setString(1,login);
-			ResultSet resultat = requete.executeQuery();
-
-			if (resultat.next()) {
-				test =resultat.getFloat("temperature");
-			}			
-		}		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		return test;		
 	}
 
 	public boolean insertMultiprise(String mac){

@@ -62,7 +62,7 @@ $( document ).ready(function() {
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 		$('#periode').val( picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
 	});
-	
+
 	//charts
 	var chartData = generatechartData();
 
@@ -115,9 +115,12 @@ $( document ).ready(function() {
 			$(element).removeClass(errorClass);   
 		},
 		focusInvalid: false,
-		
-		onsubmit: function(){
-			$("#graphique").fadeIn("slow");
+
+		submitHandler: function(){
+			$("#graphique").show();
+			$('html, body').stop().animate({
+				scrollTop: $("#graphique").offset().top
+			}, 1500, 'easeInOutExpo');
 		}
 	});
 
@@ -161,14 +164,14 @@ $( document ).ready(function() {
 		},
 		focusInvalid: false
 	});
-	
+
 	//ajouter contact
 	$('.addContact').click(function(){
 		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
 		$('.details_contact:visible').last().find('.addContact').remove();
 		return false;
 	});
-	
+
 	//suppr contact	
 	$('.rmContact').click(function(){
 		if($('.details_contact:visible').length > 1 ){
