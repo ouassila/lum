@@ -6,9 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class M_Data {
@@ -107,7 +112,7 @@ public class M_Data {
 		return test;
 	}
 
-	public List<Contact> getContact(String mac){
+	public List<Contact> getAllContact(String mac){
 		List<Contact> contact = new ArrayList<Contact>();
 		String requeteContact = "Select * from Contact where mac = ?";
 		try  {
@@ -125,12 +130,32 @@ public class M_Data {
 		}		
 		return contact;		
 	}
-	
+
+	public Contact getContactByEmail(String email, String mac){
+		Contact contact = null;
+		String requeteContact = "Select * from Contact where mail = ? and mac = ?";
+		try  {
+			PreparedStatement requete = connection.prepareStatement(requeteContact);
+			requete.setString(1,email);
+			requete.setString(2,mac);
+
+			ResultSet resultat = requete.executeQuery();
+
+			while (resultat.next()) {
+				contact = new Contact (resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone"));
+			}			
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return contact;		
+	}
+
 	public Environnement getLastEnvironnement(String mac){
-		
+
 		Environnement environnement = null;
 		String requeteEnvironnement = "Select * from Environnement where mac = ? and date = (SELECT Max(date) from Environnement)";
-		
+
 		try  {
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
 			requete.setString(1,mac);
@@ -160,7 +185,7 @@ public class M_Data {
 			if (resultat.next()) {
 				multiprise = new Multiprise (resultat.getString("mac"),resultat.getFloat("min_temperature"),resultat.getFloat("max_temperature"),resultat.getFloat("min_humidite"),resultat.getFloat("max_humidite"));
 				multiprise.setPrises(this.getPrisesOfMultiprise(mac));
-				multiprise.setContact(this.getContact(mac));
+				multiprise.setContact(this.getAllContact(mac));
 			}			
 		}		
 		catch (SQLException e) {
@@ -210,7 +235,7 @@ public class M_Data {
 		}
 		return etat;
 	}
-	
+
 	public boolean InsertEtat(Etat etat){
 		boolean test=false;
 		String requeteEtat = "Insert into Etat (allume,id_prise,date) values (?,?,?)";
@@ -219,7 +244,7 @@ public class M_Data {
 			requete.setBoolean(1,etat.getAllume());
 			requete.setInt(2,etat.getIdPrise());
 			requete.setTimestamp(3, new Timestamp(new Date().getTime()));
-			
+
 			requete.executeUpdate();
 			test=true;
 		}		
@@ -227,9 +252,27 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return test;
-		
+
 	}
-	
+
+	public boolean InsertContact(Contact contact){
+
+		String requeteEtat = "Insert into Contact (mail,mac,telephone) values (?,?,?)";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteEtat);
+			requete.setString(1,contact.getMail());
+			requete.setString(2,contact.getMac());
+			requete.setString(3, contact.getTelephone());			
+			requete.executeUpdate();
+
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;		
+	}
+
 	public boolean updatePrise(int id, boolean etat){
 		boolean test=false;
 		String requeteUpdate = "Update Prise set etat=? where id=?";
@@ -244,9 +287,26 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return test;
-		
+
 	}
-	
+
+	public boolean updateContact(int id, String mail, String telephone){
+		String requeteUpdate = "Update Contact set mail=? and telephone=? where id=?";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
+			requete.setString(1, mail);
+			requete.setString(2, telephone);
+			requete.setInt(3,id);		
+			requete.executeUpdate();
+
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;		
+	}
+
 	public boolean updateMultiprise(Multiprise multiprise){
 		boolean test=false;
 		String requeteUpdate = "Update Multiprise set min_temperature=? and max_temperature=? and min_humidite=? and max_humidite=? where mac=?";
@@ -264,28 +324,49 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return test;
-		
+
 	}
-	
-	public List<Environnement> getHistoriqueEnvironnement(String mac, String dateDeb, String dateFin){
-		List <Environnement> environnements= new ArrayList<Environnement>();
-		String requeteEnvironnement = "select * from Envrionnement where mac=? and date between ? and ? ";
+
+	public List<Map<String, String>> getHistoriqueEnvironnement(String mac, String value, String dateDeb, String dateFin){
+		//List <Environnement> environnements= new ArrayList<Environnement>();
+		String requeteEnvironnement = "select "+value+", date from Environnement where mac=? and date between ? and ? ";
+		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
 
 		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
+			Date dateD = format.parse(dateDeb);
+			Date dateF = format.parse(dateFin);
+			format.applyPattern("yyyy-MM-dd HH:mm:ss");
+
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
-			requete.setString(1,mac);
-			requete.setString(2,dateDeb);
-			requete.setString(3,dateFin);
+			requete.setString(1 , mac);			
+			requete.setString(2 , format.format(dateD));
+			requete.setString(3 , format.format(dateF));
+
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				environnements.add(new Environnement(resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac")));
+				Map<String, String> map = new HashMap<String, String>();
+				Date date = resultat.getDate("date");
+				SimpleDateFormat ft; 
+
+				if(dateDeb == dateFin){
+					ft = new SimpleDateFormat ("HH:mm:ss");
+				}
+				else{
+					ft = new SimpleDateFormat ("dd/MM/yyyy");
+				}
+
+				map.put("date", ft.format(date).toString());
+				map.put("value", Float.toString(resultat.getFloat(value)));
+
+				result.add(map);
+				//environnements.add(new Environnement(resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac")));
 			}			
 		}		
-		catch (SQLException e) {
-			e.printStackTrace();
+		catch (SQLException | ParseException e) {
+			e.printStackTrace();		
 		}
-		return environnements;
+		return result;
 	}
-
 }

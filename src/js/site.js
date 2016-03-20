@@ -1,25 +1,3 @@
-function generatechartData() {
-	var chartData = [];
-	var firstDate = new Date();
-	firstDate.setDate(firstDate.getDate() - 150);
-
-	for (var i = 0; i < 30; i++) {
-		// we create date objects here. In your data, you can have date strings
-		// and then set format of your dates using chart.dataDateFormat property,
-		// however when possible, use date objects, as this will speed up chart rendering.
-		var newDate = new Date(firstDate);
-		newDate.setDate(newDate.getDate() + i);
-
-		var visits = Math.round(Math.random() * 100 - 50);
-
-		chartData.push({
-			date: newDate,
-			visits: visits
-		});
-	}
-	return chartData;
-}
-
 $.validator.addMethod(
 		"regex",
 		function(value, element, regexp) {
@@ -31,10 +9,25 @@ $.validator.addMethod(
 
 $( document ).ready(function() {
 
+	//reload de la page toute les 1 min
+	/*setInterval(function(){
+		$.ajax({
+			url: "Home",
+			type: "GET",
+			data: "",
+			success: function() {
+				$('#current').load(document.URL + ' #current_container'); 
+			}
+		});
+	}, 30000);
+*/
+	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
 
+	//periode pour historique
 	function cb(start, end) {
-		$('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+		$('#periode').val(start.format('DD/MM/YYYY HH:mm:ss') + '-' + end.format('DD/MM/YYYY HH:mm:ss'));
+		$('#reportrange span').html('Du ' +start.format('DD MMMM YYYY à HH:mm') + ' au ' + end.format('DD MMMM YYYY à HH:mm'));
 	}
 	cb(moment().subtract(29, 'days'), moment());
 
@@ -51,52 +44,17 @@ $( document ).ready(function() {
 			moment : 'fr',
 			cancelLabel: 'Quitter',
 			applyLabel: 'Valider',
-			format: "DD/MM/YYYY",
+			format: "DD/MM/YYYY HH:mm:ss",
 			customRangeLabel: "Autre",
 		},
-		autoUpdateInput: true,
+		autoUpdateInput: false,
 	}, cb);
 
-	$('#periode').val($('#reportrange span').text());
-
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-		$('#periode').val( picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+		$('#periode').val( picker.startDate.format('DD/MM/YYYY HH:mm:ss') + '-' + picker.endDate.format('DD/MM/YYYY HH:mm:ss'));
 	});
 
-	//charts
-	var chartData = generatechartData();
-
-	var chart = AmCharts.makeChart("chartdiv", {
-		"theme": "light",
-		"type": "serial",
-		"marginRight": 80,
-		"autoMarginOffset": 20,    
-		"marginTop":20,
-		"dataProvider": chartData,
-		"valueAxes": [{
-			"id": "v1",
-			"axisAlpha": 0.1
-		}],
-		"graphs": [{
-			"useNegativeColorIfDown": true,
-			"balloonText": "[[category]]<br><b>value: [[value]]</b>",
-			"bullet": "round",
-			"bulletBorderAlpha": 1,
-			"bulletBorderColor": "#FFFFFF",
-			"hideBulletsCount": 50,
-			"lineThickness": 2,
-			"lineColor": "#fdd400",
-			"negativeLineColor": "#67b7dc",
-			"valueField": "visits"
-		}],
-		"categoryField": "date",
-		"categoryAxis": {
-			"parseDates": true,
-			"axisAlpha": 0,
-			"minHorizontalGap": 60
-		},
-	});
-
+	//formulaire historique
 	$("#formShow").validate({
 		rules: {
 			datas: {
@@ -115,12 +73,105 @@ $( document ).ready(function() {
 			$(element).removeClass(errorClass);   
 		},
 		focusInvalid: false,
+		submitHandler: function(form){
+			$.ajax({
+				url: "ShowCharts",
+				type: "POST",
+				data: $(form).serialize(),
+				success: function(html) {
+					$("#graphique").show();
 
-		submitHandler: function(){
-			$("#graphique").show();
-			$('html, body').stop().animate({
-				scrollTop: $("#graphique").offset().top
-			}, 1500, 'easeInOutExpo');
+					$('html, body').stop().animate({
+						scrollTop: $("#graphique").offset().top
+					}, 1500, 'easeInOutExpo');	
+
+					//charts
+					var chart = AmCharts.makeChart("chartdiv", {
+						"type": "serial",
+						"theme": "light",
+						"marginRight": 40,
+						"marginLeft": 40,
+						"autoMarginOffset": 20,
+						"dataDateFormat": "YYYY-MM-DD",
+						"valueAxes": [{
+							"id": "v1",
+							"axisAlpha": 0,
+							"position": "left",
+							"ignoreAxisWidth":true
+						}],
+						"balloon": {
+							"borderThickness": 1,
+							"shadowAlpha": 0
+						},
+						"graphs": [{
+							"id": "g1",
+							"balloon":{
+								"drop":true,
+								"adjustBorderColor":false,
+								"color":"#ffffff"
+							},
+							"bullet": "round",
+							"bulletBorderAlpha": 1,
+							"bulletColor": "#FFFFFF",
+							"bulletSize": 5,
+							"hideBulletsCount": 50,
+							"lineThickness": 2,
+							"title": "red line",
+							"useLineColorForBulletBorder": true,
+							"valueField": "value",
+							"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+						}],
+						"chartScrollbar": {
+							"graph": "g1",
+							"oppositeAxis":false,
+							"offset":30,
+							"scrollbarHeight": 80,
+							"backgroundAlpha": 0,
+							"selectedBackgroundAlpha": 0.1,
+							"selectedBackgroundColor": "#888888",
+							"graphFillAlpha": 0,
+							"graphLineAlpha": 0.5,
+							"selectedGraphFillAlpha": 0,
+							"selectedGraphLineAlpha": 1,
+							"autoGridCount":true,
+							"color":"#AAAAAA"
+						},
+						"chartCursor": {
+							"pan": true,
+							"valueLineEnabled": true,
+							"valueLineBalloonEnabled": true,
+							"cursorAlpha":1,
+							"cursorColor":"#258cbb",
+							"limitToGraph":"g1",
+							"valueLineAlpha":0.2
+						},
+						"valueScrollbar":{
+							"oppositeAxis":false,
+							"offset":50,
+							"scrollbarHeight":10
+						},
+						"categoryField": "date",
+						"categoryAxis": {
+							"parseDates": true,
+							"dashLength": 1,
+							"minorGridEnabled": true
+						},
+						"export": {
+							"enabled": true
+						},
+						"dataProvider": $.parseJSON($("#datas_charts").val()),
+					});
+					/*
+					chart.addListener("rendered", zoomChart);
+
+					zoomChart();
+
+					function zoomChart() {
+					    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+					}
+					 */
+				}
+			});		
 		}
 	});
 
@@ -165,14 +216,14 @@ $( document ).ready(function() {
 		focusInvalid: false
 	});
 
-	//ajouter contact
+//	ajouter contact
 	$('.addContact').click(function(){
 		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
 		$('.details_contact:visible').last().find('.addContact').remove();
 		return false;
 	});
 
-	//suppr contact	
+//	suppr contact	
 	$('.rmContact').click(function(){
 		if($('.details_contact:visible').length > 1 ){
 			$(this).parent().parent().parent().hide();

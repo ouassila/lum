@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Modele.Contact;
+import Modele.Environnement;
 import Modele.M_Data;
 import Modele.Multiprise;
 
@@ -49,20 +51,46 @@ public class C_SaveDatas extends HttpServlet {
 		if (operation.equals("save")){
 			String mac = request.getParameter("mac");
 			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
-			for (int i=0; i<multiprise.getPrises().size();i++){
-				boolean etat= Boolean.parseBoolean(request.getParameter("etat_"+i+1));
-				int id= Integer.parseInt(request.getParameter("id_"+i+1));
+			boolean result = false;
+			
+			for (int i = 1 ; i < multiprise.getPrises().size() +1 ; i++){				
+				boolean etat = Boolean.parseBoolean(request.getParameter("etat_"+i));
+				int id = Integer.parseInt(request.getParameter("id_"+i));
 				M_Data.getInstance().updatePrise(id, etat);
 			}
+			
 			float min_temp = Float.parseFloat(request.getParameter("min_temp"));
 			float max_temp = Float.parseFloat(request.getParameter("max_temp"));
 			float max_humd = Float.parseFloat(request.getParameter("max_humd"));
 			float min_humd = Float.parseFloat(request.getParameter("min_humd"));
 			String[] telephone = request.getParameterValues("telephone");
 			String[] email = request.getParameterValues("email");
-			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
-			//request.setAttribute("retour", "Envoi OK : " +etat_1+" "+etat_2+" "+etat_3+" "+min_temp+" "+max_temp+" "+min_humd+" "+max_humd);
 			
+			for(int i = 0 ; i < telephone.length ; i++){
+				 Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
+				 
+				 if(contact != null){
+					 result = M_Data.getInstance().updateContact(contact.getId(), contact.getMail(), contact.getTelephone());
+				 }
+				 else{
+					 contact.setTelephone(telephone[i]);
+					 contact.setMail(email[i]);
+					 contact.setMac(mac);
+					 result = M_Data.getInstance().InsertContact(contact);
+				 }
+			}
+			
+			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
+			
+			if(!result){
+				System.out.println("ERRROOOOR");
+			}
+			
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
+
+			request.setAttribute("multiprise", multiprise);
+			request.setAttribute("environnement", environnement);
+
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	
 		}

@@ -21,29 +21,28 @@ import Modele.Multiprise;
 
 public class C_InitLoad extends HttpServlet {
 
-	
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		//System.out.println("oki");
 		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
-		System.out.println(multiprise.getMac());
+		/*System.out.println(multiprise.getMac());
 		System.out.println(multiprise.getPrises().size());
 		System.out.println(multiprise.getPrises().get(1).getId());
 		System.out.println(multiprise.getPrises().get(1).getEtat());
-		
+		 */
 		Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
-		
+
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
 	}
-	
+
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
 
-}
+	}
 }

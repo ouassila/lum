@@ -3,11 +3,13 @@
 <%@ page import="Modele.Prise"%>
 <%@ page import="Modele.Environnement"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
 <%
 	String reponse = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	List<Prise> prises = multiprise.getPrises();
+	String resultat = (String) request.getAttribute("resultat");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,8 +19,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
 
 <title>LUM</title>
 
@@ -192,32 +192,18 @@
 						<%
 							for (int i = 0; i < prises.size(); i++) {
 						%>
-						
+
 						<div class="<%=prises.size() < 3 ? "col-lg-6" : "col-lg-4"%>">
-							<label>Prise <%=i +1 %> :
+							<label>Prise <%=i + 1%> :
 							</label> <input data-toggle="toggle" type="checkbox" data-onstyle="info"
-								name="etat_<%=i +1%>" data-offstyle="danger" <%= prises.get(i).isAllume() ? "checked" : "" %>> <input
-								type="hidden" name="id_<%=i +1%>"
+								name="etat_<%=i + 1%>" data-offstyle="danger"
+								<%=prises.get(i).isAllume() ? "checked" : ""%>> <input
+								type="hidden" name="id_<%=i + 1%>"
 								value="<%=prises.get(i).getId()%>" />
 						</div>
 						<%
 							}
 						%>
-						<!-- <div class="col-lg-4 ">
-							<label>Prise 1 : </label> <input data-toggle="toggle"
-								type="checkbox" data-onstyle="info" name="etat_1"
-								data-offstyle="danger">
-						</div>
-						<div class="col-lg-4">
-							<label>Prise 2 : </label> <input data-toggle="toggle"
-								type="checkbox" data-onstyle="info" name="etat_2"
-								data-offstyle="danger">
-						</div>
-						<div class="col-lg-4">
-							<label>Prise 3 : </label> <input data-toggle="toggle"
-								type="checkbox" data-onstyle="info" name="etat_3"
-								data-offstyle="danger">
-						</div> -->
 					</div>
 					<div class="row">
 						<div class="col-lg-12 text-center"
@@ -231,12 +217,12 @@
 							<div class="col-sm-2">
 								<input type="number" class="form-control" name="min_temp"
 									id="min_temp" placeholder="Min"
-									value="<%= multiprise.getMin_temperature() %>" />
+									value="<%=multiprise.getMin_temperature()%>" />
 							</div>
 							<div class="col-sm-2">
 								<input type="number" class="form-control" name="max_temp"
 									id="max_temp" placeholder="Max"
-									value="<%= multiprise.getMax_temperature() %>" />
+									value="<%=multiprise.getMax_temperature()%>" />
 							</div>
 						</div>
 					</div>
@@ -246,12 +232,12 @@
 							<div class="col-sm-2">
 								<input type="number" class="form-control" name="min_humd"
 									id="min_humd" placeholder="Min"
-									value="<%= multiprise.getMin_humidite() %>" />
+									value="<%=multiprise.getMin_humidite()%>" />
 							</div>
 							<div class="col-sm-2">
 								<input type="number" class="form-control" name="max_humd"
 									id="max_humd" placeholder="Max"
-									value="<%= multiprise.getMax_humidite() %>" />
+									value="<%=multiprise.getMax_humidite()%>" />
 							</div>
 						</div>
 					</div>
@@ -262,31 +248,42 @@
 						</div>
 					</div>
 
-					<% for(int i = 0; i < multiprise.getContact().size(); i++) { %>
+					<%
+						for (int i = 0; i < multiprise.getContact().size(); i++) {
+					%>
 					<div class="col-lg-12 details_contact">
 						<div class="row control-group">
 							<label class="col-md-2 control-label text-center">Email :</label>
 							<div class="col-lg-4">
-								<input type="email" class="form-control" name="email[]" id="email"
-									placeholder="Email"
-									value="<%= multiprise.getContact().get(i).getMail() %>" />
+								<input type="email" class="form-control" name="email[]"
+									id="email" placeholder="Email"
+									value="<%=multiprise.getContact().get(i).getMail()%>" />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
 							<div class="col-lg-2">
 								<input type="text" class="form-control" name="telephone[]"
-									id="telephone" placeholder="Téléphone" value="<%= multiprise.getContact().get(i).getTelephone() %>"/>
+									id="telephone" placeholder="Téléphone"
+									value="<%=multiprise.getContact().get(i).getTelephone()%>" />
 							</div>
 							<div class="col-xs-3 col-lg-2">
-								<a class="btn btn-danger btn-sm rmContact" href="#"><i class="fa fa-trash-o" style="color:white"></i></a>
-								<% if( i == 0 ) { %>
-									<a class="btn btn-info btn-sm addContact" href="#"><i class="fa fa-plus-circle" style="color:white"></i></a>									
-								<% } %>
+								<a class="btn btn-danger btn-sm rmContact" href="#"><i
+									class="fa fa-trash-o" style="color: white"></i></a>
+								<%
+									if (i == 0) {
+								%>
+								<a class="btn btn-info btn-sm addContact" href="#"><i
+									class="fa fa-plus-circle" style="color: white"></i></a>
+								<%
+									}
+								%>
 							</div>
 						</div>
 					</div>
-					<% } %>
-					
+					<%
+						}
+					%>
+
 					<div class="col-lg-8 col-lg-offset-2 text-center">
 						<input type="submit" class="btn btn-lg btn-outline"
 							value="Enregistrer" />
@@ -298,7 +295,7 @@
 	</section>
 
 	<!-- Bilan Section -->
-	<section id="bilan" style="display:none">
+	<section id="bilan" style="display: none">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -336,10 +333,10 @@
 				</div>
 			</div>
 			<!--<form method="post" role="form" action="ShowCharts" id="formShow">  -->
-			<form method="post" role="form" action="ShowCharts" id="formShow"> 
-				<input type="hidden" name="operation" value="show" />
-				<input type="hidden" name="mac" value="<%= multiprise.getMac() %>" />
-				
+			<form method="post" role="form" action="ShowCharts" id="formShow">
+				<input type="hidden" name="operation" value="show" /> <input
+					type="hidden" name="mac" value="<%=multiprise.getMac()%>" />
+
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
 						<div id="reportrange" class="pull-right"
@@ -347,8 +344,8 @@
 							<i class="fa fa-calendar"></i>&nbsp; <span></span> <b
 								class="caret"></b>
 						</div>
+						<input type="hidden" id="periode" name="periode" value="" />
 					</div>
-					<input type="hidden" id="periode" name="periode" value="" />
 				</div>
 				<div class="row">
 					<div class="col-lg-6 text-center col-lg-offset-3">
@@ -356,8 +353,8 @@
 							<select class="form-control" name="datas" id="datas">
 								<option value="" selected disabled>Veuillez
 									séléctionner les données à afficher</option>
-								<option value="temp">Température</option>
-								<option value="humd">Humidité</option>
+								<option value="temperature">Température</option>
+								<option value="humidite">Humidité</option>
 								<option value="etat_1">Etat Prise 1</option>
 								<option value="etat_2">Etat Prise 2</option>
 								<option value="etat_3">Etat Prise 3</option>
@@ -371,7 +368,7 @@
 			</form>
 		</div>
 	</section>
-	<section id="graphique" style="display:none">
+	<section id="graphique" style="display: none">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -380,6 +377,7 @@
 				</div>
 			</div>
 			<div class="row">
+				<input type="hidden" id="datas_charts" value="<%=resultat%>" />
 				<div class="col-lg-12 text-center">
 					<div id="chartdiv"></div>
 				</div>
@@ -392,7 +390,7 @@
 		<div class="footer-below">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-12">Copyright &copy; LUM 2016</div>
+					<div class="col-lg-12">Copyright &copy; LUM Energie 2016</div>
 				</div>
 			</div>
 		</div>
