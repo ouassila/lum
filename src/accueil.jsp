@@ -109,7 +109,7 @@
 
 	<!-- Portfolio Grid Section -->
 	<section id="portfolio">
-		<div class="container">
+		<div id="current_container" class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Etat Actuel</h2>
