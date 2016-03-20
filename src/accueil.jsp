@@ -10,6 +10,8 @@
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	List<Prise> prises = multiprise.getPrises();
 	String resultat = (String) request.getAttribute("resultat");
+	
+	System.out.println(resultat);
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -374,6 +376,7 @@
 				<div class="col-lg-12 text-center">
 					<h2>Graphiques</h2>
 					<hr class="star-primary">
+					<%=resultat%>
 				</div>
 			</div>
 			<div class="row">
