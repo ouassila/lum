@@ -13,13 +13,13 @@ $( document ).ready(function() {
 	/*setInterval(function(){
 		$.ajax({
 			url: "Home",
-			type: "GET",
+			type: "POST",
 			data: "",
 			success: function() {
-				$('#current').load(document.URL + ' #current_container'); 
+				//$('#portfolio').load(document.URL + ' #current_container'); 			
 			}
 		});
-	}, 30000);
+	}, 10000);
 */
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();

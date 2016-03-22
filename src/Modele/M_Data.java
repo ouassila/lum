@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -142,7 +142,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				contact = new Contact (resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone"));
+				contact = new Contact (resultat.getInt("id"),resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone"));
 			}			
 		}		
 		catch (SQLException e) {
@@ -291,7 +291,10 @@ public class M_Data {
 	}
 
 	public boolean updateContact(int id, String mail, String telephone){
-		String requeteUpdate = "Update Contact set mail=? and telephone=? where id=?";
+		System.out.println("insertion BDD : id " + id);
+		System.out.println("insertion BDD : mail " + mail);
+		System.out.println("insertion BDD : telephone " + telephone);
+		String requeteUpdate = "Update Contact set mail=? , telephone=? where id=?";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
 			requete.setString(1, mail);
@@ -309,7 +312,7 @@ public class M_Data {
 
 	public boolean updateMultiprise(Multiprise multiprise){
 		boolean test=false;
-		String requeteUpdate = "Update Multiprise set min_temperature=? and max_temperature=? and min_humidite=? and max_humidite=? where mac=?";
+		String requeteUpdate = "Update Multiprise set min_temperature=? , max_temperature=? , min_humidite=? , max_humidite=? where mac=?";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
 			requete.setFloat(1,multiprise.getMin_temperature());

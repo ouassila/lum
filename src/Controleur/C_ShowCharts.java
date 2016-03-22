@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Modele.Environnement;
+import Modele.Historique;
 import Modele.M_Data;
 import Modele.Multiprise;
 
@@ -47,7 +48,7 @@ public class C_ShowCharts extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		String operation = request.getParameter("operation");			
-
+		System.out.println(operation);
 		if (operation.equals("show")){
 			String datas = request.getParameter("datas");
 			String periode = request.getParameter("periode");
@@ -59,8 +60,9 @@ public class C_ShowCharts extends HttpServlet {
 			
 			if(datas.contains("temperature") || datas.contains("humidite")){	
 				resultat = M_Data.getInstance().getHistoriqueEnvironnement(mac, datas, dateDeb, dateFin);
+				System.out.println(resultat);
 			}
-			
+			System.out.println("test debut");
 			if( datas.contains("etat_")){
 
 			}
@@ -69,10 +71,12 @@ public class C_ShowCharts extends HttpServlet {
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
-
-
-			//System.out.println(resultat.toString());
-			request.setAttribute("resultat", resultat.toString());
+			System.out.println("test debutfin");
+			Historique historique = new Historique();
+			//historique.setResultat(resultat);
+			historique.setTest("pasizi");
+			System.out.println(" test "+historique.getResultat());
+			request.setAttribute("resultat", historique);
 			
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");			
 			dispatch.forward (request, response);	

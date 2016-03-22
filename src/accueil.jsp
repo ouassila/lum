@@ -2,6 +2,7 @@
 <%@ page import="Modele.Multiprise"%>
 <%@ page import="Modele.Prise"%>
 <%@ page import="Modele.Environnement"%>
+<%@ page import="Modele.Historique"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%
@@ -9,9 +10,13 @@
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	List<Prise> prises = multiprise.getPrises();
-	String resultat = (String) request.getAttribute("resultat");
-	
-	System.out.println(resultat);
+	Historique resultat = (Historique) request.getAttribute("resultat");
+	if (resultat==null){
+		System.out.println("histo null");
+		resultat=new Historique();
+		
+	}
+	System.out.println(resultat.getTest() +"ok");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -109,7 +114,7 @@
 
 	<!-- Portfolio Grid Section -->
 	<section id="portfolio">
-		<div class="container">
+		<div id="current_container" class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Etat Actuel</h2>
@@ -366,6 +371,7 @@
 				</div>
 				<div class="col-lg-8 col-lg-offset-2 text-center">
 					<input type="submit" class="btn btn-lg btn-outline" value="Valider" />
+					<input type="text"  value="<%=resultat.getTest()%>" />
 				</div>
 			</form>
 		</div>
@@ -376,11 +382,11 @@
 				<div class="col-lg-12 text-center">
 					<h2>Graphiques</h2>
 					<hr class="star-primary">
-					<%=resultat%>
+					<%=resultat.getTest()%>
 				</div>
 			</div>
 			<div class="row">
-				<input type="hidden" id="datas_charts" value="<%=resultat%>" />
+				<input type="hidden" id="datas_charts" value="<%=resultat.getTest()%>" />
 				<div class="col-lg-12 text-center">
 					<div id="chartdiv"></div>
 				</div>
