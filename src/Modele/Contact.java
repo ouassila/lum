@@ -12,6 +12,10 @@ public class Contact {
 		this.setMail(mail);
 		this.telephone = telephone;
 	}
+	public Contact(int id, String mac, String mail, String telephone){
+		this(mac,mail,telephone);
+		this.id=id;
+	}
 	
 	public String getTelephone() {
 		return telephone;

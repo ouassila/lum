@@ -27,7 +27,7 @@ public class C_SaveDatas extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 		//System.out.println("oki");
 		String source ="";
-		URL oracle = new URL("http://172.16.15.94/req.php?lum1=off");
+		URL oracle = new URL("http://172.16.15.12/req.php?lum1=off");
 		URLConnection yc = oracle.openConnection();
 		BufferedReader in = new BufferedReader(
 				new InputStreamReader(
@@ -63,14 +63,17 @@ public class C_SaveDatas extends HttpServlet {
 			float max_temp = Float.parseFloat(request.getParameter("max_temp"));
 			float max_humd = Float.parseFloat(request.getParameter("max_humd"));
 			float min_humd = Float.parseFloat(request.getParameter("min_humd"));
-			String[] telephone = request.getParameterValues("telephone");
-			String[] email = request.getParameterValues("email");
+
+			String[] telephone = request.getParameterValues("telephone[]");
+			String[] email = request.getParameterValues("email[]");
 			
 			for(int i = 0 ; i < telephone.length ; i++){
+				System.out.println(telephone[i]);
+				System.out.println(email[i]);
 				 Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
 				 
 				 if(contact != null){
-					 result = M_Data.getInstance().updateContact(contact.getId(), contact.getMail(), contact.getTelephone());
+					 result = M_Data.getInstance().updateContact(contact.getId(), email[i], telephone[i]);
 				 }
 				 else{
 					 contact.setTelephone(telephone[i]);
