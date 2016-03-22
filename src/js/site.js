@@ -81,9 +81,9 @@ $( document ).ready(function() {
 				type: "POST",
 				data: $(form).serialize(),
 				success: function(html) {
-					
+
 					$('#graphique').load(document.URL + ' #datas_charts');
-					
+
 					$("#graphique").show();
 
 					$('html, body').stop().animate({
@@ -218,7 +218,21 @@ $( document ).ready(function() {
 		unhighlight: function(element, errorClass) {                  
 			$(element).removeClass(errorClass);   
 		},
-		focusInvalid: false
+		focusInvalid: false,
+		submitHandler: function(form){
+			$.ajax({
+				url: "SaveDatas",
+				type: "POST",
+				data: $(form).serialize(),
+				success: function(html) {
+					location.reload();
+					
+					$('html, body').stop().animate({
+						scrollTop: $("#about").offset().top
+					}, 1500, 'easeInOutExpo');
+				}
+			});
+		}
 	});
 
 //	ajouter contact

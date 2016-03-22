@@ -191,7 +191,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<form method="post" role="form" action="SaveDatas" id="formConfig">
+				<form role="form" id="formConfig">
 					<input type="hidden" name="operation" value="save" />
 
 					<div class="col-lg-16 text-center">
