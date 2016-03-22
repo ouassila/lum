@@ -10,17 +10,19 @@ $.validator.addMethod(
 $( document ).ready(function() {
 
 	//reload de la page toute les 1 min
-	/*setInterval(function(){
+	setInterval(function(){
 		$.ajax({
 			url: "Home",
 			type: "POST",
 			data: "",
 			success: function() {
-				//$('#portfolio').load(document.URL + ' #current_container'); 			
+				$('#portfolio').load(document.URL + ' #current_container', function() {
+					$(".GaugeMeter").gaugeMeter();
+				});
 			}
 		});
 	}, 10000);
-*/
+
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
 
@@ -79,6 +81,9 @@ $( document ).ready(function() {
 				type: "POST",
 				data: $(form).serialize(),
 				success: function(html) {
+					
+					$('#graphique').load(document.URL + ' #datas_charts');
+					
 					$("#graphique").show();
 
 					$('html, body').stop().animate({
