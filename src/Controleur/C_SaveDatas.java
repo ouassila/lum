@@ -84,10 +84,6 @@ public class C_SaveDatas extends HttpServlet {
 			
 			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
 			
-			if(!result){
-				System.out.println("ERRROOOOR");
-			}
-			
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
 
 			request.setAttribute("multiprise", multiprise);
@@ -95,6 +91,9 @@ public class C_SaveDatas extends HttpServlet {
 
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	
+		}
+		if (operation.equals("remove")){
+			
 		}
 
 	}

@@ -247,6 +247,22 @@ $( document ).ready(function() {
 	$('.rmContact').click(function(){
 		if($('.details_contact:visible').length > 1 ){
 			$(this).parent().parent().parent().hide();
+			$.ajax({
+				url: "SaveDatas",
+				type: "POST",
+				data:{
+					"operation" : "remove",
+					"id" : $(this).attr("id"),
+				},
+				success: function(html) {
+					/*location.reload();
+
+					$('html, body').stop().animate({
+						scrollTop: $("#about").offset().top
+					}, 1500, 'easeInOutExpo');
+					*/
+				}
+			});
 		}
 		else{
 			$('.details_contact:first').find('input').val('');

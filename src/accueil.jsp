@@ -272,7 +272,7 @@
 									value="<%=multiprise.getContact().get(i).getTelephone()%>" />
 							</div>
 							<div class="col-xs-3 col-lg-2">
-								<a class="btn btn-danger btn-sm rmContact" href="#"><i
+								<a class="btn btn-danger btn-sm rmContact" id="<%= multiprise.getContact().get(i).getId()%>" href="#"><i
 									class="fa fa-trash-o" style="color: white"></i></a>
 								<%
 									if (i == 0) {
