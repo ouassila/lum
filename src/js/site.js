@@ -33,7 +33,7 @@ $( document ).ready(function() {
 		$('#periode').val(start.format('DD-MM-YYYY HH:mm:ss') + '#' + end.format('DD-MM-YYYY HH:mm:ss'));
 		$('#reportrange span').html('Du ' +start.format('DD MMMM YYYY à HH:mm') + ' au ' + end.format('DD MMMM YYYY à HH:mm'));
 	}
-	cb(moment().subtract(29, 'days'), moment());
+	cb(moment().hours(0).minutes(0).seconds(0), moment());
 
 	$('#reportrange').daterangepicker({
 		ranges: {
