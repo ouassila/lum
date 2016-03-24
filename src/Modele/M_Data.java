@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://192.168.1.128:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -350,10 +350,8 @@ public class M_Data {
 
 			while (resultat.next()) {
 				Map<String, String> map = new HashMap<String, String>();
-				Date date = resultat.getDate("date");
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
-				
-				map.put('"'+"date"+'"', '"'+ ft.format(date).toString()+'"');
+				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
 				map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
 
 				result.add(map);
