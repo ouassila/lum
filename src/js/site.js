@@ -8,7 +8,8 @@ $.validator.addMethod(
 );
 
 $( document ).ready(function() {
-
+	
+	/*
 	//reload de la page toute les 1 min
 	setInterval(function(){
 		$.ajax({
@@ -22,13 +23,14 @@ $( document ).ready(function() {
 			}
 		});
 	}, 10000);
+*/
 
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
 
 	//periode pour historique
 	function cb(start, end) {
-		$('#periode').val(start.format('DD/MM/YYYY HH:mm:ss') + '-' + end.format('DD/MM/YYYY HH:mm:ss'));
+		$('#periode').val(start.format('DD-MM-YYYY HH:mm:ss') + '#' + end.format('DD-MM-YYYY HH:mm:ss'));
 		$('#reportrange span').html('Du ' +start.format('DD MMMM YYYY à HH:mm') + ' au ' + end.format('DD MMMM YYYY à HH:mm'));
 	}
 	cb(moment().subtract(29, 'days'), moment());
@@ -46,14 +48,14 @@ $( document ).ready(function() {
 			moment : 'fr',
 			cancelLabel: 'Quitter',
 			applyLabel: 'Valider',
-			format: "DD/MM/YYYY HH:mm:ss",
+			format: "DD-MM-YYYY HH:mm:ss",
 			customRangeLabel: "Autre",
 		},
 		autoUpdateInput: false,
 	}, cb);
 
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-		$('#periode').val( picker.startDate.format('DD/MM/YYYY HH:mm:ss') + '-' + picker.endDate.format('DD/MM/YYYY HH:mm:ss'));
+		$('#periode').val( picker.startDate.format('DD-MM-YYYY HH:mm:ss') + '#' + picker.endDate.format('DD-MM-YYYY HH:mm:ss'));
 	});
 
 	//formulaire historique
@@ -80,16 +82,15 @@ $( document ).ready(function() {
 				url: "ShowCharts",
 				type: "POST",
 				data: $(form).serialize(),
-				success: function(html) {
+				success: function(html) {					
 
-					$('#graphique').load(document.URL + ' #datas_charts');
-
-					$("#graphique").show();
+					$("#graphique").show();					
+					//$('#graphique').load(document.URL + ' #graphique_container');					
 
 					$('html, body').stop().animate({
 						scrollTop: $("#graphique").offset().top
-					}, 1500, 'easeInOutExpo');	
-
+					}, 1500, 'easeInOutExpo');
+					
 					//charts
 					var chart = AmCharts.makeChart("chartdiv", {
 						"type": "serial",
@@ -97,7 +98,7 @@ $( document ).ready(function() {
 						"marginRight": 40,
 						"marginLeft": 40,
 						"autoMarginOffset": 20,
-						"dataDateFormat": "YYYY-MM-DD",
+						"dataDateFormat": "DD-MM-YYYY HH:mm:ss",
 						"valueAxes": [{
 							"id": "v1",
 							"axisAlpha": 0,
@@ -164,8 +165,9 @@ $( document ).ready(function() {
 						"export": {
 							"enabled": true
 						},
-						"dataProvider": $.parseJSON($("#datas_charts").val()),
+						"dataProvider": $.parseJSON($.cookie('datas')),
 					});
+
 					/*
 					chart.addListener("rendered", zoomChart);
 
@@ -175,6 +177,8 @@ $( document ).ready(function() {
 					    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
 					}
 					 */
+					
+					
 				}
 			});		
 		}
@@ -226,7 +230,7 @@ $( document ).ready(function() {
 				data: $(form).serialize(),
 				success: function(html) {
 					location.reload();
-					
+
 					$('html, body').stop().animate({
 						scrollTop: $("#about").offset().top
 					}, 1500, 'easeInOutExpo');
