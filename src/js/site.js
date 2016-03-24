@@ -143,19 +143,38 @@ $( document ).ready(function() {
 						"categoryAxis": {
 							"dashLength": 1,
 							"minorGridEnabled": true,
-							"labelFunction" : function(valueText, serialDataItem, categoryAxis) {								
-								for(i = 0; i < datas.length; i++){
-									if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
-										var tmp = valueText.split(" ")[0];
-										var tmp2 = tmp.split("-");
-										return tmp2[0] + '/'+ tmp2[1];
+							"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
+								if(valueText !=  null){
+									for(i = 0; i < datas.length; i++){
+										if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+											var tmp = valueText.split(" ")[0];
+											var tmp2 = tmp.split("-");
+											return tmp2[0] + '/'+ tmp2[1];
+										}
 									}
+									var tmp = valueText.split(" ")[1];
+									var tmp2 = tmp.split(":");
+									return tmp2[0]+':'+tmp2[1];
 								}
-								return valueText.split(" ")[1];
+								return "";
 							}
 						},
 						"dataProvider": datas,
-						
+						"responsive": {
+							"enabled": true,
+							"rules" : {
+								"maxWidth": 300,
+								"overrides": {
+									"precision": 2,
+									"legend": {
+										"enabled": false
+									},
+									"valueAxes": {
+										"inside": true
+									}
+								}
+							}
+						}
 					});	
 				}
 			});		

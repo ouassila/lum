@@ -406,6 +406,12 @@
 	<script type="text/javascript" src="Vue/js/moment.js"></script>
 
 
+	<!-- Charts -->
+	<script src="./Vue/js/amcharts.js"></script>
+	<script src="./Vue/js/serial.js"></script>
+	<script src="./Vue/js/light.js"></script>
+	<script src="Vue/js/chart.responsive.min.js"></script>
+	
 	<!-- Bootstrap Core JavaScript -->
 	<script type="text/javascript" src="Vue/js/bootstrap.min.js"></script>
 
@@ -419,6 +425,7 @@
 	<!-- humidite -->
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
 	<script src="./Vue/js/jquery.cookie.js"></script>
+
 	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
@@ -430,14 +437,8 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="./Vue/js/freelancer.js"></script>
 
-
 	<!-- humidite -->
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
-
-	<!-- Charts -->
-	<script src="./Vue/js/amcharts.js"></script>
-	<script src="./Vue/js/serial.js"></script>
-	<script src="./Vue/js/light.js"></script>
 
 </body>
 
