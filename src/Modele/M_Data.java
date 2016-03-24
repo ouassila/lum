@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.1.128:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -336,7 +336,7 @@ public class M_Data {
 		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
 
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
 			Date dateD = format.parse(dateDeb);
 			Date dateF = format.parse(dateFin);
 			format.applyPattern("yyyy-MM-dd HH:mm:ss");
@@ -357,7 +357,6 @@ public class M_Data {
 				map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
 
 				result.add(map);
-				//environnements.add(new Environnement(resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac")));
 			}			
 		}		
 		catch (SQLException | ParseException e) {
