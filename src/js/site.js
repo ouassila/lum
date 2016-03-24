@@ -156,20 +156,7 @@ $( document ).ready(function() {
 						},
 						"dataProvider": datas,
 						
-					});		
-
-					/*
-					console.log(datas);
-					var first_date = datas[0].date.split(" ")[0];
-
-					for(i = 0; i < datas.length; i++){
-						if(datas[i].date.split(" ")[0] != first_date ){
-							chart.dataDateFormat = "DD MM";
-						}
-					}
-					//chart.dataDateFormat = "JJ:NN:SS";
-					chart.dataDateFormat = "DD MM";
-					 */
+					});	
 				}
 			});		
 		}
