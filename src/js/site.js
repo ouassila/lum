@@ -8,7 +8,7 @@ $.validator.addMethod(
 );
 
 $( document ).ready(function() {
-	
+
 	/*
 	//reload de la page toute les 1 min
 	setInterval(function(){
@@ -23,7 +23,7 @@ $( document ).ready(function() {
 			}
 		});
 	}, 10000);
-*/
+	 */
 
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
@@ -33,7 +33,7 @@ $( document ).ready(function() {
 		$('#periode').val(start.format('DD-MM-YYYY HH:mm:ss') + '#' + end.format('DD-MM-YYYY HH:mm:ss'));
 		$('#reportrange span').html('Du ' +start.format('DD MMMM YYYY à HH:mm') + ' au ' + end.format('DD MMMM YYYY à HH:mm'));
 	}
-	cb(moment().hours(0).minutes(0).seconds(0), moment());
+	cb(moment().subtract(29, 'days'), moment());
 
 	$('#reportrange').daterangepicker({
 		ranges: {
@@ -90,9 +90,9 @@ $( document ).ready(function() {
 					$('html, body').stop().animate({
 						scrollTop: $("#graphique").offset().top
 					}, 1500, 'easeInOutExpo');
-					
+
 					var datas = $.parseJSON($.cookie('datas'));
-					
+
 					//charts
 					var chart = AmCharts.makeChart("chartdiv", {
 						"type": "serial",
@@ -100,7 +100,7 @@ $( document ).ready(function() {
 						"marginRight": 40,
 						"marginLeft": 40,
 						"autoMarginOffset": 20,
-						/*"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",*/
+						"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
 						"valueAxes": [{
 							"id": "v1",
 							"axisAlpha": 0,
@@ -141,21 +141,35 @@ $( document ).ready(function() {
 						},
 						"categoryField": "date",
 						"categoryAxis": {
-							"parseDates": true,
 							"dashLength": 1,
-							"minorGridEnabled": true
+							"minorGridEnabled": true,
+							"labelFunction" : function(valueText, serialDataItem, categoryAxis) {								
+								for(i = 0; i < datas.length; i++){
+									if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+										var tmp = valueText.split(" ")[0];
+										var tmp2 = tmp.split("-");
+										return tmp2[0] + '/'+ tmp2[1];
+									}
+								}
+								return valueText.split(" ")[1];
+							}
 						},
 						"dataProvider": datas,
+						
 					});		
-					var first_date = datas[0].date;
-					console.log(first_date);
-					
+
+					/*
+					console.log(datas);
+					var first_date = datas[0].date.split(" ")[0];
+
 					for(i = 0; i < datas.length; i++){
-						if(datas[i].date != first_date ){
+						if(datas[i].date.split(" ")[0] != first_date ){
 							chart.dataDateFormat = "DD MM";
 						}
 					}
-					chart.dataDateFormat = "JJ:NN:SS";
+					//chart.dataDateFormat = "JJ:NN:SS";
+					chart.dataDateFormat = "DD MM";
+					 */
 				}
 			});		
 		}
