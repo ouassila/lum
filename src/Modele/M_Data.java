@@ -351,17 +351,10 @@ public class M_Data {
 			while (resultat.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 				Date date = resultat.getDate("date");
-				SimpleDateFormat ft; 
-
-				if(dateDeb == dateFin){
-					ft = new SimpleDateFormat ("HH:mm:ss");
-				}
-				else{
-					ft = new SimpleDateFormat ("dd/MM/yyyy");
-				}
-
-				map.put("date", ft.format(date).toString());
-				map.put("value", Float.toString(resultat.getFloat(value)));
+				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+				
+				map.put('"'+"date"+'"', '"'+ ft.format(date).toString()+'"');
+				map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
 
 				result.add(map);
 				//environnements.add(new Environnement(resultat.getInt("id"),resultat.getFloat("temperature"),resultat.getFloat("humidite"),resultat.getDate("date"),resultat.getString("mac")));
@@ -371,5 +364,23 @@ public class M_Data {
 			e.printStackTrace();		
 		}
 		return result;
+	}
+	
+	public boolean deleteContact(Contact contact){
+		String requeteDelete="Delete From Contact where mail= ? And telephone ? and mac = ?";
+		boolean test=false;
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteDelete);
+			requete.setString(1,contact.getMail());
+			requete.setString(2,contact.getTelephone());
+			requete.setString(3,contact.getMac());
+			requete.executeUpdate();
+			test=true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return test;
+		
 	}
 }

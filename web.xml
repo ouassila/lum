@@ -31,7 +31,7 @@
 	</servlet-mapping>		
 	
 	
-		<servlet> 
+	<servlet> 
 		<servlet-name>S4</servlet-name>
 		<servlet-class>Controleur.C_DatasPrise</servlet-class> <!-- Nom du controleur --> 
 	</servlet>	
@@ -41,7 +41,7 @@
 		<url-pattern>/DatasPrise</url-pattern>
 	</servlet-mapping>
 	
-		<servlet> 
+	<servlet> 
 		<servlet-name>S5</servlet-name>
 		<servlet-class>Controleur.C_Contact</servlet-class> <!-- Nom du controleur --> 
 	</servlet>	
@@ -49,5 +49,15 @@
 	<servlet-mapping>
 		<servlet-name>S5</servlet-name>
 		<url-pattern>/Contact</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet> 
+		<servlet-name>S6</servlet-name>
+		<servlet-class>Controleur.C_DeleteContact</servlet-class> <!-- Nom du controleur --> 
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>S6</servlet-name>
+		<url-pattern>/DeleteContact</url-pattern>
 	</servlet-mapping>		
 </web-app>

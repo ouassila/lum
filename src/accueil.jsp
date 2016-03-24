@@ -10,13 +10,11 @@
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	List<Prise> prises = multiprise.getPrises();
-	Historique resultat = (Historique) request.getAttribute("resultat");
-	if (resultat==null){
+
+	String resultat = (String) request.getAttribute("resultat");
+	if (resultat == null) {
 		System.out.println("histo null");
-		resultat=new Historique();
-		
 	}
-	System.out.println(resultat.getTest() +"ok");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -371,22 +369,20 @@
 				</div>
 				<div class="col-lg-8 col-lg-offset-2 text-center">
 					<input type="submit" class="btn btn-lg btn-outline" value="Valider" />
-					<input type="text"  value="<%=resultat.getTest()%>" />
 				</div>
 			</form>
 		</div>
 	</section>
 	<section id="graphique" style="display: none">
-		<div class="container">
+		<div id="graphique_container" class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Graphiques</h2>
 					<hr class="star-primary">
-					<%=resultat.getTest()%>
 				</div>
 			</div>
 			<div class="row">
-				<input type="hidden" id="datas_charts" value="<%=resultat.getTest()%>" />
+				<input type="hidden" id="datas_charts" value="" />
 				<div class="col-lg-12 text-center">
 					<div id="chartdiv"></div>
 				</div>
@@ -409,6 +405,7 @@
 	<script type="text/javascript" src="Vue/js/jquery.js"></script>
 	<script type="text/javascript" src="Vue/js/moment.js"></script>
 
+
 	<!-- Bootstrap Core JavaScript -->
 	<script type="text/javascript" src="Vue/js/bootstrap.min.js"></script>
 
@@ -421,7 +418,7 @@
 	<script src="Vue/js/jquery.validate.min.js"></script>
 	<!-- humidite -->
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
-	
+	<script src="./Vue/js/jquery.cookie.js"></script>
 	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
@@ -433,7 +430,7 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="./Vue/js/freelancer.js"></script>
 
-	
+
 	<!-- humidite -->
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
 

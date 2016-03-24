@@ -66,19 +66,18 @@ public class C_SaveDatas extends HttpServlet {
 
 			String[] telephone = request.getParameterValues("telephone[]");
 			String[] email = request.getParameterValues("email[]");
-			
 			for(int i = 0 ; i < telephone.length ; i++){
 				System.out.println(telephone[i]);
 				System.out.println(email[i]);
 				 Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
 				 
 				 if(contact != null){
+					 System.out.println("contact non nul");
 					 result = M_Data.getInstance().updateContact(contact.getId(), email[i], telephone[i]);
 				 }
 				 else{
-					 contact.setTelephone(telephone[i]);
-					 contact.setMail(email[i]);
-					 contact.setMac(mac);
+					 System.out.println("contact nul");
+					 contact = new Contact(mac,email[i],telephone[i]);
 					 result = M_Data.getInstance().InsertContact(contact);
 				 }
 			}

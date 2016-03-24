@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,21 +49,20 @@ public class C_ShowCharts extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		String operation = request.getParameter("operation");			
-		System.out.println(operation);
+		
 		if (operation.equals("show")){
 			String datas = request.getParameter("datas");
 			String periode = request.getParameter("periode");
 			String mac = request.getParameter("mac");			
 
-			String dateDeb = periode.split("-")[0];
-			String dateFin = periode.split("-")[1];
+			String dateDeb = periode.split("#")[0];
+			String dateFin = periode.split("#")[1];
 			List<Map<String, String>> resultat = new ArrayList<Map<String, String>>();
 			
 			if(datas.contains("temperature") || datas.contains("humidite")){	
 				resultat = M_Data.getInstance().getHistoriqueEnvironnement(mac, datas, dateDeb, dateFin);
-				System.out.println(resultat);
 			}
-			System.out.println("test debut");
+			
 			if( datas.contains("etat_")){
 
 			}
@@ -71,15 +71,15 @@ public class C_ShowCharts extends HttpServlet {
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
-			System.out.println("test debutfin");
-			Historique historique = new Historique();
-			//historique.setResultat(resultat);
-			historique.setTest("pasizi");
-			System.out.println(" test "+historique.getResultat());
-			request.setAttribute("resultat", historique);
+		
+			Cookie myCookie = new Cookie("datas", (resultat.toString()).replace("=", ":"));
+			response.addCookie(myCookie);
 			
+			//request.setAttribute("resultat", resultat.toString());
+			//request.setAttribute("resultat", resultat.toString());
+
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");			
-			dispatch.forward (request, response);	
+			dispatch.forward (request, response);
 		}
 	}
 }
