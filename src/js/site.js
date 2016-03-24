@@ -91,6 +91,8 @@ $( document ).ready(function() {
 						scrollTop: $("#graphique").offset().top
 					}, 1500, 'easeInOutExpo');
 					
+					var datas = $.parseJSON($.cookie('datas'));
+					
 					//charts
 					var chart = AmCharts.makeChart("chartdiv", {
 						"type": "serial",
@@ -98,7 +100,7 @@ $( document ).ready(function() {
 						"marginRight": 40,
 						"marginLeft": 40,
 						"autoMarginOffset": 20,
-						"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
+						/*"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",*/
 						"valueAxes": [{
 							"id": "v1",
 							"axisAlpha": 0,
@@ -143,23 +145,17 @@ $( document ).ready(function() {
 							"dashLength": 1,
 							"minorGridEnabled": true
 						},
-						"export": {
-							"enabled": true
-						},
-						"dataProvider": $.parseJSON($.cookie('datas')),
-					});
-
-					/*
-					chart.addListener("rendered", zoomChart);
-
-					zoomChart();
-
-					function zoomChart() {
-					    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+						"dataProvider": datas,
+					});		
+					var first_date = datas[0].date;
+					console.log(first_date);
+					
+					for(i = 0; i < datas.length; i++){
+						if(datas[i].date != first_date ){
+							chart.dataDateFormat = "DD MM";
+						}
 					}
-					 */
-					
-					
+					chart.dataDateFormat = "JJ:NN:SS";
 				}
 			});		
 		}
