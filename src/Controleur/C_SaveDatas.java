@@ -93,8 +93,22 @@ public class C_SaveDatas extends HttpServlet {
 			dispatch.forward (request, response);	
 		}
 		if (operation.equals("remove")){
+			String id = request.getParameter("id");
+			
+			boolean result = M_Data.getInstance().deleteContact(id);
+			
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
+
+			request.setAttribute("multiprise", multiprise);
+			request.setAttribute("environnement", environnement);
+			
+			System.out.println(result);
+			//request.setAttribute("retour", result);
+
+			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
+			dispatch.forward (request, response);	
 			
 		}
-
 	}
 }

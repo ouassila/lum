@@ -122,7 +122,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				contact.add(new Contact (resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone")));
+				contact.add(new Contact (resultat.getInt("id"), resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone")));
 			}			
 		}		
 		catch (SQLException e) {
@@ -331,7 +331,6 @@ public class M_Data {
 	}
 
 	public List<Map<String, String>> getHistoriqueEnvironnement(String mac, String value, String dateDeb, String dateFin){
-		//List <Environnement> environnements= new ArrayList<Environnement>();
 		String requeteEnvironnement = "select "+value+", date from Environnement where mac=? and date between ? and ? Order By date";
 		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
 
@@ -341,6 +340,7 @@ public class M_Data {
 			Date dateF = format.parse(dateFin);
 			long MILISECOND_PER_DAY = 24 * 60 * 60 * 1000; 
 			format.applyPattern("yyyy-MM-dd HH:mm:ss");
+			
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
 			requete.setString(1 , mac);			
 			requete.setString(2 , format.format(dateD));
@@ -348,15 +348,15 @@ public class M_Data {
 
 			ResultSet resultat = requete.executeQuery();
 			if (MILISECOND_PER_DAY>dateF.getTime()-dateD.getTime()){ // ajd ou hier
-			while (resultat.next()) {
-				Map<String, String> map = new HashMap<String, String>();
-				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
-				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
-				map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
+				while (resultat.next()) {
+					Map<String, String> map = new HashMap<String, String>();
+					SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+					map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
+					map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
 
-				result.add(map);
-			}			
-		}
+					result.add(map);
+				}			
+			}
 			else {// avant hier
 				List<Date> dates = new ArrayList<Date>();
 				List<Double> values = new ArrayList<Double>();
@@ -367,10 +367,10 @@ public class M_Data {
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 				for (int i=0; i<dates.size();i++){
 					Map<String, String> map = new HashMap<String, String>();
-					int nb=1;
+					int nb = 1;
+					
 					for (int j=i+1; j<dates.size();j++){
-						System.out.println("date : " + dates.get(j));
-						System.out.println("temperature : " + values.get(j));
+						
 						if(dates.get(i).equals(dates.get(j))){
 							values.set(i, values.get(i)+values.get(j));
 							dates.remove(j);
@@ -379,8 +379,8 @@ public class M_Data {
 							nb++;
 						}
 					}
-					if (nb<1){
-						nb=1;
+					if (nb < 1){
+						nb = 1;
 					}
 					map.put('"'+"date"+'"', '"'+ ft.format(dates.get(i))+'"');
 					map.put('"'+"value"+'"', '"'+(String.valueOf((values.get(i)/nb))+'"'));
@@ -388,14 +388,14 @@ public class M_Data {
 				}
 			}
 		}
-		
+
 		catch (SQLException | ParseException e) {
 			System.out.println(e);
 			e.printStackTrace();		
 		}
 		return result;
 	}
-	
+	/*
 	public boolean deleteContact(Contact contact){
 		String requeteDelete="Delete From Contact where mail= ? And telephone ? and mac = ?";
 		boolean test=false;
@@ -411,6 +411,54 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return test;
-		
+
+	}
+	 */
+	public boolean deleteContact(String id) {
+		String requeteDelete="Delete From Contact where id = ? ";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteDelete);
+			requete.setString(1, id);
+			requete.executeUpdate();
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;
+	}
+
+	public List<Map<String, String>> getHistoriqueEtat(String id_prise, String dateDeb, String dateFin) {
+		String requeteEnvironnement = "select allume, date from Etat where id_prise=? and date between ? and ? ";
+		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
+
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
+			Date dateD = format.parse(dateDeb);
+			Date dateF = format.parse(dateFin);
+			format.applyPattern("yyyy-MM-dd HH:mm:ss");
+
+			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
+			requete.setString(1 , id_prise);			
+			requete.setString(2 , format.format(dateD));
+			requete.setString(3 , format.format(dateF));
+
+			ResultSet resultat = requete.executeQuery();
+
+			while (resultat.next()) {
+				Map<String, String> map = new HashMap<String, String>();
+				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
+
+				String allume = (resultat.getBoolean("allume")) ? "1" : "0";
+				map.put('"'+"value"+'"', '"'+allume+'"');
+
+				result.add(map);
+			}			
+		}		
+		catch (SQLException | ParseException e) {
+			e.printStackTrace();		
+		}
+		return result;
 	}
 }

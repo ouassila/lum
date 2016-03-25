@@ -8,17 +8,13 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import Modele.Environnement;
-import Modele.Historique;
 import Modele.M_Data;
 import Modele.Multiprise;
 
@@ -39,11 +35,6 @@ public class C_ShowCharts extends HttpServlet {
 		}
 
 		in.close();
-		//System.out.println(source);
-		//System.out.println("connexion");
-
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/Accueil.jsp");
-		//dispatcher.forward(request,response); 
 	}
 
 	protected void doPost(HttpServletRequest request,
@@ -64,7 +55,9 @@ public class C_ShowCharts extends HttpServlet {
 			}
 			
 			if( datas.contains("etat_")){
-
+				String id_prise = datas.substring(datas.length() - 1); 
+				
+				resultat = M_Data.getInstance().getHistoriqueEtat(id_prise, dateDeb, dateFin);
 			}
 			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(mac);
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
@@ -75,9 +68,6 @@ public class C_ShowCharts extends HttpServlet {
 			Cookie myCookie = new Cookie("datas", (resultat.toString()).replace("=", ":"));
 			response.addCookie(myCookie);
 			
-			//request.setAttribute("resultat", resultat.toString());
-			//request.setAttribute("resultat", resultat.toString());
-
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");			
 			dispatch.forward (request, response);
 		}
