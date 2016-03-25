@@ -137,7 +137,7 @@ $( document ).ready(function() {
 							"cursorAlpha":1,
 							"cursorColor":"#258cbb",
 							"limitToGraph":"g1",
-							"valueLineAlpha":0.2
+							"valueLineAlpha":1
 						},
 						"categoryField": "date",
 						"categoryAxis": {
@@ -165,7 +165,7 @@ $( document ).ready(function() {
 							"rules" : {
 								"maxWidth": 300,
 								"overrides": {
-									"precision": 2,
+									"precision": 0,
 									"legend": {
 										"enabled": false
 									},
