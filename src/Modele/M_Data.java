@@ -340,6 +340,7 @@ public class M_Data {
 			Date dateF = format.parse(dateFin);
 			long MILISECOND_PER_DAY = 24 * 60 * 60 * 1000; 
 			format.applyPattern("yyyy-MM-dd HH:mm:ss");
+			
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
 			requete.setString(1 , mac);			
 			requete.setString(2 , format.format(dateD));
@@ -366,10 +367,10 @@ public class M_Data {
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 				for (int i=0; i<dates.size();i++){
 					Map<String, String> map = new HashMap<String, String>();
-					int nb=1;
+					int nb = 1;
+					
 					for (int j=i+1; j<dates.size();j++){
-						System.out.println("date : " + dates.get(j));
-						System.out.println("temperature : " + values.get(j));
+						
 						if(dates.get(i).equals(dates.get(j))){
 							values.set(i, values.get(i)+values.get(j));
 							dates.remove(j);
@@ -378,8 +379,8 @@ public class M_Data {
 							nb++;
 						}
 					}
-					if (nb<1){
-						nb=1;
+					if (nb < 1){
+						nb = 1;
 					}
 					map.put('"'+"date"+'"', '"'+ ft.format(dates.get(i))+'"');
 					map.put('"'+"value"+'"', '"'+(String.valueOf((values.get(i)/nb))+'"'));
