@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.97:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -331,33 +331,65 @@ public class M_Data {
 	}
 
 	public List<Map<String, String>> getHistoriqueEnvironnement(String mac, String value, String dateDeb, String dateFin){
-		//List <Environnement> environnements= new ArrayList<Environnement>();
-		String requeteEnvironnement = "select "+value+", date from Environnement where mac=? and date between ? and ? ";
+		String requeteEnvironnement = "select "+value+", date from Environnement where mac=? and date between ? and ? Order By date";
 		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
 
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
 			Date dateD = format.parse(dateDeb);
 			Date dateF = format.parse(dateFin);
+			long MILISECOND_PER_DAY = 24 * 60 * 60 * 1000; 
 			format.applyPattern("yyyy-MM-dd HH:mm:ss");
-
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
 			requete.setString(1 , mac);			
 			requete.setString(2 , format.format(dateD));
 			requete.setString(3 , format.format(dateF));
 
 			ResultSet resultat = requete.executeQuery();
+			if (MILISECOND_PER_DAY>dateF.getTime()-dateD.getTime()){ // ajd ou hier
+				while (resultat.next()) {
+					Map<String, String> map = new HashMap<String, String>();
+					SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+					map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
+					map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
 
-			while (resultat.next()) {
-				Map<String, String> map = new HashMap<String, String>();
+					result.add(map);
+				}			
+			}
+			else {// avant hier
+				List<Date> dates = new ArrayList<Date>();
+				List<Double> values = new ArrayList<Double>();
+				while (resultat.next()) {
+					dates.add(resultat.getDate("date"));
+					values.add((double) resultat.getFloat(value));
+				}
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
-				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
-				map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
+				for (int i=0; i<dates.size();i++){
+					Map<String, String> map = new HashMap<String, String>();
+					int nb=1;
+					for (int j=i+1; j<dates.size();j++){
+						System.out.println("date : " + dates.get(j));
+						System.out.println("temperature : " + values.get(j));
+						if(dates.get(i).equals(dates.get(j))){
+							values.set(i, values.get(i)+values.get(j));
+							dates.remove(j);
+							values.remove(j);
+							j--;
+							nb++;
+						}
+					}
+					if (nb<1){
+						nb=1;
+					}
+					map.put('"'+"date"+'"', '"'+ ft.format(dates.get(i))+'"');
+					map.put('"'+"value"+'"', '"'+(String.valueOf((values.get(i)/nb))+'"'));
+					result.add(map);
+				}
+			}
+		}
 
-				result.add(map);
-			}			
-		}		
 		catch (SQLException | ParseException e) {
+			System.out.println(e);
 			e.printStackTrace();		
 		}
 		return result;
@@ -378,9 +410,9 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return test;
-		
+
 	}
-*/
+	 */
 	public boolean deleteContact(String id) {
 		String requeteDelete="Delete From Contact where id = ? ";
 		try {
@@ -416,7 +448,7 @@ public class M_Data {
 				Map<String, String> map = new HashMap<String, String>();
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
-				
+
 				String allume = (resultat.getBoolean("allume")) ? "1" : "0";
 				map.put('"'+"value"+'"', '"'+allume+'"');
 
