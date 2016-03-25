@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://192.168.1.128:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.97:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -122,7 +122,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
-				contact.add(new Contact (resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone")));
+				contact.add(new Contact (resultat.getInt("id"), resultat.getString("mac"),resultat.getString("mail"),resultat.getString("telephone")));
 			}			
 		}		
 		catch (SQLException e) {
@@ -362,7 +362,7 @@ public class M_Data {
 		}
 		return result;
 	}
-	
+	/*
 	public boolean deleteContact(Contact contact){
 		String requeteDelete="Delete From Contact where mail= ? And telephone ? and mac = ?";
 		boolean test=false;
@@ -379,5 +379,53 @@ public class M_Data {
 		}	
 		return test;
 		
+	}
+*/
+	public boolean deleteContact(String id) {
+		String requeteDelete="Delete From Contact where id = ? ";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteDelete);
+			requete.setString(1, id);
+			requete.executeUpdate();
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;
+	}
+
+	public List<Map<String, String>> getHistoriqueEtat(String id_prise, String dateDeb, String dateFin) {
+		String requeteEnvironnement = "select allume, date from Etat where id_prise=? and date between ? and ? ";
+		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
+
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
+			Date dateD = format.parse(dateDeb);
+			Date dateF = format.parse(dateFin);
+			format.applyPattern("yyyy-MM-dd HH:mm:ss");
+
+			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
+			requete.setString(1 , id_prise);			
+			requete.setString(2 , format.format(dateD));
+			requete.setString(3 , format.format(dateF));
+
+			ResultSet resultat = requete.executeQuery();
+
+			while (resultat.next()) {
+				Map<String, String> map = new HashMap<String, String>();
+				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
+				
+				String allume = (resultat.getBoolean("allume")) ? "1" : "0";
+				map.put('"'+"value"+'"', '"'+allume+'"');
+
+				result.add(map);
+			}			
+		}		
+		catch (SQLException | ParseException e) {
+			e.printStackTrace();		
+		}
+		return result;
 	}
 }

@@ -2,19 +2,15 @@
 <%@ page import="Modele.Multiprise"%>
 <%@ page import="Modele.Prise"%>
 <%@ page import="Modele.Environnement"%>
-<%@ page import="Modele.Historique"%>
+<%@ page import="Modele.Contact"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%
 	String reponse = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
-	List<Prise> prises = multiprise.getPrises();
-
 	String resultat = (String) request.getAttribute("resultat");
-	if (resultat == null) {
-		System.out.println("histo null");
-	}
+	List<Prise> prises = multiprise.getPrises();
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -272,7 +268,8 @@
 									value="<%=multiprise.getContact().get(i).getTelephone()%>" />
 							</div>
 							<div class="col-xs-3 col-lg-2">
-								<a class="btn btn-danger btn-sm rmContact" id="<%= multiprise.getContact().get(i).getId()%>" href="#"><i
+								<a class="btn btn-danger btn-sm rmContact"
+									id="<%=multiprise.getContact().get(i).getId()%>" href="#"><i
 									class="fa fa-trash-o" style="color: white"></i></a>
 								<%
 									if (i == 0) {
@@ -360,9 +357,14 @@
 									séléctionner les données à afficher</option>
 								<option value="temperature">Température</option>
 								<option value="humidite">Humidité</option>
-								<option value="etat_1">Etat Prise 1</option>
-								<option value="etat_2">Etat Prise 2</option>
-								<option value="etat_3">Etat Prise 3</option>
+								<%
+									for (int i = 0; i < multiprise.getPrises().size(); i++) {
+								%>
+								<option
+									value="etat_<%=multiprise.getPrises().get(i).getId()%>">Etat Prise <%=i + 1%></option>
+								<%
+									}
+								%>
 							</select>
 						</div>
 					</div>
@@ -411,7 +413,7 @@
 	<script src="./Vue/js/serial.js"></script>
 	<script src="./Vue/js/light.js"></script>
 	<script src="Vue/js/chart.responsive.min.js"></script>
-	
+
 	<!-- Bootstrap Core JavaScript -->
 	<script type="text/javascript" src="Vue/js/bootstrap.min.js"></script>
 

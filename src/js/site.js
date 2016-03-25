@@ -33,7 +33,7 @@ $( document ).ready(function() {
 		$('#periode').val(start.format('DD-MM-YYYY HH:mm:ss') + '#' + end.format('DD-MM-YYYY HH:mm:ss'));
 		$('#reportrange span').html('Du ' +start.format('DD MMMM YYYY à HH:mm') + ' au ' + end.format('DD MMMM YYYY à HH:mm'));
 	}
-	cb(moment().subtract(29, 'days'), moment());
+	cb(moment().hours(0).minutes(0).seconds(0), moment());
 
 	$('#reportrange').daterangepicker({
 		ranges: {
@@ -82,7 +82,7 @@ $( document ).ready(function() {
 				url: "ShowCharts",
 				type: "POST",
 				data: $(form).serialize(),
-				success: function(html) {					
+				success: function(data) {					
 
 					$("#graphique").show();					
 					//$('#graphique').load(document.URL + ' #graphique_container');					
@@ -93,89 +93,137 @@ $( document ).ready(function() {
 
 					var datas = $.parseJSON($.cookie('datas'));
 
-					//charts
-					var chart = AmCharts.makeChart("chartdiv", {
-						"type": "serial",
-						"theme": "light",
-						"marginRight": 40,
-						"marginLeft": 40,
-						"autoMarginOffset": 20,
-						"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
-						"valueAxes": [{
-							"id": "v1",
-							"axisAlpha": 0,
-							"position": "left",
-							"ignoreAxisWidth":true
-						}],
-						"balloon": {
-							"borderThickness": 1,
-							"shadowAlpha": 0
-						},
-						"graphs": [{
-							"id": "g1",
-							"balloon":{
-								"drop":true,
-								"adjustBorderColor":false,
-								"color":"#ffffff"
+					if($('#datas').val() == "temperature" || $('#datas').val() == "humidite"){
+
+						//charts
+						var chart = AmCharts.makeChart("chartdiv", {
+							"type": "serial",
+							"theme": "light",
+							"marginRight": 40,
+							"marginLeft": 40,
+							"autoMarginOffset": 20,
+							"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
+							"valueAxes": [{
+								"id": "v1",
+								"axisAlpha": 0,
+								"position": "left",
+								"ignoreAxisWidth":true
+							}],
+							"balloon": {
+								"borderThickness": 1,
+								"shadowAlpha": 0
 							},
-							"useNegativeColorIfDown": true,
-							"bullet": "round",
-							"bulletBorderAlpha": 1,
-							"bulletColor": "#FFFFFF",
-							"bulletSize": 5,
-							"hideBulletsCount": 50,
-							"lineThickness": 2,
-							"title": "red line",
-							"useLineColorForBulletBorder": true,
-							"valueField": "value",
-							"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-						}],
-						"chartCursor": {
-							"pan": true,
-							"valueLineEnabled": true,
-							"valueLineBalloonEnabled": true,
-							"cursorAlpha":1,
-							"cursorColor":"#258cbb",
-							"limitToGraph":"g1",
-							"valueLineAlpha":0.2
-						},
-						"categoryField": "date",
-						"categoryAxis": {
-							"dashLength": 1,
-							"minorGridEnabled": true,
-							"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
-								if(valueText !=  null){
-									for(i = 0; i < datas.length; i++){
-										if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
-											var tmp = valueText.split(" ")[0];
-											var tmp2 = tmp.split("-");
-											return tmp2[0] + '/'+ tmp2[1];
+							"graphs": [{
+								"id": "g1",
+								"balloon":{
+									"drop":true,
+									"adjustBorderColor":false,
+									"color":"#ffffff"
+								},
+								"useNegativeColorIfDown": true,
+								"bullet": "round",
+								"bulletBorderAlpha": 1,
+								"bulletColor": "#FFFFFF",
+								"bulletSize": 5,
+								"hideBulletsCount": 50,
+								"lineThickness": 2,
+								"title": "red line",
+								"useLineColorForBulletBorder": true,
+								"valueField": "value",
+								"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+							}],
+							"chartCursor": {
+								"pan": true,
+								"valueLineEnabled": true,
+								"valueLineBalloonEnabled": true,
+								"cursorAlpha":1,
+								"cursorColor":"#258cbb",
+								"limitToGraph":"g1",
+								"valueLineAlpha":0.2
+							},
+							"categoryField": "date",
+							"categoryAxis": {
+								"dashLength": 1,
+								"minorGridEnabled": true,
+								"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
+									if(valueText !=  null){
+										for(i = 0; i < datas.length; i++){
+											if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+												var tmp = valueText.split(" ")[0];
+												var tmp2 = tmp.split("-");
+												return tmp2[0] + '/'+ tmp2[1];
+											}
+										}
+										var tmp = valueText.split(" ")[1];
+										var tmp2 = tmp.split(":");
+										return tmp2[0]+':'+tmp2[1];
+									}
+									return "";
+								}
+							},
+							"dataProvider": datas,
+							"responsive": {
+								"enabled": true,
+								"rules" : {
+									"maxWidth": 300,
+									"overrides": {
+										"precision": 2,
+										"legend": {
+											"enabled": false
+										},
+										"valueAxes": {
+											"inside": true
 										}
 									}
-									var tmp = valueText.split(" ")[1];
-									var tmp2 = tmp.split(":");
-									return tmp2[0]+':'+tmp2[1];
 								}
-								return "";
 							}
-						},
-						"dataProvider": datas,
-						"responsive": {
-							"enabled": true,
-							"rules" : {
-								"maxWidth": 300,
-								"overrides": {
-									"precision": 2,
-									"legend": {
-										"enabled": false
-									},
-									"valueAxes": {
-										"inside": true
+						});	
+					}
+					else{
+						var chart = AmCharts.makeChart("chartdiv", {
+						    "type": "serial",
+						    "theme": "light",
+						    "autoMarginOffset":25,
+						    "dataProvider": datas,
+						    "graphs": [{
+						        "id":"g1",
+						        "balloonText": "[[category]]<br><b>[[value]]</b>",
+						        "type": "step",
+						        "bullet":"square",
+						        "bulletAlpha":0,
+						        "bulletSize":4,
+						        "bulletBorderAlpha":0,
+						        "valueField": "value"
+						    }],
+						    "chartCursor": {
+						        "fullWidth":true,
+						        "categoryBalloonDateFormat": "YYYY",
+						        "cursorAlpha": 0.05,
+						        "graphBulletAlpha":1
+						    },
+						    "dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
+						    "categoryField": "date",
+						    "categoryAxis": {
+								"dashLength": 1,
+								"minorGridEnabled": true,
+								"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
+									if(valueText !=  null){
+										for(i = 0; i < datas.length; i++){
+											if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+												var tmp = valueText.split(" ")[0];
+												var tmp2 = tmp.split("-");
+												return tmp2[0] + '/'+ tmp2[1];
+											}
+										}
+										var tmp = valueText.split(" ")[1];
+										var tmp2 = tmp.split(":");
+										return tmp2[0]+':'+tmp2[1];
 									}
+									return "";
 								}
-							}
-						}
-					});	
+							},
+						});
+					}
 				}
 			});		
 		}
@@ -246,27 +294,21 @@ $( document ).ready(function() {
 //	suppr contact	
 	$('.rmContact').click(function(){
 		if($('.details_contact:visible').length > 1 ){
-			$(this).parent().parent().parent().hide();
-			$.ajax({
-				url: "SaveDatas",
-				type: "POST",
-				data:{
-					"operation" : "remove",
-					"id" : $(this).attr("id"),
-				},
-				success: function(html) {
-					/*location.reload();
-
-					$('html, body').stop().animate({
-						scrollTop: $("#about").offset().top
-					}, 1500, 'easeInOutExpo');
-					*/
-				}
-			});
+			$(this).parent().parent().parent().hide();			
 		}
 		else{
 			$('.details_contact:first').find('input').val('');
 		}
+		$.ajax({
+			url: "SaveDatas",
+			type: "POST",
+			data:{
+				"operation" : "remove",
+				"id" : $(this).attr("id"),
+			},
+			success: function(html) {
+			}
+		});
 		return false;
 	});	
 });
