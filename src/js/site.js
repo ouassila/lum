@@ -8,8 +8,7 @@ $.validator.addMethod(
 );
 
 $( document ).ready(function() {
-
-	/*
+	
 	//reload de la page toute les 1 min
 	setInterval(function(){
 		$.ajax({
@@ -23,7 +22,7 @@ $( document ).ready(function() {
 			}
 		});
 	}, 10000);
-	 */
+	 
 
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
@@ -85,8 +84,6 @@ $( document ).ready(function() {
 				success: function(data) {					
 
 					$("#graphique").show();					
-					//$('#graphique').load(document.URL + ' #graphique_container');					
-
 					$('html, body').stop().animate({
 						scrollTop: $("#graphique").offset().top
 					}, 1500, 'easeInOutExpo');
@@ -242,7 +239,8 @@ $( document ).ready(function() {
 			});		
 		}
 	});
-
+	
+	//envoi des données pour save config
 	$("#formConfig").validate({
 		rules: {
 			min_temp: {
