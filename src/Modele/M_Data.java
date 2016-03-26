@@ -22,7 +22,7 @@ public class M_Data {
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
