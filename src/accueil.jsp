@@ -5,12 +5,15 @@
 <%@ page import="Modele.Contact"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
 <%
 	String reponse = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	String resultat = (String) request.getAttribute("resultat");
 	List<Prise> prises = multiprise.getPrises();
+	Map<Integer, HashMap<String, Integer>> suivi = (Map<Integer, HashMap<String, Integer>>) request
+			.getAttribute("suivi");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -77,7 +80,7 @@
 					<li class="hidden"><a href="#page-top"></a></li>
 					<li class="page-scroll"><a href="#portfolio">Etat Actuel</a></li>
 					<li class="page-scroll"><a href="#about">Configuration</a></li>
-					<!--<li class="page-scroll"><a href="#bilan">Bilan</a></li>  -->
+					<li class="page-scroll"><a href="#bilan">Suivi</a></li>
 					<li class="page-scroll"><a href="#historique">Historique</a></li>
 				</ul>
 			</div>
@@ -135,18 +138,6 @@
 					<%
 						}
 					%>
-					<!-- <div class="col-sm-4 portfolio-item text-center col-lg-offset-2">
-						<label>Prise 1</label> <i id="etat_1"
-							class="fa fa-power-off fa-3x"></i>
-					</div>
-					<div class="col-sm-4 portfolio-item text-center">
-						<label>Prise 2</label> <i id="etat_2"
-							class="fa fa-power-off fa-3x"></i>
-					</div>
-					<div class="col-sm-4 portfolio-item text-center">
-						<label>Prise 3</label> <i id="etat_3"
-							class="fa fa-power-off fa-3x"></i>
-					</div> -->
 				</div>
 				<div class="row">
 					<div class="col-lg-12 text-center" style="margin-top: 30px;">
@@ -297,20 +288,35 @@
 	</section>
 
 	<!-- Bilan Section -->
-	<section id="bilan" style="display: none">
+	<section id="bilan">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2>Bilan du mois*</h2>
+					<h2>Suivi Conso</h2>
 					<hr class="star-primary">
 				</div>
 			</div>
+
+			<%
+				for (int k = 0; k < prises.size(); k++) {
+			%>
 			<div class="row">
-				<div class="col-lg-12 text-center">
-					<span>Pour la période du 01/12/2015 au 01/01/2016, votre
-						bénéfice est de : </span>
-					<h3>10 €</h3>
+				<div class="col-lg-6 text-center">
+					<h4>Prise <%=k + 1%></h4>
+					<%
+						for (int j = 0; j < suivi.get(prises.get(k).getId()).size(); j++) {
+					%>
+					<p>
+						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
+						minutes
+					</p>
+					<%
+						}
+					%>
 				</div>
+				<%
+					}
+				%>
 			</div>
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 text-center">
@@ -360,8 +366,9 @@
 								<%
 									for (int i = 0; i < multiprise.getPrises().size(); i++) {
 								%>
-								<option
-									value="etat_<%=multiprise.getPrises().get(i).getId()%>">Etat Prise <%=i + 1%></option>
+								<option value="etat_<%=multiprise.getPrises().get(i).getId()%>">Etat
+									Prise
+									<%=i + 1%></option>
 								<%
 									}
 								%>

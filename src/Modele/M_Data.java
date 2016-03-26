@@ -10,11 +10,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class M_Data {
 	private Connection connection;	
@@ -340,7 +342,7 @@ public class M_Data {
 			Date dateF = format.parse(dateFin);
 			long MILISECOND_PER_DAY = 24 * 60 * 60 * 1000; 
 			format.applyPattern("yyyy-MM-dd HH:mm:ss");
-			
+
 			PreparedStatement requete = connection.prepareStatement(requeteEnvironnement);
 			requete.setString(1 , mac);			
 			requete.setString(2 , format.format(dateD));
@@ -368,9 +370,9 @@ public class M_Data {
 				for (int i=0; i<dates.size();i++){
 					Map<String, String> map = new HashMap<String, String>();
 					int nb = 1;
-					
+
 					for (int j=i+1; j<dates.size();j++){
-						
+
 						if(dates.get(i).equals(dates.get(j))){
 							values.set(i, values.get(i)+values.get(j));
 							dates.remove(j);
@@ -395,25 +397,7 @@ public class M_Data {
 		}
 		return result;
 	}
-	/*
-	public boolean deleteContact(Contact contact){
-		String requeteDelete="Delete From Contact where mail= ? And telephone ? and mac = ?";
-		boolean test=false;
-		try {
-			PreparedStatement requete = connection.prepareStatement(requeteDelete);
-			requete.setString(1,contact.getMail());
-			requete.setString(2,contact.getTelephone());
-			requete.setString(3,contact.getMac());
-			requete.executeUpdate();
-			test=true;
-		}		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}	
-		return test;
 
-	}
-	 */
 	public boolean deleteContact(String id) {
 		String requeteDelete="Delete From Contact where id = ? ";
 		try {
@@ -460,5 +444,64 @@ public class M_Data {
 			e.printStackTrace();		
 		}
 		return result;
+	}
+
+	@SuppressWarnings("deprecation")
+	public Map<Integer, HashMap<String, Integer>> getConsoPrise(String mac) {
+		// TODO Auto-generated method stub
+		Map<Integer, HashMap<String, Integer>> resultat = new HashMap<Integer, HashMap<String, Integer>>();		
+		String requetePrises = "Select * from Prise where mac = ?";
+
+		try {
+			PreparedStatement requete = connection.prepareStatement(requetePrises);
+			requete.setString(1, mac);
+			ResultSet prises = requete.executeQuery();
+
+			while (prises.next()) {
+
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date now = new Date();
+
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.MONTH, -1);
+				Date last_mounth = cal.getTime();
+
+				requetePrises = "Select * from Etat where id_prise = ? and date between ? and ? order by date ASC";
+				requete = connection.prepareStatement(requetePrises);
+				requete.setInt(1, prises.getInt("id"));
+				requete.setString(2, dateFormat.format(last_mounth));
+				requete.setString(3, dateFormat.format(now));
+
+				ResultSet details = requete.executeQuery();
+				Date first = null;
+				boolean allume = false;
+				long minutes = 0;
+
+				while (details.next()) {
+					HashMap<String, Integer> list = new HashMap<String, Integer>();		
+
+					if(first == null){
+						first = details.getTimestamp("date");
+						allume = details.getBoolean("allume");
+					}
+
+					if(allume == true){
+						minutes += (details.getTimestamp("date").getTime() - first.getTime())/60000;							
+					}						
+					else{
+						allume = details.getBoolean("allume");
+					}
+
+					list.put("conso", Math.round(minutes));
+					resultat.put(prises.getInt("id"), list);
+				}
+			}
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+
+		System.out.println(resultat);
+		return resultat;
 	}
 }
