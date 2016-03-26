@@ -326,7 +326,7 @@
 	</section>
 
 	<!-- Historique Section -->
-	<section id="historique" class="success">
+	<section id="historique" class="success2">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -370,7 +370,7 @@
 					</div>
 				</div>
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<input type="submit" class="btn btn-lg btn-outline" value="Valider" />
+					<input type="submit" class="btn btn-lg btn-success" value="Valider" />
 				</div>
 			</form>
 		</div>

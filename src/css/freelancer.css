@@ -184,6 +184,18 @@ section.success {
     color : black;
     background: #18bc9c;
 }
+
+section.success2 {
+    /*color: #fff;*/
+    color : black;
+    background: #95f4c5;
+}
+
+section.success2 h2 {
+	color: #2c3e50;
+    background: #95f4c5;
+}
+
 section.success h2{
     color: #fff;
     background: #18bc9c;
@@ -193,7 +205,12 @@ section.success a,
 section.success a:hover,
 section.success a:focus,
 section.success a:active,
-section.success a.active {
+section.success a.active,
+section.success2 a,
+section.success2 a:hover,
+section.success2 a:focus,
+section.success2 a:active,
+section.success2 a.active {
     outline: 0;
     color: #2c3e50;
 }

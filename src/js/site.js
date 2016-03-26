@@ -124,7 +124,6 @@ $( document ).ready(function() {
 								"bulletSize": 5,
 								"hideBulletsCount": 50,
 								"lineThickness": 2,
-								"title": "red line",
 								"useLineColorForBulletBorder": true,
 								"valueField": "value",
 								"balloonText": "<span style='font-size:18px;'>[[value]]</span>"

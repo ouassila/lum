@@ -352,7 +352,7 @@ public class M_Data {
 					Map<String, String> map = new HashMap<String, String>();
 					SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 					map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
-					map.put('"'+"value"+'"', '"'+Float.toString(resultat.getFloat(value))+'"');
+					map.put('"'+"value"+'"', '"'+Integer.toString(Math.round(resultat.getFloat(value)))+'"');
 
 					result.add(map);
 				}			
@@ -383,7 +383,7 @@ public class M_Data {
 						nb = 1;
 					}
 					map.put('"'+"date"+'"', '"'+ ft.format(dates.get(i))+'"');
-					map.put('"'+"value"+'"', '"'+(String.valueOf((values.get(i)/nb))+'"'));
+					map.put('"'+"value"+'"', '"'+(String.valueOf(Math.round((values.get(i)/nb)))+'"'));
 					result.add(map);
 				}
 			}
