@@ -8,7 +8,7 @@ $.validator.addMethod(
 );
 
 $( document ).ready(function() {
-	
+
 	//reload de la page toute les 1 min
 	setInterval(function(){
 		$.ajax({
@@ -21,8 +21,8 @@ $( document ).ready(function() {
 				});
 			}
 		});
-	}, 10000);
-	 
+	}, 50000);
+
 
 	//gaude de temp et humidite
 	$(".GaugeMeter").gaugeMeter();
@@ -238,7 +238,7 @@ $( document ).ready(function() {
 			});		
 		}
 	});
-	
+
 	//envoi des données pour save config
 	$("#formConfig").validate({
 		rules: {
@@ -299,10 +299,49 @@ $( document ).ready(function() {
 	$('.addContact').click(function(){
 		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
 		$('.details_contact:visible').last().find('.addContact').remove();
+		var index = $('.details_contact:visible').last().find('input[id*=email]').attr("id").split("_")[1];
+
+		$('.details_contact:visible').last().find('input[id*=email]').attr("id", "email_"+ index+1);
+		$('.details_contact:visible').last().find('input[id*=telephone]').attr("id", "telephone_"+ index+1);
 		return false;
 	});
 
 //	suppr contact	
+	$(".confirm").confirm({
+	    text: "Valider la suppression ?",
+	    title: "Confirmation",
+	    confirm: function(button) {
+	    	console.log($(button).attr('id'));
+	    	remove($(button).attr('id'));
+	    },
+	    cancel: function() {
+	    },
+	    confirmButton: "Oui",
+	    cancelButton: "Non",
+	    post: true,
+	    confirmButtonClass: "btn-success",
+	    cancelButtonClass: "btn-danger",
+	    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+	});
+	
+	function remove(elem){		
+		$.ajax({
+			url: "SaveDatas",
+			type: "POST",
+			data:{
+				"operation" : "remove",
+				"id" : elem,
+			},
+			success: function(html) {
+				location.reload();
+
+				$('html, body').stop().animate({
+					scrollTop: $("#about").offset().top
+				}, 1500, 'easeInOutExpo');
+			}
+		});
+	}
+/*
 	$('.rmContact').click(function(){
 		if($('.details_contact:visible').length > 1 ){
 			$(this).parent().parent().parent().hide();			
@@ -322,4 +361,5 @@ $( document ).ready(function() {
 		});
 		return false;
 	});	
+	*/
 });

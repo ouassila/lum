@@ -254,18 +254,18 @@
 							<label class="col-md-2 control-label text-center">Email :</label>
 							<div class="col-lg-4">
 								<input type="email" class="form-control" name="email[]"
-									id="email" placeholder="Email"
+									id="email_<%=multiprise.getContact().get(i).getId() %>" placeholder="Email"
 									value="<%=multiprise.getContact().get(i).getMail()%>" />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
 							<div class="col-lg-2">
 								<input type="text" class="form-control" name="telephone[]"
-									id="telephone" placeholder="Téléphone"
+									id="telephone_<%=multiprise.getContact().get(i).getId()%>" placeholder="Téléphone"
 									value="<%=multiprise.getContact().get(i).getTelephone()%>" />
 							</div>
 							<div class="col-xs-3 col-lg-2">
-								<a class="btn btn-danger btn-sm rmContact"
+								<a class="btn btn-danger btn-sm rmContact confirm"
 									id="<%=multiprise.getContact().get(i).getId()%>" href="#"><i
 									class="fa fa-trash-o" style="color: white"></i></a>
 								<%
@@ -316,7 +316,7 @@
 						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
 						minutes
 					</p>
-					<p>Soit <strong><%= Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.05) %> €</strong> consommés**
+					<p>Soit <strong><%= (Math.round(suivi.get(prises.get(k).getId()).get("conso")) * 0.05) %> €</strong> consommés**
 					
 					<%
 						}
@@ -438,7 +438,8 @@
 	<!-- humidite -->
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
 	<script src="./Vue/js/jquery.cookie.js"></script>
-
+	<script src="./Vue/js/jquery.confirm.min.js"></script>
+	
 	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
