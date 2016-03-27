@@ -98,7 +98,6 @@ public class M_Data {
 				requete.setString(2,temperature);
 				requete.setString(3,humidite);
 				requete.setString(4,date);
-				System.out.println(requeteInsert);
 
 				synchronized(this){
 					requete.executeUpdate();
@@ -464,12 +463,12 @@ public class M_Data {
 
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.MONTH, -1);
-				Date last_mounth = cal.getTime();
+				Date last_month = cal.getTime();
 
 				requetePrises = "Select * from Etat where id_prise = ? and date between ? and ? order by date ASC";
 				requete = connection.prepareStatement(requetePrises);
 				requete.setInt(1, prises.getInt("id"));
-				requete.setString(2, dateFormat.format(last_mounth));
+				requete.setString(2, dateFormat.format(last_month));
 				requete.setString(3, dateFormat.format(now));
 
 				ResultSet details = requete.executeQuery();
@@ -500,8 +499,6 @@ public class M_Data {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}	
-
-		System.out.println(resultat);
 		return resultat;
 	}
 }

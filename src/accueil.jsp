@@ -2,18 +2,24 @@
 <%@ page import="Modele.Multiprise"%>
 <%@ page import="Modele.Prise"%>
 <%@ page import="Modele.Environnement"%>
-<%@ page import="Modele.Contact"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.Calendar"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%
 	String reponse = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	String resultat = (String) request.getAttribute("resultat");
 	List<Prise> prises = multiprise.getPrises();
-	Map<Integer, HashMap<String, Integer>> suivi = (Map<Integer, HashMap<String, Integer>>) request
-			.getAttribute("suivi");
+	Map<Integer, HashMap<String, Integer>> suivi = (Map<Integer, HashMap<String, Integer>>) request.getAttribute("suivi");
+
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+	Calendar cal = Calendar.getInstance();
+	cal.add(Calendar.MONTH, -1);
+	Date now = new Date();
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -310,6 +316,8 @@
 						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
 						minutes
 					</p>
+					<p>Soit <strong><%= Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.05) %> €</strong> consommés**
+					
 					<%
 						}
 					%>
@@ -319,13 +327,9 @@
 				%>
 			</div>
 			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<a href="#" class="btn btn-lg btn-primary"> Calculer le bilan </a>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-lg-12 text-center">
-					<span><i>*Dernier bilan effectué le 01/01/2016</i></span>
+					<span><i>*Dernier bilan effectué sur les données du <%= dateFormat.format(cal.getTime()) %> au <%= dateFormat.format(now) %></i></span>
+					<br/><span><i>**Sur la base de 0,05 € / minutes</i></span>				
 				</div>
 			</div>
 		</div>
