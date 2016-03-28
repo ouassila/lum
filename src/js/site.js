@@ -300,7 +300,9 @@ $( document ).ready(function() {
 		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
 		$('.details_contact:visible').last().find('.addContact').remove();
 		var index = $('.details_contact:visible').last().find('input[id*=email]').attr("id").split("_")[1];
-
+		$('.details_contact:visible').last().find('input[id*=email]').attr("disabled", false);
+		$('.details_contact:visible').last().find('input[id*=telephone]').attr("disabled", false);
+		
 		$('.details_contact:visible').last().find('input[id*=email]').attr("id", "email_"+ index+1);
 		$('.details_contact:visible').last().find('input[id*=telephone]').attr("id", "telephone_"+ index+1);
 		return false;

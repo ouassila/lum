@@ -255,14 +255,14 @@
 							<div class="col-lg-4">
 								<input type="email" class="form-control" name="email[]"
 									id="email_<%=multiprise.getContact().get(i).getId() %>" placeholder="Email"
-									value="<%=multiprise.getContact().get(i).getMail()%>" />
+									value="<%=multiprise.getContact().get(i).getMail()%>" disabled/>
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
 							<div class="col-lg-2">
 								<input type="text" class="form-control" name="telephone[]"
 									id="telephone_<%=multiprise.getContact().get(i).getId()%>" placeholder="Téléphone"
-									value="<%=multiprise.getContact().get(i).getTelephone()%>" />
+									value="<%=multiprise.getContact().get(i).getTelephone()%>" disabled/>
 							</div>
 							<div class="col-xs-3 col-lg-2">
 								<a class="btn btn-danger btn-sm rmContact confirm"
@@ -316,7 +316,7 @@
 						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
 						minutes
 					</p>
-					<p>Soit <strong><%= (Math.round(suivi.get(prises.get(k).getId()).get("conso")) * 0.05) %> €</strong> consommés**
+					<p>Soit <strong><%= (Math.round(suivi.get(prises.get(k).getId()).get("conso")* 0.05)) %> €</strong> consommés**
 					
 					<%
 						}
@@ -328,7 +328,7 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<span><i>*Dernier bilan effectué sur les données du <%= dateFormat.format(cal.getTime()) %> au <%= dateFormat.format(now) %></i></span>
+					<span><i>*Consommation du <%= dateFormat.format(cal.getTime()) %> au <%= dateFormat.format(now) %></i></span>
 					<br/><span><i>**Sur la base de 0,05 € / minutes</i></span>				
 				</div>
 			</div>
