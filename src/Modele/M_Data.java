@@ -16,16 +16,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class M_Data {
 	private Connection connection;	
 	private static M_Data Instance;
-	public static String IP_MULTIPRISE = "192.168.0.18"; // ip de la multiprise à utiliser pour la contacter
+	public static String IP_MULTIPRISE = "192.168.56.102"; // ip de la multiprise à utiliser pour la contacter
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://192.168.0.17:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}

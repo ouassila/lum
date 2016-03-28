@@ -300,9 +300,9 @@ $( document ).ready(function() {
 		$('.details_contact:visible').last().clone(true).insertAfter('.details_contact:last').find('input').val('');
 		$('.details_contact:visible').last().find('.addContact').remove();
 		var index = $('.details_contact:visible').last().find('input[id*=email]').attr("id").split("_")[1];
-		$('.details_contact:visible').last().find('input[id*=email]').attr("readonly", false);
-		$('.details_contact:visible').last().find('input[id*=telephone]').attr("readonly", false);
-		
+		$('.details_contact:visible').last().find('input[id*=email]').removeAttr("readonly");
+		$('.details_contact:visible').last().find('input[id*=telephone]').removeAttr("readonly");
+
 		$('.details_contact:visible').last().find('input[id*=email]').attr("id", "email_"+ index+1);
 		$('.details_contact:visible').last().find('input[id*=telephone]').attr("id", "telephone_"+ index+1);
 		return false;
@@ -310,21 +310,21 @@ $( document ).ready(function() {
 
 //	suppr contact	
 	$(".confirm").confirm({
-	    text: "Valider la suppression ?",
-	    title: "Confirmation",
-	    confirm: function(button) {
-	    	remove($(button).attr('id'));	    	
-	    },
-	    cancel: function() {
-	    },
-	    confirmButton: "Oui",
-	    cancelButton: "Non",
-	    post: true,
-	    confirmButtonClass: "btn-success",
-	    cancelButtonClass: "btn-danger",
-	    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+		text: "Valider la suppression ?",
+		title: "Confirmation",
+		confirm: function(button) {
+			remove($(button).attr('id'));	    	
+		},
+		cancel: function() {
+		},
+		confirmButton: "Oui",
+		cancelButton: "Non",
+		post: true,
+		confirmButtonClass: "btn-success",
+		cancelButtonClass: "btn-danger",
+		dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
 	});
-	
+
 	function remove(elem){		
 		$.ajax({
 			url: "SaveDatas",
@@ -335,42 +335,12 @@ $( document ).ready(function() {
 			},
 			success: function(html) {
 
-		    	location.reload(true);
-		    	$('html, body').stop().animate({
+				location.reload(true);
+				$('html, body').stop().animate({
 					scrollTop: $("#about").offset().top
 				}, 1500, 'easeInOutExpo');
-				/*
-				$('#about').load(document.URL + ' #about_container', function() {
-					if($('.details_contact:visible').length > 1 ){
-						$("#"+elem).parent().parent().parent().hide();			
-					}
-					else{
-						$('.details_contact:first').find('input').val('');
-					}
-				});
-				*/
+
 			}
 		});
 	}
-/*
-	$('.rmContact').click(function(){
-		if($('.details_contact:visible').length > 1 ){
-			$(this).parent().parent().parent().hide();			
-		}
-		else{
-			$('.details_contact:first').find('input').val('');
-		}
-		$.ajax({
-			url: "SaveDatas",
-			type: "POST",
-			data:{
-				"operation" : "remove",
-				"id" : $(this).attr("id"),
-			},
-			success: function(html) {
-			}
-		});
-		return false;
-	});	
-	*/
 });

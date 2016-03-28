@@ -9,7 +9,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%
-	String reponse = (String) request.getAttribute("retour");
+	String retour = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	String resultat = (String) request.getAttribute("resultat");
