@@ -91,16 +91,28 @@ public class C_SaveDatas extends HttpServlet {
 
 			String[] telephone = request.getParameterValues("telephone[]");
 			String[] email = request.getParameterValues("email[]");
+			String erreur = "";
 			for(int i = 0 ; i < telephone.length ; i++){
 
 				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
+				System.out.println(email[i]);
+				if(email[i].equals("") && !telephone[i].equals("") || telephone[i].equals("") && !email[i].equals("")){
+					result=false;
+					erreur = "Erreur : l'adresse mail ou le numéro de téléphone est vide";
+				}
+				else {
 
-				if(contact != null){
-					result=false;				 }
-				else{
-					System.out.println("contact nul");
-					contact = new Contact(mac,email[i],telephone[i]);
-					result = M_Data.getInstance().InsertContact(contact);
+					if(contact != null){
+						result=false;
+						erreur = "Erreur : l'adresse mail et/ou le numéro de téléphone est déjà existant";
+					}
+					else{
+						if(!email[i].equals("")&& !telephone[i].equals("")){
+							System.out.println("contact nul");
+							contact = new Contact(mac,email[i],telephone[i]);
+							result = M_Data.getInstance().InsertContact(contact);
+						}
+					}
 				}
 			}
 
@@ -109,7 +121,7 @@ public class C_SaveDatas extends HttpServlet {
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
 			System.out.println(result);
 			if (result==false){
-				request.setAttribute("retour", "Erreur : l'adresse mail et/ou le numéro de téléphone est déjà existant");
+				request.setAttribute("retour", erreur);
 			}
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);

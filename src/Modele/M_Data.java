@@ -21,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class M_Data {
 	private Connection connection;	
 	private static M_Data Instance;
-	public static String IP_MULTIPRISE = "192.168.56.102"; // ip de la multiprise à utiliser pour la contacter
+	public static String IP_MULTIPRISE = "192.168.0.18"; // ip de la multiprise à utiliser pour la contacter
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.0.17:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
@@ -258,7 +258,7 @@ public class M_Data {
 	}
 
 	public boolean InsertContact(Contact contact){
-
+		System.out.println("insert contact");
 		String requeteEtat = "Insert into Contact (mail,mac,telephone) values (?,?,?)";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteEtat);
@@ -293,7 +293,7 @@ public class M_Data {
 	}
 
 	public boolean updateContact(int id, String mail, String telephone){
-
+		System.out.println("update contact");
 		String requeteUpdate = "Update Contact set mail=? , telephone=? where id=?";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteUpdate);
@@ -411,7 +411,7 @@ public class M_Data {
 	}
 
 	public List<Map<String, String>> getHistoriqueEtat(String id_prise, String dateDeb, String dateFin) {
-		String requeteEnvironnement = "select allume, date from Etat where id_prise=? and date between ? and ? ";
+		String requeteEnvironnement = "select allume, date from Etat where id_prise=? and date between ? and ? order by date";
 		List<Map<String, String>> result = new ArrayList<Map<String, String>>();		
 
 		try {
