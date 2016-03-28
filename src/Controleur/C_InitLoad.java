@@ -34,7 +34,7 @@ public class C_InitLoad extends HttpServlet {
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
 		request.setAttribute("suivi", conso);
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
 	}

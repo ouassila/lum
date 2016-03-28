@@ -50,6 +50,7 @@ protected void doGet(HttpServletRequest request,
 		String adresseMac = request.getParameter("mac");
 		System.out.println(" Reception de données de ");
 		System.out.println(adresseMac);
+		System.out.println("Demande d'envoie de contact");
 		List<Contact> contacts = M_Data.getInstance().getAllContact(adresseMac);
 		ServletOutputStream out = response.getOutputStream();
 		for (int i=0; i<contacts.size(); i++){
