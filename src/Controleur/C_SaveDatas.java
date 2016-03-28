@@ -27,7 +27,7 @@ public class C_SaveDatas extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		//System.out.println("oki");
-		
+
 
 		//RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/Accueil.jsp");
 		//dispatcher.forward(request,response); 
@@ -36,14 +36,14 @@ public class C_SaveDatas extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		String operation = request.getParameter("operation");			
-		
+
 		if (operation.equals("save")){
 			String mac = request.getParameter("mac");
 			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
 			boolean result = false;
 			List <String> etats = new ArrayList<String>();
 			for (int i = 1 ; i < multiprise.getPrises().size() +1 ; i++){	
-				
+
 				String etat = request.getParameter("etat_"+i);
 				Boolean allume;
 				if(etat==null){
@@ -65,7 +65,7 @@ public class C_SaveDatas extends HttpServlet {
 					etat = "on";
 				}
 				if (i==0)
-				adresseUrl = adresseUrl + "lum" +numeroPrise+ "=" +etat;
+					adresseUrl = adresseUrl + "lum" +numeroPrise+ "=" +etat;
 				else {
 					adresseUrl = adresseUrl + "&lum" +numeroPrise+ "=" +etat;
 				}
@@ -93,48 +93,49 @@ public class C_SaveDatas extends HttpServlet {
 			String[] email = request.getParameterValues("email[]");
 			for(int i = 0 ; i < telephone.length ; i++){
 
-				 Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
-				 
-				 if(contact != null){
-					 System.out.println("contact non nul");
-					 result = M_Data.getInstance().updateContact(contact.getId(), email[i], telephone[i]);
-				 }
-				 else{
-					 System.out.println("contact nul");
-					 contact = new Contact(mac,email[i],telephone[i]);
-					 result = M_Data.getInstance().InsertContact(contact);
-				 }
-			}
-			
-			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
-			
-			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
+				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
 
+				if(contact != null){
+					result=false;				 }
+				else{
+					System.out.println("contact nul");
+					contact = new Contact(mac,email[i],telephone[i]);
+					result = M_Data.getInstance().InsertContact(contact);
+				}
+			}
+
+			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
+
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
+			System.out.println(result);
+			if (result==false){
+				request.setAttribute("retour", "Erreur : l'adresse mail et/ou le numéro de téléphone est déjà existant");
+			}
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
 			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
-			
+
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	
 		}
 		if (operation.equals("remove")){
 			String id = request.getParameter("id");
-			
+
 			boolean result = M_Data.getInstance().deleteContact(id);
-			
+
 			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
 			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise("08:00:27:d1:76:e4"));
-			
+
 			System.out.println(result);
 			//request.setAttribute("retour", result);
 
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	
-			
+
 		}
 	}
 }
