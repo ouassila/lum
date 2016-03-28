@@ -175,7 +175,7 @@
 
 	<!-- About Section -->
 	<section class="success" id="about">
-		<div id="about_container" class="container">
+		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Configuration</h2>
@@ -258,7 +258,7 @@
 								<input type="email" class="form-control" name="email[]"
 									id="email_<%=multiprise.getContact().get(i).getId()%>"
 									placeholder="Email"
-									value="<%=multiprise.getContact().get(i).getMail()%>" disabled />
+									value="<%=multiprise.getContact().get(i).getMail()%>" readonly="readonly" />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
@@ -267,7 +267,7 @@
 									id="telephone_<%=multiprise.getContact().get(i).getId()%>"
 									placeholder="Téléphone"
 									value="<%=multiprise.getContact().get(i).getTelephone()%>"
-									disabled />
+									readonly="readonly" />
 							</div>
 							<div class="col-xs-3 col-lg-2">
 								<a class="btn btn-danger btn-sm rmContact confirm"
