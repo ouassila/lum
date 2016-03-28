@@ -112,7 +112,8 @@ public class C_SaveDatas extends HttpServlet {
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
-
+			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
+			
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
 			dispatch.forward (request, response);	
 		}
@@ -126,6 +127,7 @@ public class C_SaveDatas extends HttpServlet {
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
+			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise("08:00:27:d1:76:e4"));
 			
 			System.out.println(result);
 			//request.setAttribute("retour", result);

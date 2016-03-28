@@ -313,7 +313,6 @@ $( document ).ready(function() {
 	    text: "Valider la suppression ?",
 	    title: "Confirmation",
 	    confirm: function(button) {
-	    	console.log($(button).attr('id'));
 	    	remove($(button).attr('id'));
 	    },
 	    cancel: function() {
@@ -335,11 +334,22 @@ $( document ).ready(function() {
 				"id" : elem,
 			},
 			success: function(html) {
-				location.reload();
+			
+				location.reload(true);
 
 				$('html, body').stop().animate({
 					scrollTop: $("#about").offset().top
 				}, 1500, 'easeInOutExpo');
+				/*
+				$('#about').load(document.URL + ' #about_container', function() {
+					if($('.details_contact:visible').length > 1 ){
+						$("#"+elem).parent().parent().parent().hide();			
+					}
+					else{
+						$('.details_contact:first').find('input').val('');
+					}
+				});
+				*/
 			}
 		});
 	}

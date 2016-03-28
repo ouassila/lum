@@ -29,11 +29,10 @@ public class C_InitLoad extends HttpServlet {
 		
 		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(mac);
 		Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
-		Map<Integer, HashMap<String, Integer>> conso = M_Data.getInstance().getConsoPrise(mac);
 		
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
-		request.setAttribute("suivi", conso);
+		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
@@ -48,7 +47,7 @@ public class C_InitLoad extends HttpServlet {
 		
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
-		
+		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 

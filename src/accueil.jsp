@@ -14,7 +14,8 @@
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	String resultat = (String) request.getAttribute("resultat");
 	List<Prise> prises = multiprise.getPrises();
-	Map<Integer, HashMap<String, Integer>> suivi = (Map<Integer, HashMap<String, Integer>>) request.getAttribute("suivi");
+	Map<Integer, HashMap<String, Integer>> suivi = (Map<Integer, HashMap<String, Integer>>) request
+			.getAttribute("suivi");
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
 	Calendar cal = Calendar.getInstance();
@@ -174,7 +175,7 @@
 
 	<!-- About Section -->
 	<section class="success" id="about">
-		<div class="container">
+		<div id="about_container" class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2>Configuration</h2>
@@ -247,22 +248,26 @@
 					</div>
 
 					<%
-						for (int i = 0; i < multiprise.getContact().size(); i++) {
+						if (multiprise.getContact().size() > 0) {
+							for (int i = 0; i < multiprise.getContact().size(); i++) {
 					%>
 					<div class="col-lg-12 details_contact">
 						<div class="row control-group">
 							<label class="col-md-2 control-label text-center">Email :</label>
 							<div class="col-lg-4">
 								<input type="email" class="form-control" name="email[]"
-									id="email_<%=multiprise.getContact().get(i).getId() %>" placeholder="Email"
-									value="<%=multiprise.getContact().get(i).getMail()%>" disabled/>
+									id="email_<%=multiprise.getContact().get(i).getId()%>"
+									placeholder="Email"
+									value="<%=multiprise.getContact().get(i).getMail()%>" disabled />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
 							<div class="col-lg-2">
 								<input type="text" class="form-control" name="telephone[]"
-									id="telephone_<%=multiprise.getContact().get(i).getId()%>" placeholder="Téléphone"
-									value="<%=multiprise.getContact().get(i).getTelephone()%>" disabled/>
+									id="telephone_<%=multiprise.getContact().get(i).getId()%>"
+									placeholder="Téléphone"
+									value="<%=multiprise.getContact().get(i).getTelephone()%>"
+									disabled />
 							</div>
 							<div class="col-xs-3 col-lg-2">
 								<a class="btn btn-danger btn-sm rmContact confirm"
@@ -276,6 +281,32 @@
 								<%
 									}
 								%>
+							</div>
+						</div>
+					</div>
+					<%
+						}
+					} else {
+					%>
+					<div class="col-lg-12 details_contact">
+						<div class="row control-group">
+							<label class="col-md-2 control-label text-center">Email :</label>
+							<div class="col-lg-4">
+								<input type="email" class="form-control" name="email[]"
+									id="email_0" placeholder="Email" value="" />
+							</div>
+							<label class="col-md-2 control-label text-center">Téléphone
+								:</label>
+							<div class="col-lg-2">
+								<input type="text" class="form-control" name="telephone[]"
+									id="telephone_0" placeholder="Téléphone" value="" />
+							</div>
+							<div class="col-xs-3 col-lg-2">
+								<a class="btn btn-danger btn-sm rmContact confirm" id="0"
+									href="#"><i class="fa fa-trash-o" style="color: white"></i></a>
+
+								<a class="btn btn-info btn-sm addContact" href="#"><i
+									class="fa fa-plus-circle" style="color: white"></i></a>
 							</div>
 						</div>
 					</div>
@@ -308,7 +339,9 @@
 			%>
 			<div class="row">
 				<div class="col-lg-6 text-center">
-					<h4>Prise <%=k + 1%></h4>
+					<h4>
+						Prise
+						<%=k + 1%></h4>
 					<%
 						for (int j = 0; j < suivi.get(prises.get(k).getId()).size(); j++) {
 					%>
@@ -316,11 +349,14 @@
 						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
 						minutes
 					</p>
-					<p>Soit <strong><%= (Math.round(suivi.get(prises.get(k).getId()).get("conso")* 0.05)) %> €</strong> consommés**
-					
-					<%
+					<p>
+						Soit <strong><%=(Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.05))%>
+							€</strong> consommés**
+
+						<%
 						}
 					%>
+					
 				</div>
 				<%
 					}
@@ -328,8 +364,9 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<span><i>*Consommation du <%= dateFormat.format(cal.getTime()) %> au <%= dateFormat.format(now) %></i></span>
-					<br/><span><i>**Sur la base de 0,05 € / minutes</i></span>				
+					<span><i>*Consommation du <%=dateFormat.format(cal.getTime())%>
+							au <%=dateFormat.format(now)%></i></span> <br /> <span><i>**Sur
+							la base de 0,05 € / minutes</i></span>
 				</div>
 			</div>
 		</div>
@@ -439,7 +476,7 @@
 	<script src="./Vue/js/gaugeMeter-2.0.0.min.js"></script>
 	<script src="./Vue/js/jquery.cookie.js"></script>
 	<script src="./Vue/js/jquery.confirm.min.js"></script>
-	
+
 	<script src="Vue/js/site.js"></script>
 
 	<!-- Plugin JavaScript -->
