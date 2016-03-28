@@ -257,7 +257,6 @@ public class M_Data {
 	}
 
 	public boolean InsertContact(Contact contact){
-		System.out.println("insert contact");
 		String requeteEtat = "Insert into Contact (mail,mac,telephone) values (?,?,?)";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteEtat);
@@ -292,7 +291,6 @@ public class M_Data {
 	}
 
 	public boolean updateContact(int id, String mail, String telephone){
-		System.out.println("update contact");
 		String requeteUpdate = "Update Contact set mail=? , telephone=? where id=?";
 		try {
 			PreparedStatement requete = connection.prepareStatement(requeteUpdate);

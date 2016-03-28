@@ -81,9 +81,7 @@ public class C_SaveDatas extends HttpServlet {
 			while ((inputLine = in.readLine()) != null)
 				source +=inputLine;
 			in.close();
-			System.out.println(source);
-			System.out.println("connexion");
-			System.out.println(request.getParameter("min_temp"));
+
 			float min_temp = Float.parseFloat(request.getParameter("min_temp"));
 			float max_temp = Float.parseFloat(request.getParameter("max_temp"));
 			float max_humd = Float.parseFloat(request.getParameter("max_humd"));
@@ -95,7 +93,6 @@ public class C_SaveDatas extends HttpServlet {
 			for(int i = 0 ; i < telephone.length ; i++){
 
 				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
-				System.out.println(email[i]);
 				if(email[i].equals("") && !telephone[i].equals("") || telephone[i].equals("") && !email[i].equals("")){
 					result=false;
 					erreur = "Erreur : l'adresse mail ou le numéro de téléphone est vide";
@@ -108,7 +105,6 @@ public class C_SaveDatas extends HttpServlet {
 					}
 					else{
 						if(!email[i].equals("")&& !telephone[i].equals("")){
-							System.out.println("contact nul");
 							contact = new Contact(mac,email[i],telephone[i]);
 							result = M_Data.getInstance().InsertContact(contact);
 						}
@@ -119,7 +115,6 @@ public class C_SaveDatas extends HttpServlet {
 			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
 
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
-			System.out.println(result);
 			if (result==false){
 				request.setAttribute("retour", erreur);
 			}
@@ -142,7 +137,7 @@ public class C_SaveDatas extends HttpServlet {
 			request.setAttribute("environnement", environnement);
 			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise("08:00:27:d1:76:e4"));
 
-			System.out.println(result);
+
 			//request.setAttribute("retour", result);
 
 			RequestDispatcher dispatch = request.getRequestDispatcher ("/Vue/accueil.jsp");
