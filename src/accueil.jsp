@@ -9,7 +9,7 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%
-	String reponse = (String) request.getAttribute("retour");
+	String retour = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
 	Environnement environnement = (Environnement) request.getAttribute("environnement");
 	String resultat = (String) request.getAttribute("resultat");
@@ -115,6 +115,8 @@
 			</div>
 		</div>
 	</header>
+
+	<span id="erreur"></span>
 
 	<!-- Portfolio Grid Section -->
 	<section id="portfolio">
@@ -258,7 +260,8 @@
 								<input type="email" class="form-control" name="email[]"
 									id="email_<%=multiprise.getContact().get(i).getId()%>"
 									placeholder="Email"
-									value="<%=multiprise.getContact().get(i).getMail()%>" readonly="readonly" />
+									value="<%=multiprise.getContact().get(i).getMail()%>"
+									readonly="readonly" />
 							</div>
 							<label class="col-md-2 control-label text-center">Téléphone
 								:</label>
@@ -286,7 +289,7 @@
 					</div>
 					<%
 						}
-					} else {
+						} else {
 					%>
 					<div class="col-lg-12 details_contact">
 						<div class="row control-group">
@@ -329,16 +332,16 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2>Suivi Conso</h2>
+					<h2>Suivi Conso*</h2>
 					<hr class="star-primary">
 				</div>
 			</div>
-
-			<%
-				for (int k = 0; k < prises.size(); k++) {
-			%>
 			<div class="row">
-				<div class="col-lg-6 text-center">
+				<%
+					for (int k = 0; k < prises.size(); k++) {
+				%>
+				<div
+					class="<%=prises.size() < 3 ? "col-lg-6" : "col-lg-4"%> text-center">
 					<h4>
 						Prise
 						<%=k + 1%></h4>
@@ -362,13 +365,14 @@
 					}
 				%>
 			</div>
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<span><i>*Consommation du <%=dateFormat.format(cal.getTime())%>
-							au <%=dateFormat.format(now)%></i></span> <br /> <span><i>**Sur
-							la base de 0,05 € / minutes</i></span>
-				</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<span><i>*Consommation du <%=dateFormat.format(cal.getTime())%>
+						au <%=dateFormat.format(now)%></i></span> <br /> <span><i>**Sur
+						la base de 0,05 € / minutes</i></span>
 			</div>
+		</div>
 		</div>
 	</section>
 

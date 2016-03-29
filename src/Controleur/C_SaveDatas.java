@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,14 +98,14 @@ public class C_SaveDatas extends HttpServlet {
 
 				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
 				if(email[i].equals("") && !telephone[i].equals("") || telephone[i].equals("") && !email[i].equals("")){
-					result=false;
-					erreur = "Erreur : l'adresse mail ou le numÈro de tÈlÈphone est vide";
+					result = false;
+					erreur = "L'adresse mail ou le num√©ro de t√©l√©phone est invalide";
 				}
 				else {
 
 					if(contact != null){
 						result=false;
-						erreur = "Erreur : l'adresse mail et/ou le numÈro de tÈlÈphone est dÈj‡ existant";
+						erreur = "L'adresse mail et/ou le num√©ro de t√©l√©phone sont d√©j√† existant";
 					}
 					else{
 						if(!email[i].equals("")&& !telephone[i].equals("")){
@@ -118,8 +119,10 @@ public class C_SaveDatas extends HttpServlet {
 			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
 
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
-			if (result==false){
-				request.setAttribute("retour", erreur);
+			if (result == false){
+				Cookie myCookie = new Cookie("erreur", erreur);
+				response.addCookie(myCookie);
+				//request.setAttribute("retour", erreur);
 			}
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
