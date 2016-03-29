@@ -499,4 +499,21 @@ public class M_Data {
 		}	
 		return resultat;
 	}
+	
+	public boolean insertEtat(boolean allume,int id_prise,Timestamp date){
+		String requeteEtat = "Insert into Etat (allume,id_prise,date) values (?,?,?)";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteEtat);
+			requete.setBoolean(1,allume);
+			requete.setInt(2,id_prise);
+			requete.setTimestamp(3, date);			
+			requete.executeUpdate();
+
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;		
+	}
 }

@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -56,6 +58,7 @@ public class C_SaveDatas extends HttpServlet {
 				if (M_Data.getInstance().updatePrise(id, allume)){
 					etats.add(request.getParameter("etat_"+i));
 				}
+				M_Data.getInstance().insertEtat(allume, id, new Timestamp(Calendar.getInstance().getTime().getTime()));
 			}
 			String adresseUrl = "http://"+M_Data.IP_MULTIPRISE+"/req.php?";
 			for (int i =0; i<etats.size();i++){
