@@ -277,11 +277,7 @@ $( document ).ready(function() {
 		},
 		unhighlight: function(element, errorClass) {                  
 			$(element).removeClass(errorClass);   
-		},
-		debug: true,
-		/*submitHandler: function(form){
-			send_FormConfig();		
-		}*/
+		},		
 	});
 	
 	$("#formConfig").on('submit', function(e){
