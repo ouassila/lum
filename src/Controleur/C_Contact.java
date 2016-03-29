@@ -56,7 +56,10 @@ protected void doGet(HttpServletRequest request,
 		for (int i=0; i<contacts.size(); i++){
 			if(i!=0)
 				out.println();
-		out.print(contacts.get(i).getMail()+ ";"+contacts.get(i).getTelephone());
+		String numero =	contacts.get(i).getTelephone();
+		numero.substring(1);
+		numero = "0033"+numero;
+		out.print(contacts.get(i).getMail()+ ";"+numero);
 		}
 
 }
