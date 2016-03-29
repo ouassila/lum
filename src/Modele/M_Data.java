@@ -472,7 +472,7 @@ public class M_Data {
 				ResultSet details = requete.executeQuery();
 				Date first = null;
 				boolean allume = false;
-				long minutes = 0;
+				long heures = 0;
 
 				while (details.next()) {
 					HashMap<String, Integer> list = new HashMap<String, Integer>();		
@@ -483,13 +483,13 @@ public class M_Data {
 					}
 
 					if(allume == true){
-						minutes += (details.getTimestamp("date").getTime() - first.getTime())/60000;							
+						heures += (details.getTimestamp("date").getTime() - first.getTime() / (1000*60*60)) % 24;
 					}						
 					else{
 						allume = details.getBoolean("allume");
 					}
 
-					list.put("conso", Math.round(minutes));
+					list.put("conso", Math.round(heures));
 					resultat.put(prises.getInt("id"), list);
 				}
 			}

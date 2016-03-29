@@ -349,11 +349,10 @@
 						for (int j = 0; j < suivi.get(prises.get(k).getId()).size(); j++) {
 					%>
 					<p>
-						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong>
-						minutes
+						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong> h
 					</p>
 					<p>
-						Soit <strong><%=(Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.05))%>
+						Soit <strong><%=(Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.20))%>
 							€</strong> consommés**
 
 						<%
@@ -370,7 +369,7 @@
 			<div class="col-lg-12 text-center">
 				<span><i>*Consommation du <%=dateFormat.format(cal.getTime())%>
 						au <%=dateFormat.format(now)%></i></span> <br /> <span><i>**Sur
-						la base de 0,05 € / minutes</i></span>
+						la base de 0,20 € / heures</i></span>
 			</div>
 		</div>
 		</div>
