@@ -134,14 +134,14 @@ public class M_Data {
 		return contact;		
 	}
 
-	public Contact getContactByEmail(String email, String mac){
+	public Contact getContactByEmail(String email, String telephone, String mac){
 		Contact contact = null;
-		String requeteContact = "Select * from Contact where mail = ? and mac = ?";
+		String requeteContact = "Select * from Contact where mail = ? and mac = ? and telephone =?";
 		try  {
 			PreparedStatement requete = connection.prepareStatement(requeteContact);
 			requete.setString(1,email);
 			requete.setString(2,mac);
-
+			requete.setString(3, telephone);
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
@@ -346,15 +346,50 @@ public class M_Data {
 			requete.setString(3 , format.format(dateF));
 
 			ResultSet resultat = requete.executeQuery();
-			if (MILISECOND_PER_DAY>dateF.getTime()-dateD.getTime()){ // ajd ou hier
+			
+			if (MILISECOND_PER_DAY>dateF.getTime()-dateD.getTime()){
+				List<String> dates = new ArrayList<String>();
+				List<Timestamp> datesHours = new ArrayList<Timestamp>();
+				List<Double> values = new ArrayList<Double>();// ajd ou hier
+				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH");
+				SimpleDateFormat ftwo = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 				while (resultat.next()) {
-					Map<String, String> map = new HashMap<String, String>();
-					SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
+					/*Map<String, String> map = new HashMap<String, String>();
+					
 					map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');
 					map.put('"'+"value"+'"', '"'+Integer.toString(Math.round(resultat.getFloat(value)))+'"');
 
+					result.add(map);*/
+					dates.add(ft.format(resultat.getTimestamp("date")));
+					datesHours.add(resultat.getTimestamp("date"));
+					values.add((double) resultat.getFloat(value));
+				}
+
+				for (int i=0; i<dates.size();i++){
+					Map<String, String> map = new HashMap<String, String>();
+					int nb = 1;
+
+					for (int j=i+1; j<dates.size();j++){
+
+						if(dates.get(i).equals(dates.get(j))){
+							values.set(i, values.get(i)+values.get(j));
+							dates.remove(j);
+							values.remove(j);
+							datesHours.remove(j);
+							j--;
+							nb++;
+						}
+					}
+					if (nb < 1){
+						nb = 1;
+					}
+					datesHours.get(i).setMinutes(0);
+					datesHours.get(i).setSeconds(0);
+					map.put('"'+"date"+'"', '"'+  datesHours.get(i).toString()+'"');
+					map.put('"'+"value"+'"', '"'+(String.valueOf(Math.round((values.get(i)/nb)))+'"'));
 					result.add(map);
-				}			
+				}
+				
 			}
 			else {// avant hier
 				List<Date> dates = new ArrayList<Date>();
@@ -427,6 +462,7 @@ public class M_Data {
 			ResultSet resultat = requete.executeQuery();
 
 			while (resultat.next()) {
+
 				Map<String, String> map = new HashMap<String, String>();
 				SimpleDateFormat ft = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
 				map.put('"'+"date"+'"', '"'+ ft.format(resultat.getTimestamp("date"))+'"');

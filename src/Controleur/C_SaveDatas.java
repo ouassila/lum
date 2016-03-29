@@ -96,24 +96,22 @@ public class C_SaveDatas extends HttpServlet {
 			String erreur = "";
 			for(int i = 0 ; i < telephone.length ; i++){
 
-				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
+				Contact contact = M_Data.getInstance().getContactByEmail(email[i],telephone[i], mac);
 				if(email[i].equals("") && !telephone[i].equals("") || telephone[i].equals("") && !email[i].equals("")){
 					result = false;
 					erreur = "L'adresse mail ou le numéro de téléphone est invalide";
 				}
-				else {
-
-					if(contact != null){
-						result=false;
-						erreur = "L'adresse mail et/ou le numéro de téléphone sont déjà existant";
-					}
+				
+			
 					else{
-						if(!email[i].equals("")&& !telephone[i].equals("")){
+						if(contact == null && !email[i].equals("")&& !telephone[i].equals("")){
 							contact = new Contact(mac,email[i],telephone[i]);
 							result = M_Data.getInstance().InsertContact(contact);
+							erreur = "L'adresse mail et/ou le numéro de téléphone sont déjà existant";
+
 						}
 					}
-				}
+				
 			}
 
 			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
