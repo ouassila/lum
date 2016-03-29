@@ -8,6 +8,8 @@
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.text.DecimalFormat"%>
+
 <%
 	String retour = (String) request.getAttribute("retour");
 	Multiprise multiprise = (Multiprise) request.getAttribute("multiprise");
@@ -319,7 +321,7 @@
 
 					<div class="col-lg-8 col-lg-offset-2 text-center">
 						<input type="submit" class="btn btn-lg btn-outline"
-							value="Enregistrer" />
+							value="Enregistrer" id="link_save"/>
 					</div>
 
 				</form>
@@ -347,12 +349,14 @@
 						<%=k + 1%></h4>
 					<%
 						for (int j = 0; j < suivi.get(prises.get(k).getId()).size(); j++) {
+							DecimalFormat df = new DecimalFormat("0.00");
+							
 					%>
 					<p>
 						Allumée durant <strong><%=suivi.get(prises.get(k).getId()).get("conso")%></strong> h
 					</p>
 					<p>
-						Soit <strong><%=(Math.round(suivi.get(prises.get(k).getId()).get("conso") * 0.20))%>
+						Soit <strong><%= df.format(suivi.get(prises.get(k).getId()).get("conso") * 0.20) %>
 							€</strong> consommés**
 
 						<%

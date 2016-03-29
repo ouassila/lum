@@ -21,12 +21,12 @@ public class M_Data {
 	private Connection connection;	
 	private static M_Data Instance;
 
-	public static String IP_MULTIPRISE = "172.16.15.19"; // ip de la multiprise à utiliser pour la contacter
-	public static String MAC_MULTIPRISE ="b8:27:eb:71:11:70";
+	public static String IP_MULTIPRISE = "192.168.56.102"; // ip de la multiprise à utiliser pour la contacter
+	public static String MAC_MULTIPRISE ="08:00:27:d1:76:e4";
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
-			connection = DriverManager.getConnection("jdbc:mysql://172.16.15.2:3306/lumbd"
+			connection = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/lumbd"
 					,"insta","uBsY3M5vXUfrB2Gn");
 
 		}
@@ -477,17 +477,22 @@ public class M_Data {
 				while (details.next()) {
 					HashMap<String, Integer> list = new HashMap<String, Integer>();		
 
-					if(first == null){
-						first = details.getTimestamp("date");
-						allume = details.getBoolean("allume");
+					if(details.isLast()){
+						heures += (now.getTime() - details.getTimestamp("date").getTime())/ (1000 * 60 * 60);
 					}
-
-					if(allume == true){
-						heures += (details.getTimestamp("date").getTime() - first.getTime() / (1000*60*60)) % 24;
-					}						
 					else{
-						allume = details.getBoolean("allume");
-					}
+						if(first == null){
+							first = details.getTimestamp("date");
+							allume = details.getBoolean("allume");
+						}
+
+						if(allume == true){
+							heures += (details.getTimestamp("date").getTime() - first.getTime())/ (1000 * 60 * 60);
+						}						
+						else{
+							allume = details.getBoolean("allume");
+						}
+					}				
 
 					list.put("conso", Math.round(heures));
 					resultat.put(prises.getInt("id"), list);

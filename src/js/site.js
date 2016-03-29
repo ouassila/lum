@@ -21,7 +21,7 @@ $( document ).ready(function() {
 				});
 			}
 		});
-	}, 50000);
+	}, 10000);
 
 
 	//gaude de temp et humidite
@@ -240,35 +240,35 @@ $( document ).ready(function() {
 	});
 
 	//envoi des données pour save config
-	$("#formConfig").validate({
+	var validator = $("#formConfig").validate({
 		rules: {
-			min_temp: {
+			'min_temp': {
 				required: true,
 				number: true
 			},
-			max_temp: {
+			'max_temp': {
 				required: true,
 				number: true
 			},
-			min_humd: {
+			'min_humd': {
 				required: true,
 				number: true
 			},
-			max_humd: {
+			'max_humd': {
 				required: true,
 				number: true
 			},
-			email: {
+			'email[]': {
 				required: true,
 				email: true,
 			},
-			telephone: {
+			'telephone[]': {
 				required: true,
+				digits : true,
 				regex: "^0[1-68][0-9]{8}$",
 			}
 		},
 		errorClass : "invalid",
-		validClass: "success",
 		errorPlacement: function (error, element) {
 			$("#" + $(element).attr("id")).addClass('invalid');
 		},
@@ -278,22 +278,31 @@ $( document ).ready(function() {
 		unhighlight: function(element, errorClass) {                  
 			$(element).removeClass(errorClass);   
 		},
-		focusInvalid: false,
-		submitHandler: function(form){
-			$.ajax({
-				url: "SaveDatas",
-				type: "POST",
-				data: $(form).serialize(),
-				success: function(html) {
-					location.reload();
-
-					$('html, body').stop().animate({
-						scrollTop: $("#about").offset().top
-					}, 1500, 'easeInOutExpo');
-				}
-			});
-		}
+		debug: true,
+		/*submitHandler: function(form){
+			send_FormConfig();		
+		}*/
 	});
+	
+	$("#formConfig").on('submit', function(e){
+        
+		if($(this).find('.invalid').length == 0){
+        	$.ajax({
+    			url: "SaveDatas",
+    			type: "POST",
+    			data: $(this).serialize(),
+    			success: function(html) {   				
+    				
+    				location.reload();
+
+    				$('html, body').stop().animate({
+    					scrollTop: $("#about").offset().top
+    				}, 1500, 'easeInOutExpo');
+    			}
+    		});
+        }
+        return false;
+    });
 
 //	ajouter contact
 	$('.addContact').click(function(){
@@ -328,29 +337,29 @@ $( document ).ready(function() {
 	//show erreur
 	if($.cookie('erreur') != "" && $.cookie('erreur') != null){
 		$("<div class='modal fade' tabindex='-1' role='dialog' id='messageModal'> "+
-			"<div class='modal-dialog'>" +
+				"<div class='modal-dialog'>" +
 				"<div class='modal-content'>" +
-					"<div class='modal-header modal-header-danger'>" +
-						"<button type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
-							"<span aria-hidden='true'>&times;</span>" +
-						"</button>" +
-						"<h4 class='modal-title'>Erreur</h4>" +
-					"</div>" +
-					"<div class='modal-body'>" +
-						"<p>"+ $.cookie('erreur') +"</p>" +
-					"</div>" +
-					"<div class='modal-footer'>" +
-						"<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" +					
-					"</div>" +
+				"<div class='modal-header modal-header-danger'>" +
+				"<button type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+				"<span aria-hidden='true'>&times;</span>" +
+				"</button>" +
+				"<h4 class='modal-title'>Erreur</h4>" +
 				"</div>" +
-			"</div>" +
+				"<div class='modal-body'>" +
+				"<p>"+ $.cookie('erreur') +"</p>" +
+				"</div>" +
+				"<div class='modal-footer'>" +
+				"<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" +					
+				"</div>" +
+				"</div>" +
+				"</div>" +
 		"</div>").insertAfter($("#erreur"));
-		
 
-	    $('#messageModal').modal('show');
-	    $.removeCookie("erreur");
+
+		$('#messageModal').modal('show');
+		$.removeCookie("erreur");
 	}
-	
+
 	function remove(elem){		
 		$.ajax({
 			url: "SaveDatas",
