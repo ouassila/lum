@@ -25,14 +25,14 @@ public class C_InitLoad extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		String mac = "08:00:27:d1:76:e4";
 		
-		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(mac);
-		Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
+		
+		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
+		Environnement environnement = M_Data.getInstance().getLastEnvironnement(M_Data.MAC_MULTIPRISE);
 		
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
-		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
+		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(M_Data.MAC_MULTIPRISE));
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 
@@ -40,14 +40,14 @@ public class C_InitLoad extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		String mac = "08:00:27:d1:76:e4";
+
 		
-		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(mac);
-		Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
+		Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
+		Environnement environnement = M_Data.getInstance().getLastEnvironnement(M_Data.MAC_MULTIPRISE);
 		
 		request.setAttribute("multiprise", multiprise);
 		request.setAttribute("environnement", environnement);
-		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(mac));
+		request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(M_Data.MAC_MULTIPRISE));
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Vue/accueil.jsp");
 		dispatcher.forward(request,response); 

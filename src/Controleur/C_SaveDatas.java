@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +42,7 @@ public class C_SaveDatas extends HttpServlet {
 
 		if (operation.equals("save")){
 			String mac = request.getParameter("mac");
-			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
 			boolean result = false;
 			List <String> etats = new ArrayList<String>();
 			for (int i = 1 ; i < multiprise.getPrises().size() +1 ; i++){	
@@ -56,6 +59,7 @@ public class C_SaveDatas extends HttpServlet {
 				if (M_Data.getInstance().updatePrise(id, allume)){
 					etats.add(request.getParameter("etat_"+i));
 				}
+				M_Data.getInstance().insertEtat(allume, id, new Timestamp(Calendar.getInstance().getTime().getTime()));
 			}
 			String adresseUrl = "http://"+M_Data.IP_MULTIPRISE+"/req.php?";
 			for (int i =0; i<etats.size();i++){
@@ -94,14 +98,14 @@ public class C_SaveDatas extends HttpServlet {
 
 				Contact contact = M_Data.getInstance().getContactByEmail(email[i], mac);
 				if(email[i].equals("") && !telephone[i].equals("") || telephone[i].equals("") && !email[i].equals("")){
-					result=false;
-					erreur = "Erreur : l'adresse mail ou le numéro de téléphone est vide";
+					result = false;
+					erreur = "L'adresse mail ou le numÃ©ro de tÃ©lÃ©phone est invalide";
 				}
 				else {
 
 					if(contact != null){
 						result=false;
-						erreur = "Erreur : l'adresse mail et/ou le numéro de téléphone est déjà existant";
+						erreur = "L'adresse mail et/ou le numÃ©ro de tÃ©lÃ©phone sont dÃ©jÃ  existant";
 					}
 					else{
 						if(!email[i].equals("")&& !telephone[i].equals("")){
@@ -115,8 +119,10 @@ public class C_SaveDatas extends HttpServlet {
 			M_Data.getInstance().updateMultiprise(new Multiprise(mac,min_temp, max_temp,min_humd,max_humd));
 
 			Environnement environnement = M_Data.getInstance().getLastEnvironnement(mac);
-			if (result==false){
-				request.setAttribute("retour", erreur);
+			if (result == false){
+				Cookie myCookie = new Cookie("erreur", erreur);
+				response.addCookie(myCookie);
+				//request.setAttribute("retour", erreur);
 			}
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
@@ -130,12 +136,12 @@ public class C_SaveDatas extends HttpServlet {
 
 			boolean result = M_Data.getInstance().deleteContact(id);
 
-			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
-			Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement(M_Data.MAC_MULTIPRISE);
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
-			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise("08:00:27:d1:76:e4"));
+			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(M_Data.MAC_MULTIPRISE));
 
 
 			//request.setAttribute("retour", result);

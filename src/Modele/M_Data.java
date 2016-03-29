@@ -20,12 +20,14 @@ import java.util.Map;
 public class M_Data {
 	private Connection connection;	
 	private static M_Data Instance;
+
 	public static String IP_MULTIPRISE = "192.168.56.102"; // ip de la multiprise à utiliser pour la contacter
+	public static String MAC_MULTIPRISE ="08:00:27:d1:76:e4";
 	private M_Data (){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");			
 			connection = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/lumbd"
-					,"insta","uBsY3M5vXUfrB2Gn");	
+						,"insta","uBsY3M5vXUfrB2Gn");	
 
 		}
 		catch (Exception e) {		
@@ -496,5 +498,22 @@ public class M_Data {
 			e.printStackTrace();
 		}	
 		return resultat;
+	}
+	
+	public boolean insertEtat(boolean allume,int id_prise,Timestamp date){
+		String requeteEtat = "Insert into Etat (allume,id_prise,date) values (?,?,?)";
+		try {
+			PreparedStatement requete = connection.prepareStatement(requeteEtat);
+			requete.setBoolean(1,allume);
+			requete.setInt(2,id_prise);
+			requete.setTimestamp(3, date);			
+			requete.executeUpdate();
+
+			return true;
+		}		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;		
 	}
 }
