@@ -39,7 +39,7 @@ public class C_SaveDatas extends HttpServlet {
 
 		if (operation.equals("save")){
 			String mac = request.getParameter("mac");
-			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
 			boolean result = false;
 			List <String> etats = new ArrayList<String>();
 			for (int i = 1 ; i < multiprise.getPrises().size() +1 ; i++){	
@@ -130,12 +130,12 @@ public class C_SaveDatas extends HttpServlet {
 
 			boolean result = M_Data.getInstance().deleteContact(id);
 
-			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail("08:00:27:d1:76:e4");
-			Environnement environnement = M_Data.getInstance().getLastEnvironnement("08:00:27:d1:76:e4");
+			Multiprise multiprise = M_Data.getInstance().getMultipriseDetail(M_Data.MAC_MULTIPRISE);
+			Environnement environnement = M_Data.getInstance().getLastEnvironnement(M_Data.MAC_MULTIPRISE);
 
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
-			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise("08:00:27:d1:76:e4"));
+			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(M_Data.MAC_MULTIPRISE));
 
 
 			//request.setAttribute("retour", result);
