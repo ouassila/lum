@@ -65,7 +65,6 @@ public class C_ShowCharts extends HttpServlet {
 			request.setAttribute("multiprise", multiprise);
 			request.setAttribute("environnement", environnement);
 			request.setAttribute("suivi",  M_Data.getInstance().getConsoPrise(M_Data.MAC_MULTIPRISE));
-			
 			Cookie myCookie = new Cookie("datas", (resultat.toString()).replace("=", ":"));
 			response.addCookie(myCookie);
 			
