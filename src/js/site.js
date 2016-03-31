@@ -7,6 +7,30 @@ $.validator.addMethod(
 		"Format de téléphone incorrect"
 );
 
+function showError(message){
+	$("<div class='modal fade' tabindex='-1' role='dialog' id='messageModal'> "+
+			"<div class='modal-dialog'>" +
+			"<div class='modal-content'>" +
+			"<div class='modal-header modal-header-danger'>" +
+			"<button type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+			"<span aria-hidden='true'>&times;</span>" +
+			"</button>" +
+			"<h4 class='modal-title'>Erreur</h4>" +
+			"</div>" +
+			"<div class='modal-body'>" +
+			"<p>"+ message +"</p>" +
+			"</div>" +
+			"<div class='modal-footer'>" +
+			"<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" +					
+			"</div>" +
+			"</div>" +
+			"</div>" +
+	"</div>").insertAfter($("#erreur"));
+
+	$('#messageModal').modal('show');
+	$.removeCookie("erreur");
+}
+
 $( document ).ready(function() {
 
 	//reload de la page toute les 1 min
@@ -81,158 +105,166 @@ $( document ).ready(function() {
 				url: "ShowCharts",
 				type: "POST",
 				data: $(form).serialize(),
-				success: function(data) {					
-
-					$("#graphique").show();					
-					$('html, body').stop().animate({
-						scrollTop: $("#graphique").offset().top
-					}, 1500, 'easeInOutExpo');
-
+				success: function(data) {
 					var datas = $.parseJSON($.cookie('datas'));
 
-					if($('#datas').val() == "temperature" || $('#datas').val() == "humidite"){
-
-						//charts
-						var chart = AmCharts.makeChart("chartdiv", {
-							"type": "serial",
-							"theme": "light",
-							"marginRight": 40,
-							"marginLeft": 40,
-							"autoMarginOffset": 20,
-							"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
-							"valueAxes": [{
-								"id": "v1",
-								"axisAlpha": 0,
-								"position": "left",
-								"ignoreAxisWidth":true
-							}],
-							"balloon": {
-								"borderThickness": 1,
-								"shadowAlpha": 0
-							},
-							"graphs": [{
-								"id": "g1",
-								"balloon":{
-									"drop":true,
-									"adjustBorderColor":false,
-									"color":"#ffffff"
-								},
-								"useNegativeColorIfDown": true,
-								"bullet": "round",
-								"bulletBorderAlpha": 1,
-								"bulletColor": "#FFFFFF",
-								"bulletSize": 5,
-								"hideBulletsCount": 50,
-								"lineThickness": 2,
-								"useLineColorForBulletBorder": true,
-								"valueField": "value",
-								"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-							}],
-							"chartCursor": {
-								"pan": true,
-								"valueLineEnabled": true,
-								"valueLineBalloonEnabled": true,
-								"cursorAlpha":1,
-								"cursorColor":"#258cbb",
-								"limitToGraph":"g1",
-								"valueLineAlpha":0.2
-							},
-							"categoryField": "date",
-							"categoryAxis": {
-								"dashLength": 1,
-								"minorGridEnabled": true,
-								"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
-									if(valueText !=  null){
-										for(i = 0; i < datas.length; i++){
-											if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
-												var tmp = valueText.split(" ")[0];
-												var tmp2 = tmp.split("-");
-												return tmp2[0] + '/'+ tmp2[1];
-											}
-										}
-										var tmp = valueText.split(" ")[1];
-										var tmp2 = tmp.split(":");
-										return tmp2[0]+':'+tmp2[1];
-									}
-									return "";
-								}
-							},
-							"dataProvider": datas,
-							"responsive": {
-								"enabled": true,
-								"rules" : {
-									"maxWidth": 300,
-									"overrides": {
-										"precision": 2,
-										"legend": {
-											"enabled": false
-										},
-										"valueAxes": {
-											"inside": true
-										}
-									}
-								}
-							}
-						});	
+					if(datas == null || datas == "" || datas.length == 0){
+						showError("Aucune donnée n'a été relevée pour cette période");
 					}
 					else{
-						var chart = AmCharts.makeChart("chartdiv", {
-							"type": "serial",
-							"theme": "light",
-							"autoMarginOffset":25,
-							"dataProvider": datas,
-							"graphs": [{
-								"id":"g1",
-								"balloonText": "[[category]]",
-								"type": "step",
-								"bullet":"square",
-								"bulletAlpha":0,
-								"bulletSize":4,
-								"bulletBorderAlpha":0,
-								"valueField": "value"
-							}],
-							"chartCursor": {
-								"categoryBalloonDateFormat": "YYYY",
-								"cursorAlpha": 0.05,
-								"graphBulletAlpha":1
-							},
-							"valueAxes": [{
-								"autoGridCount" : false,
-								"gridCount" : 1,
-								"maximum" : 1,
-								"minimum" : 0,
-								"labelFunction" : function(value, valueText, valueAxis) {
-									if(value !=  null){
-										if(value == "1"){
-											return "Allumée";
+						
+						$("#graphique").show();	
+						
+						$('html, body').stop().animate({
+							scrollTop: $("#graphique").offset().top
+						}, 1500, 'easeInOutExpo');
+						
+						
+						if($('#datas').val() == "temperature" || $('#datas').val() == "humidite"){
+
+							//charts
+							var chart = AmCharts.makeChart("chartdiv", {
+								"type": "serial",
+								"theme": "light",
+								"marginRight": 40,
+								"marginLeft": 40,
+								"autoMarginOffset": 20,
+								"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
+								"valueAxes": [{
+									"id": "v1",
+									"axisAlpha": 0,
+									"position": "left",
+									"ignoreAxisWidth":true
+								}],
+								"balloon": {
+									"borderThickness": 1,
+									"shadowAlpha": 0
+								},
+								"graphs": [{
+									"id": "g1",
+									"balloon":{
+										"drop":true,
+										"adjustBorderColor":false,
+										"color":"#ffffff"
+									},
+									"useNegativeColorIfDown": true,
+									"bullet": "round",
+									"bulletBorderAlpha": 1,
+									"bulletColor": "#FFFFFF",
+									"bulletSize": 5,
+									"hideBulletsCount": 50,
+									"lineThickness": 2,
+									"useLineColorForBulletBorder": true,
+									"valueField": "value",
+									"balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+								}],
+								"chartCursor": {
+									"pan": true,
+									"valueLineEnabled": true,
+									"valueLineBalloonEnabled": true,
+									"cursorAlpha":1,
+									"cursorColor":"#258cbb",
+									"limitToGraph":"g1",
+									"valueLineAlpha":0.2
+								},
+								"categoryField": "date",
+								"categoryAxis": {
+									"dashLength": 1,
+									"minorGridEnabled": true,
+									"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
+										if(valueText !=  null){
+											for(i = 0; i < datas.length; i++){
+												if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+													var tmp = valueText.split(" ")[0];
+													var tmp2 = tmp.split("-");
+													return tmp2[0] + '/'+ tmp2[1];
+												}
+											}
+											var tmp = valueText.split(" ")[1];
+											var tmp2 = tmp.split(":");
+											return tmp2[0]+':'+tmp2[1];
 										}
-										return "Eteinte";
+										return "";
 									}
-									return "";
-								}
-							}],
-							"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
-							"categoryField": "date",
-							"categoryAxis": {
-								"dashLength": 1,
-								"minorGridEnabled": true,
-								"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
-									if(valueText !=  null){
-										for(i = 0; i < datas.length; i++){
-											if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
-												var tmp = valueText.split(" ")[0];
-												var tmp2 = tmp.split("-");
-												return tmp2[0] + '/'+ tmp2[1];
+								},
+								"dataProvider": datas,
+								"responsive": {
+									"enabled": true,
+									"rules" : {
+										"maxWidth": 300,
+										"overrides": {
+											"precision": 2,
+											"legend": {
+												"enabled": false
+											},
+											"valueAxes": {
+												"inside": true
 											}
 										}
-										var tmp = valueText.split(" ")[1];
-										var tmp2 = tmp.split(":");
-										return tmp2[0]+':'+tmp2[1];
 									}
-									return "";
 								}
-							},
-						});
+							});	
+						}
+						else{
+							var chart = AmCharts.makeChart("chartdiv", {
+								"type": "serial",
+								"theme": "light",
+								"autoMarginOffset":25,
+								"dataProvider": datas,
+								"graphs": [{
+									"id":"g1",
+									"balloonText": "[[category]]",
+									"type": "step",
+									"bullet":"square",
+									"bulletAlpha":0,
+									"bulletSize":4,
+									"bulletBorderAlpha":0,
+									"valueField": "value"
+								}],
+								"chartCursor": {
+									"categoryBalloonDateFormat": "YYYY",
+									"cursorAlpha": 0.05,
+									"graphBulletAlpha":1
+								},
+								"valueAxes": [{
+									"autoGridCount" : false,
+									"gridCount" : 1,
+									"maximum" : 1,
+									"minimum" : 0,
+									"labelFunction" : function(value, valueText, valueAxis) {
+										if(value !=  null){
+											if(value == "1"){
+												return "Allumée";
+											}
+											return "Eteinte";
+										}
+										return "";
+									}
+								}],
+								"dataDateFormat": "DD-MM-YYYY JJ:NN:SS",
+								"categoryField": "date",
+								"categoryAxis": {
+									"dashLength": 1,
+									"minorGridEnabled": true,
+									"labelFunction" : function(valueText, serialDataItem, categoryAxis) {	
+										if(valueText !=  null){
+											for(i = 0; i < datas.length; i++){
+												if(datas[i].date.split(" ")[0] != valueText.split(" ")[0] ){
+													var tmp = valueText.split(" ")[0];
+													var tmp2 = tmp.split("-");
+													return tmp2[0] + '/'+ tmp2[1];
+												}
+											}
+											var tmp = valueText.split(" ")[1];
+											var tmp2 = tmp.split(":");
+											return tmp2[0]+':'+tmp2[1];
+										}
+										return "";
+									}
+								},
+							});
+						}
+
 					}
 				}
 			});		
@@ -279,26 +311,26 @@ $( document ).ready(function() {
 			$(element).removeClass(errorClass);   
 		},		
 	});
-	
-	$("#formConfig").on('submit', function(e){
-        
-		if($(this).find('.invalid').length == 0){
-        	$.ajax({
-    			url: "SaveDatas",
-    			type: "POST",
-    			data: $(this).serialize(),
-    			success: function(html) {   				
-    				
-    				location.reload();
 
-    				$('html, body').stop().animate({
-    					scrollTop: $("#about").offset().top
-    				}, 1500, 'easeInOutExpo');
-    			}
-    		});
-        }
-        return false;
-    });
+	$("#formConfig").on('submit', function(e){
+
+		if($(this).find('.invalid').length == 0){
+			$.ajax({
+				url: "SaveDatas",
+				type: "POST",
+				data: $(this).serialize(),
+				success: function(html) {   				
+
+					location.reload();
+
+					$('html, body').stop().animate({
+						scrollTop: $("#about").offset().top
+					}, 1500, 'easeInOutExpo');
+				}
+			});
+		}
+		return false;
+	});
 
 //	ajouter contact
 	$('.addContact').click(function(){
@@ -332,28 +364,7 @@ $( document ).ready(function() {
 
 	//show erreur
 	if($.cookie('erreur') != "" && $.cookie('erreur') != null){
-		$("<div class='modal fade' tabindex='-1' role='dialog' id='messageModal'> "+
-				"<div class='modal-dialog'>" +
-				"<div class='modal-content'>" +
-				"<div class='modal-header modal-header-danger'>" +
-				"<button type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
-				"<span aria-hidden='true'>&times;</span>" +
-				"</button>" +
-				"<h4 class='modal-title'>Erreur</h4>" +
-				"</div>" +
-				"<div class='modal-body'>" +
-				"<p>"+ $.cookie('erreur') +"</p>" +
-				"</div>" +
-				"<div class='modal-footer'>" +
-				"<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" +					
-				"</div>" +
-				"</div>" +
-				"</div>" +
-		"</div>").insertAfter($("#erreur"));
-
-
-		$('#messageModal').modal('show');
-		$.removeCookie("erreur");
+		showError($.cookie('erreur'));
 	}
 
 	function remove(elem){		
